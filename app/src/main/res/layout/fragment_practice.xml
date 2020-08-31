@@ -3,13 +3,57 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".Fragment.PracticeFragment">
 
-    <ImageView
-        android:id="@+id/practice_imageView"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:padding="100dp"
-        android:src="@drawable/practice"/>
+        android:layout_height="match_parent">
+
+
+        <ImageView
+            android:id="@+id/practice_imageView"
+            android:layout_width="250dp"
+            android:layout_height="250dp"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:src="@drawable/practice"
+            android:tint="#6DFFFFFF"
+            tools:ignore="UseAppTint" />
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="최고기록 : 0"
+            android:fontFamily="@font/mapo"
+            android:textColor="@android:color/black"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:textSize="20dp"
+            android:textStyle="bold"
+            android:layout_marginTop="170dp"
+            />
+
+        <ImageView
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:src="@drawable/play"
+            app:layout_constraintTop_toBottomOf="@id/practice_imageView"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            android:layout_marginTop="40dp"
+            android:id="@+id/practice_play_imageView"
+            android:tint="#4DFFFFFF"
+            tools:ignore="UseAppTint"
+            />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
 
 </FrameLayout>
