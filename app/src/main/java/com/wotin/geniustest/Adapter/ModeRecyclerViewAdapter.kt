@@ -5,7 +5,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.wotin.geniustest.R
@@ -18,7 +17,7 @@ class ModeRecyclerViewAdapter(val modeList : ArrayList<String>) : RecyclerView.A
         val view = LayoutInflater.from(parent.context).inflate(R.layout.mode_recyclerview_item, parent, false)
         return CustomViewHolder(view).apply {
             modeLayout.setOnClickListener{
-                Toast.makeText(parent.context.applicationContext, modeList[adapterPosition], Toast.LENGTH_LONG).show()
+//                데이터에 따라서 다르게 행동해야 함. -> 기억력 테스트라면, 기억력 테스트를 하도록 하고. 집중력 테스트라면 집중력 테스트를 해야 한다.
             }
         }
     }
