@@ -6,6 +6,7 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.wotin.geniustest.Adapter.ModeRecyclerViewAdapter
+import com.wotin.geniustest.CustomClass.ModeCustomClass
 import com.wotin.geniustest.R
 import kotlinx.android.synthetic.main.activity_practice.*
 import kotlin.concurrent.timer
@@ -13,7 +14,7 @@ import kotlin.concurrent.timer
 class PracticeActivity : AppCompatActivity() {
 
     lateinit var recyclerViewAdapter : ModeRecyclerViewAdapter
-    val modeList = arrayListOf("기억력 테스트", "집중력 테스트")
+    val modeList : ArrayList<ModeCustomClass> = arrayListOf(ModeCustomClass("기억력 테스트", 1, "5%"), ModeCustomClass("집중력 테스트", 1, "10%"))
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

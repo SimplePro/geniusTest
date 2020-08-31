@@ -7,9 +7,10 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
+import com.wotin.geniustest.CustomClass.ModeCustomClass
 import com.wotin.geniustest.R
 
-class ModeRecyclerViewAdapter(val modeList : ArrayList<String>) : RecyclerView.Adapter<ModeRecyclerViewAdapter.CustomViewHolder>() {
+class ModeRecyclerViewAdapter(val modeList : ArrayList<ModeCustomClass>) : RecyclerView.Adapter<ModeRecyclerViewAdapter.CustomViewHolder>() {
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
@@ -25,8 +26,10 @@ class ModeRecyclerViewAdapter(val modeList : ArrayList<String>) : RecyclerView.A
     override fun getItemCount(): Int = modeList.size
 
     override fun onBindViewHolder(holder: ModeRecyclerViewAdapter.CustomViewHolder, position: Int) {
-        holder.modeText.text = modeList[position]
-        when(modeList[position]){
+        holder.modeText.text = modeList[position].mode
+        holder.modeScoreText.text = modeList[position].score.toString()
+        holder.modeDifferenceText.text = modeList[position].difference
+        when(modeList[position].mode){
             "기억력 테스트" -> {
                 holder.modeImage.setImageResource(R.drawable.memory)
             }
@@ -39,6 +42,8 @@ class ModeRecyclerViewAdapter(val modeList : ArrayList<String>) : RecyclerView.A
     class CustomViewHolder(itemView : View) : RecyclerView.ViewHolder(itemView) {
         val modeText = itemView.findViewById<TextView>(R.id.mode_item_textview)
         val modeImage = itemView.findViewById<ImageView>(R.id.mode_item_imageview)
+        val modeScoreText = itemView.findViewById<TextView>(R.id.mode_item_score_textview)
+        val modeDifferenceText = itemView.findViewById<TextView>(R.id.mode_item_difference_textview)
         val modeLayout = itemView.findViewById<CardView>(R.id.mode_item_layout)
     }
 }

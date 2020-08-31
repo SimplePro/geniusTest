@@ -29,7 +29,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="168dp"
             android:fontFamily="@font/mapo"
-            android:text="상위 : 5%\n(연습 횟수 기준)"
+            android:text="상위 : 5%"
             android:gravity="center"
             android:textColor="@android:color/black"
             android:textSize="20dp"
