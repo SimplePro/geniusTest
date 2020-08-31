@@ -48,9 +48,7 @@ class MainActivity : AppCompatActivity() {
 
             }
 
-            @SuppressLint("WrongConstant")
             override fun onTabSelected(p0: TabLayout.Tab?) {
-                val DURATION = 100
                 val pos  = p0!!.position
                 when(pos) {
                     0 -> {
