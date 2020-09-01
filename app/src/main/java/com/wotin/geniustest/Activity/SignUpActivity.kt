@@ -84,4 +84,10 @@ class SignUpActivity : AppCompatActivity() {
             } else Toast.makeText(applicationContext, "name, id, password 를 입력해주세요.", Toast.LENGTH_LONG).show()
         }
     }
+
+    override fun onBackPressed() {
+        val intent = Intent(this, LoginActivity::class.java)
+        startActivity(intent)
+        finish()
+    }
 }
