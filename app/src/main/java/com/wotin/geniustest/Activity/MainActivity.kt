@@ -1,12 +1,11 @@
 package com.wotin.geniustest.Activity
 
-import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.tabs.TabLayout
-import com.wotin.geniustest.R
 import com.wotin.geniustest.Adapter.TabLayoutFragmentPagerAdapter
+import com.wotin.geniustest.R
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlin.concurrent.timer
 
@@ -29,15 +28,15 @@ class MainActivity : AppCompatActivity() {
             when(i) {
                 0 -> {
                     tab_layout.getTabAt(i)!!.setIcon(R.drawable.practice)
-                    tab_layout.getTabAt(i)!!.setText("연습하기")
+                    tab_layout.getTabAt(i)!!.text = "연습하기"
                 }
                 1 -> {
                     tab_layout.getTabAt(i)!!.setIcon(R.drawable.genius)
-                    tab_layout.getTabAt(i)!!.setText("천재 테스트")
+                    tab_layout.getTabAt(i)!!.text = "테스트"
                 }
                 2 -> {
                     tab_layout.getTabAt(i)!!.setIcon(R.drawable.ranking)
-                    tab_layout.getTabAt(i)!!.setText("랭킹")
+                    tab_layout.getTabAt(i)!!.text = "랭킹"
                 }
             }
         }

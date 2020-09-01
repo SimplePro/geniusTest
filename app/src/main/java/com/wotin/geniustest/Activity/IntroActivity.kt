@@ -1,10 +1,10 @@
 package com.wotin.geniustest.Activity
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.view.View
+import androidx.appcompat.app.AppCompatActivity
 import com.wotin.geniustest.R
 
 class IntroActivity : AppCompatActivity() {
@@ -27,7 +27,7 @@ class IntroActivity : AppCompatActivity() {
         super.onResume()
 
         runnable = Runnable {
-            val intent = Intent(this, MainActivity::class.java)
+            val intent = Intent(this, LoginActivity::class.java)
             startActivity(intent)
             finish()
         }

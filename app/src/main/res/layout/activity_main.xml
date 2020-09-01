@@ -7,40 +7,37 @@
     tools:context=".Activity.MainActivity">
 
     <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tab_layout"
         android:layout_width="match_parent"
         android:layout_height="70dp"
-        android:id="@+id/tab_layout"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:tabTextAppearance="@style/tab_text"
         android:background="#CFCFCF"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:tabIndicatorColor="#2B2626"
         app:tabIndicatorHeight="2dp"
+        app:tabTextAppearance="@style/tab_text"
         app:tabTextColor="@android:color/black"
-        >
+        tools:layout_editor_absoluteX="0dp">
 
         <com.google.android.material.tabs.TabItem
+            android:id="@+id/practice_tab_item"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:icon="@drawable/practice"
-            android:id="@+id/practice_tab_item"
-            android:text="연습하기"
-            />
+            android:text="연습하기" />
 
         <com.google.android.material.tabs.TabItem
+            android:id="@+id/genius_test_tab_item"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:icon="@drawable/genius"
-            android:id="@+id/genius_test_tab_item"
-            android:text="천재 테스트"
-            />
+            android:text="테스트" />
 
         <com.google.android.material.tabs.TabItem
+            android:id="@+id/ranking_tab_item"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:icon="@drawable/ranking"
-            android:id="@+id/ranking_tab_item"
-            android:text="랭킹"
-            />
+            android:text="랭킹" />
 
     </com.google.android.material.tabs.TabLayout>
 
