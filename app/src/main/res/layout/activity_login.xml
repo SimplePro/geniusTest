@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Activity.LoginActivity">
+    tools:context=".Activity.LoginAndSignUp.LoginActivity">
 
     <TextView
         android:layout_width="wrap_content"
@@ -30,6 +30,7 @@
 
 
         <EditText
+            android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890@."
             android:id="@+id/login_id_edittext"
             android:fontFamily="@font/mapo"
             android:textColor="#fff"
@@ -43,6 +44,7 @@
             android:background="@drawable/rounded_corner"
             android:textSize="17sp" />
         <EditText
+            android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890@."
             android:fontFamily="@font/mapo"
             android:id="@+id/login_password_edittext"
             android:textColor="#fff"

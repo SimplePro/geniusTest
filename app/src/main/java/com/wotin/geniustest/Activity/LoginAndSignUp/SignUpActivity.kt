@@ -1,4 +1,4 @@
-package com.wotin.geniustest.Activity
+package com.wotin.geniustest.Activity.LoginAndSignUp
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -7,7 +7,7 @@ import android.util.Log
 import android.widget.Toast
 import com.wotin.geniustest.CustomClass.SignInAndSignUpCustomClass
 import com.wotin.geniustest.R
-import com.wotin.geniustest.RetrofitSignInAndSignUp
+import com.wotin.geniustest.RetrofitInterface.RetrofitSignInAndSignUp
 import kotlinx.android.synthetic.main.activity_sign_up.*
 import okhttp3.OkHttpClient
 import retrofit2.Call
@@ -82,6 +82,12 @@ class SignUpActivity : AppCompatActivity() {
 
                     })
             } else Toast.makeText(applicationContext, "name, id, password 를 입력해주세요.", Toast.LENGTH_LONG).show()
+        }
+
+        go_to_login_activity_button.setOnClickListener {
+            val intent = Intent(this, LoginActivity::class.java)
+            startActivity(intent)
+            finish()
         }
     }
 

@@ -1,13 +1,17 @@
-package com.wotin.geniustest.Activity
+package com.wotin.geniustest.Activity.LoginAndSignUp
 
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.room.Room
+import com.wotin.geniustest.Activity.MainActivity
 import com.wotin.geniustest.CustomClass.SignInAndSignUpCustomClass
+import com.wotin.geniustest.CustomClass.UserCustomClass
+import com.wotin.geniustest.DB.UserDB
 import com.wotin.geniustest.R
-import com.wotin.geniustest.RetrofitSignInAndSignUp
+import com.wotin.geniustest.RetrofitInterface.RetrofitSignInAndSignUp
 import kotlinx.android.synthetic.main.activity_login.*
 import okhttp3.OkHttpClient
 import retrofit2.Call
@@ -60,6 +64,7 @@ class LoginActivity : AppCompatActivity() {
                             }
                             else {
                                 Log.d("TAG", "response.body data is ${response.body()!!.id} ${response.body()!!.password} ${response.body()!!.UniqueId} ${response.body()!!.name}")
+                                insertUserData(name = response.body()!!.name, id = response.body()!!.id, password = response.body()!!.password, UniqueId = response.body()!!.UniqueId)
                                 val intent = Intent(this@LoginActivity, MainActivity::class.java)
                                 startActivity(intent)
                                 finish()
@@ -80,5 +85,14 @@ class LoginActivity : AppCompatActivity() {
             startActivity(intent)
             finish()
         }
+    }
+
+    private fun insertUserData(name : String, id : String, password : String, UniqueId : String) {
+        val userDB : UserDB = Room.databaseBuilder(
+            applicationContext,
+            UserDB::class.java, "user.db"
+        ).allowMainThreadQueries()
+            .build()
+        userDB.userDB().insertUser(UserCustomClass(name, id, password, UniqueId))
     }
 }

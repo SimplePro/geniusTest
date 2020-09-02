@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Activity.SignUpActivity">
+    tools:context=".Activity.LoginAndSignUp.SignUpActivity">
 
     <TextView
         android:layout_width="wrap_content"
@@ -30,20 +30,22 @@
 
 
         <EditText
+            android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890@."
             android:id="@+id/signup_name_edittext"
-            android:fontFamily="@font/mapo"
-            android:textColor="#fff"
-            android:textColorHint="#eee"
-            android:paddingStart="10dp"
-            android:paddingLeft="10dp"
-            android:hint="name"
-            android:layout_margin="20dp"
             android:layout_width="match_parent"
             android:layout_height="?actionBarSize"
+            android:layout_margin="20dp"
             android:background="@drawable/rounded_corner"
+            android:fontFamily="@font/mapo"
+            android:hint="name"
+            android:paddingStart="10dp"
+            android:paddingLeft="10dp"
+            android:textColor="#fff"
+            android:textColorHint="#eee"
             android:textSize="17sp" />
 
         <EditText
+            android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890@."
             android:id="@+id/signup_id_edittext"
             android:fontFamily="@font/mapo"
             android:textColor="#fff"
@@ -57,6 +59,7 @@
             android:background="@drawable/rounded_corner"
             android:textSize="17sp" />
         <EditText
+            android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890@."
             android:fontFamily="@font/mapo"
             android:id="@+id/signup_password_edittext"
             android:textColor="#fff"

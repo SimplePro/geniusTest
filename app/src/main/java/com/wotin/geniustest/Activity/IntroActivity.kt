@@ -3,8 +3,13 @@ package com.wotin.geniustest.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
+import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.room.Room
+import com.wotin.geniustest.Activity.LoginAndSignUp.LoginActivity
+import com.wotin.geniustest.CustomClass.UserCustomClass
+import com.wotin.geniustest.DB.UserDB
 import com.wotin.geniustest.R
 
 class IntroActivity : AppCompatActivity() {
@@ -23,11 +28,25 @@ class IntroActivity : AppCompatActivity() {
                 View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
     }
 
+    private fun getUserData() : UserCustomClass {
+        val userDB : UserDB = Room.databaseBuilder(
+            applicationContext,
+            UserDB::class.java, "user.db"
+        ).allowMainThreadQueries()
+            .build()
+        val userData : UserCustomClass = userDB.userDB().getAll()
+        return userData
+    }
+
     override fun onResume() {
         super.onResume()
-
         runnable = Runnable {
-            val intent = Intent(this, LoginActivity::class.java)
+            val userData = getUserData()
+            val intent = if(userData == null) {
+                Intent(this, LoginActivity::class.java)
+            } else {
+                Intent(this, MainActivity::class.java)
+            }
             startActivity(intent)
             finish()
         }

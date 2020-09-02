@@ -1,16 +1,25 @@
 package com.wotin.geniustest.Activity
 
+import android.content.Intent
 import android.os.Bundle
+import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.GravityCompat
+import androidx.room.Room
+import com.google.android.material.navigation.NavigationView
 import com.google.android.material.tabs.TabLayout
+import com.wotin.geniustest.Activity.LoginAndSignUp.LoginActivity
+import com.wotin.geniustest.Activity.UserManagement.DeleteUserActivity
 import com.wotin.geniustest.Adapter.TabLayoutFragmentPagerAdapter
+import com.wotin.geniustest.DB.UserDB
 import com.wotin.geniustest.R
 import kotlinx.android.synthetic.main.activity_main.*
+import java.security.KeyStore
 import kotlin.concurrent.timer
 
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(),  NavigationView.OnNavigationItemSelectedListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -18,6 +27,12 @@ class MainActivity : AppCompatActivity() {
 
         // 3초마다 윈도우 조정해주는 메소드 실행.
         controlWindowOnTimer()
+
+        navigation_button.setOnClickListener {
+            layout_drawer.openDrawer(GravityCompat.START)
+        }
+
+        navigation_view.setNavigationItemSelectedListener(this)
 
         fragment_view_pager.adapter =
             TabLayoutFragmentPagerAdapter(
@@ -52,20 +67,6 @@ class MainActivity : AppCompatActivity() {
 
             override fun onTabSelected(p0: TabLayout.Tab?) {
                 val pos  = p0!!.position
-                when(pos) {
-                    0 -> {
-
-                    }
-
-                    1 ->  {
-
-                    }
-
-                    2 -> {
-
-                    }
-
-                }
             }
 
         })
@@ -85,4 +86,34 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
+
+    override fun onNavigationItemSelected(item: MenuItem): Boolean {
+        when(item.itemId) {
+            R.id.logout -> {
+                deleteUserData()
+                val intent = Intent(this, LoginActivity::class.java)
+                startActivity(intent)
+                finish()
+            }
+
+            R.id.secession -> {
+                val intent = Intent(this, DeleteUserActivity::class.java)
+                startActivity(intent)
+                finish()
+            }
+        }
+        layout_drawer.closeDrawers()
+        return true
+    }
+
+    private fun deleteUserData() {
+        val userDB : UserDB = Room.databaseBuilder(
+            applicationContext,
+            UserDB::class.java, "user.db"
+        ).allowMainThreadQueries()
+            .build()
+        val userData = userDB.userDB().getAll()
+        userDB.userDB().deleteUser(userData)
+    }
+
 }
