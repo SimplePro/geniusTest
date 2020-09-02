@@ -10,6 +10,7 @@ import com.wotin.geniustest.Activity.MainActivity
 import com.wotin.geniustest.CustomClass.SignInAndSignUpCustomClass
 import com.wotin.geniustest.CustomClass.UserCustomClass
 import com.wotin.geniustest.DB.UserDB
+import com.wotin.geniustest.EncryptionAndDetoxification.EncryptionAndDetoxification
 import com.wotin.geniustest.R
 import com.wotin.geniustest.RetrofitInterface.RetrofitSignInAndSignUp
 import kotlinx.android.synthetic.main.activity_login.*
@@ -48,7 +49,10 @@ class LoginActivity : AppCompatActivity() {
         login_button.setOnClickListener {
             if(login_id_edittext.text.isNotEmpty() && login_password_edittext.text.isNotEmpty())
             {
-                apiService.signIn(id = login_id_edittext.text.toString(), password = login_password_edittext.text.toString()).enqueue(object : Callback<SignInAndSignUpCustomClass> {
+                apiService.signIn(id = EncryptionAndDetoxification()
+                    .encryptionAndDetoxification(login_id_edittext.text.toString()),
+                    password = EncryptionAndDetoxification()
+                        .encryptionAndDetoxification(login_password_edittext.text.toString())).enqueue(object : Callback<SignInAndSignUpCustomClass> {
                     override fun onFailure(call: Call<SignInAndSignUpCustomClass>, t: Throwable) {
                         Log.d("TAG", "error... $t")
                         Toast.makeText(applicationContext, "로그인 실패", Toast.LENGTH_LONG).show()
@@ -64,6 +68,13 @@ class LoginActivity : AppCompatActivity() {
                             }
                             else {
                                 Log.d("TAG", "response.body data is ${response.body()!!.id} ${response.body()!!.password} ${response.body()!!.UniqueId} ${response.body()!!.name}")
+                                Log.d("TAG", "response.body data is " +
+                                        EncryptionAndDetoxification()
+                                            .encryptionAndDetoxification(response.body()!!.id) + " " +
+                                        EncryptionAndDetoxification()
+                                            .encryptionAndDetoxification(response.body()!!.password) + " " +
+                                        response.body()!!.UniqueId + " " + response.body()!!.name
+                                )
                                 insertUserData(name = response.body()!!.name, id = response.body()!!.id, password = response.body()!!.password, UniqueId = response.body()!!.UniqueId)
                                 val intent = Intent(this@LoginActivity, MainActivity::class.java)
                                 startActivity(intent)

@@ -30,7 +30,7 @@
 
 
         <EditText
-            android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890@."
+            android:digits="abcdefghijklmnopqrstuvwxyz1234567890@."
             android:id="@+id/signup_name_edittext"
             android:layout_width="match_parent"
             android:layout_height="?actionBarSize"
@@ -45,7 +45,7 @@
             android:textSize="17sp" />
 
         <EditText
-            android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890@."
+            android:digits="abcdefghijklmnopqrstuvwxyz1234567890@."
             android:id="@+id/signup_id_edittext"
             android:fontFamily="@font/mapo"
             android:textColor="#fff"

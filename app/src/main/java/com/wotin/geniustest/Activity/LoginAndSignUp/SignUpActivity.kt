@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import com.wotin.geniustest.CustomClass.SignInAndSignUpCustomClass
+import com.wotin.geniustest.EncryptionAndDetoxification.EncryptionAndDetoxification
 import com.wotin.geniustest.R
 import com.wotin.geniustest.RetrofitInterface.RetrofitSignInAndSignUp
 import kotlinx.android.synthetic.main.activity_sign_up.*
@@ -50,8 +51,10 @@ class SignUpActivity : AppCompatActivity() {
                 Log.d("TAG", "UniqueId is $UniqueId")
                 apiService.signUp(
                     name = signup_name_edittext.text.toString(),
-                    id = signup_id_edittext.text.toString(),
-                    password = signup_password_edittext.text.toString(),
+                    id = EncryptionAndDetoxification()
+                        .encryptionAndDetoxification(signup_id_edittext.text.toString()),
+                    password = EncryptionAndDetoxification()
+                        .encryptionAndDetoxification(signup_password_edittext.text.toString()),
                     UniqueId = UniqueId
                 )
                     .enqueue(object : Callback<SignInAndSignUpCustomClass> {
