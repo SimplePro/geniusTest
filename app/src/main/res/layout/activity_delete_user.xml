@@ -29,6 +29,7 @@
         android:layout_marginTop="70dp" />
 
     <EditText
+        android:inputType="textPassword"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/check_password_before_delete_account"
