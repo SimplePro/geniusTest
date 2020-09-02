@@ -9,6 +9,7 @@ import androidx.room.Room
 import com.wotin.geniustest.Activity.LoginAndSignUp.LoginActivity
 import com.wotin.geniustest.Activity.MainActivity
 import com.wotin.geniustest.DB.UserDB
+import com.wotin.geniustest.EncryptionAndDetoxification
 import com.wotin.geniustest.R
 import com.wotin.geniustest.RetrofitInterface.RetrofitDeleteAccountAndData
 import com.wotin.geniustest.RetrofitInterface.RetrofitSignInAndSignUp
@@ -59,7 +60,7 @@ class DeleteUserActivity : AppCompatActivity() {
         }
 
         delete_account_confirm_button.setOnClickListener {
-            if(check_password_before_delete_account.text.toString() == userData.password) {
+            if(check_password_before_delete_account.text.toString() == EncryptionAndDetoxification().encryptionAndDetoxification(userData.password)) {
                 apiService.deleteAccountAndData(userData.UniqueId).enqueue(object : Callback<HttpResponseCache> {
                     override fun onFailure(call: Call<HttpResponseCache>, t: Throwable) {
                         Toast.makeText(applicationContext, "계정이 삭제되지 않았습니다.", Toast.LENGTH_LONG).show()

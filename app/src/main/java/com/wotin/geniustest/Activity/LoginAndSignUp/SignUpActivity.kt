@@ -6,7 +6,7 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import com.wotin.geniustest.CustomClass.SignInAndSignUpCustomClass
-import com.wotin.geniustest.EncryptionAndDetoxification.EncryptionAndDetoxification
+import com.wotin.geniustest.EncryptionAndDetoxification
 import com.wotin.geniustest.R
 import com.wotin.geniustest.RetrofitInterface.RetrofitSignInAndSignUp
 import kotlinx.android.synthetic.main.activity_sign_up.*

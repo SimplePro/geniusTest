@@ -10,7 +10,7 @@ import com.wotin.geniustest.Activity.MainActivity
 import com.wotin.geniustest.CustomClass.SignInAndSignUpCustomClass
 import com.wotin.geniustest.CustomClass.UserCustomClass
 import com.wotin.geniustest.DB.UserDB
-import com.wotin.geniustest.EncryptionAndDetoxification.EncryptionAndDetoxification
+import com.wotin.geniustest.EncryptionAndDetoxification
 import com.wotin.geniustest.R
 import com.wotin.geniustest.RetrofitInterface.RetrofitSignInAndSignUp
 import kotlinx.android.synthetic.main.activity_login.*

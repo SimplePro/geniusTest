@@ -1,4 +1,4 @@
-package com.wotin.geniustest.EncryptionAndDetoxification
+package com.wotin.geniustest
 
 class EncryptionAndDetoxification {
     fun encryptionAndDetoxification(str : String) : String {
