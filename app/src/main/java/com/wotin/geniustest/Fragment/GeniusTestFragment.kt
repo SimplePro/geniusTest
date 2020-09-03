@@ -5,17 +5,37 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.room.Room
+import com.wotin.geniustest.CustomClass.GeniusTest.GeniusTestDataCustomClass
+import com.wotin.geniustest.DB.GeniusTestDataDB
 import com.wotin.geniustest.R
+import com.wotin.geniustest.getGeniusTestData
+import kotlinx.android.synthetic.main.fragment_genius_test.view.*
 
 class GeniusTestFragment : Fragment() {
+
+    lateinit var geniusTestData : GeniusTestDataCustomClass
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_genius_test, container, false).apply {
+
+
+        val rootView = inflater.inflate(R.layout.fragment_genius_test, container, false)
+        geniusTestData = getGeniusTestData(activity!!.applicationContext)
+
+        rootView.genius_test_all_difference_textview.text = (((geniusTestData.concentractionDifference.toFloat() + geniusTestData.memoryDifference.toFloat()) / 2.0f).toString())
+        rootView.genius_test_level_textview.text = geniusTestData.level
+
+        rootView.genius_test_play_imageView.setOnClickListener {
 
         }
+
+        // Inflate the layout for this fragment
+        return rootView
     }
+
+
+
 }

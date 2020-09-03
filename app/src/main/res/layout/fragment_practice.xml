@@ -23,25 +23,55 @@
             android:tint="#6DFFFFFF"
             tools:ignore="UseAppTint" />
 
-
-        <TextView
+        <LinearLayout
+            android:layout_marginTop="168dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="168dp"
-            android:fontFamily="@font/mapo"
-            android:text="상위 : 5%"
-            android:gravity="center"
-            android:textColor="@android:color/black"
-            android:textSize="20dp"
-            android:textStyle="bold"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            android:orientation="horizontal"
+            android:gravity="center"
+            >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/mapo"
+                android:text="상위 : "
+                android:gravity="center"
+                android:textColor="@android:color/black"
+                android:textSize="20dp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/practice_all_difference_textview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/mapo"
+                android:text="1"
+                android:gravity="center"
+                android:textColor="@android:color/black"
+                android:textSize="30dp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/mapo"
+                android:text="%"
+                android:gravity="center"
+                android:textColor="@android:color/black"
+                android:textSize="30dp"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
 
         <ImageView
             android:layout_width="70dp"
             android:layout_height="70dp"
-            android:src="@drawable/play"
+            android:src="@drawable/genius_practice_play_button"
             app:layout_constraintTop_toBottomOf="@id/practice_imageView"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"

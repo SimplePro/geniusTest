@@ -15,7 +15,6 @@ import com.wotin.geniustest.Adapter.TabLayoutFragmentPagerAdapter
 import com.wotin.geniustest.DB.UserDB
 import com.wotin.geniustest.R
 import kotlinx.android.synthetic.main.activity_main.*
-import java.security.KeyStore
 import kotlin.concurrent.timer
 
 
@@ -114,6 +113,10 @@ class MainActivity : AppCompatActivity(),  NavigationView.OnNavigationItemSelect
             .build()
         val userData = userDB.userDB().getAll()
         userDB.userDB().deleteUser(userData)
+    }
+
+    private fun getUserGeniusTestData() {
+
     }
 
 }
