@@ -12,7 +12,7 @@ import com.wotin.geniustest.Activity.PracticeActivity
 import com.wotin.geniustest.CustomClass.GeniusPractice.GeniusPracticeDataCustomClass
 import com.wotin.geniustest.DB.GeniusPracticeDataDB
 import com.wotin.geniustest.R
-import com.wotin.geniustest.getUserGeniusPracticeData
+import com.wotin.geniustest.getGeniusPracticeData
 import kotlinx.android.synthetic.main.fragment_practice.view.*
 
 class PracticeFragment : Fragment() {
@@ -23,7 +23,7 @@ class PracticeFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        geniusPracticeData = getUserGeniusPracticeData(activity!!.applicationContext)
+        geniusPracticeData = getGeniusPracticeData(activity!!.applicationContext)
         val rootView = inflater.inflate(R.layout.fragment_practice, container, false)
 
         Log.d("TAG", "((geniusPracticeData.concentractionDifference.toFloat() + geniusPracticeData.memoryDifference.toFloat() / 2).toString()) is " +

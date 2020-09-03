@@ -6,19 +6,28 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.wotin.geniustest.Adapter.ModeRecyclerViewAdapter
+import com.wotin.geniustest.CustomClass.GeniusPractice.GeniusPracticeDataCustomClass
 import com.wotin.geniustest.CustomClass.ModeCustomClass
 import com.wotin.geniustest.R
+import com.wotin.geniustest.getGeniusPracticeData
 import kotlinx.android.synthetic.main.activity_practice.*
 import kotlin.concurrent.timer
 
 class PracticeActivity : AppCompatActivity() {
 
     lateinit var recyclerViewAdapter : ModeRecyclerViewAdapter
-    val modeList : ArrayList<ModeCustomClass> = arrayListOf(ModeCustomClass("기억력 테스트", 1, "5%"), ModeCustomClass("집중력 테스트", 1, "10%"))
+    lateinit var modeList : ArrayList<ModeCustomClass>
+
+    lateinit var geniusPracticeData : GeniusPracticeDataCustomClass
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_practice)
+
+        geniusPracticeData = getGeniusPracticeData(applicationContext)
+
+        modeList = arrayListOf(ModeCustomClass("기억력 테스트", geniusPracticeData.memoryScore.toInt(), geniusPracticeData.memoryDifference + "%"),
+            ModeCustomClass("집중력 테스트", geniusPracticeData.concentractionScore.toInt(), geniusPracticeData.concentractionDifference + "%"))
 
         // 3초마다 윈도우를 조정해주는 메소드 실행.
         controlWindowOnTimer()
@@ -57,4 +66,6 @@ class PracticeActivity : AppCompatActivity() {
         startActivity(intent)
         finish()
     }
+
+
 }

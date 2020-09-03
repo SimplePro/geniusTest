@@ -13,6 +13,7 @@ import com.wotin.geniustest.EncryptionAndDetoxification
 import com.wotin.geniustest.R
 import com.wotin.geniustest.RetrofitInterface.RetrofitDeleteAccountAndData
 import com.wotin.geniustest.RetrofitInterface.RetrofitSignInAndSignUp
+import com.wotin.geniustest.deleteUserDataAndGeniusTestData
 import kotlinx.android.synthetic.main.activity_delete_user.*
 import okhttp3.OkHttpClient
 import retrofit2.Call
@@ -65,14 +66,13 @@ class DeleteUserActivity : AppCompatActivity() {
                     override fun onFailure(call: Call<HttpResponseCache>, t: Throwable) {
                         Toast.makeText(applicationContext, "계정이 삭제되지 않았습니다.", Toast.LENGTH_LONG).show()
                     }
-
                     override fun onResponse(
                         call: Call<HttpResponseCache>,
                         response: Response<HttpResponseCache>
                     ) {
                         if(response.code() == 204) {
                             Toast.makeText(applicationContext, "성공적으로 계정이 삭제되었습니다", Toast.LENGTH_LONG).show()
-                            userDB.userDB().deleteUser(userData)
+                            deleteUserDataAndGeniusTestData(applicationContext)
                             Toast.makeText(applicationContext, "${userData.name} 님 그동안 '천재 테스트' 를 즐겨주셔서 감사합니다.", Toast.LENGTH_LONG).show()
                             val intent = Intent(this@DeleteUserActivity, LoginActivity::class.java)
                             startActivity(intent)

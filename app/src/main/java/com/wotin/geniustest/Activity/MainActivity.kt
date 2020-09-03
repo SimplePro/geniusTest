@@ -12,9 +12,13 @@ import com.google.android.material.tabs.TabLayout
 import com.wotin.geniustest.Activity.LoginAndSignUp.LoginActivity
 import com.wotin.geniustest.Activity.UserManagement.DeleteUserActivity
 import com.wotin.geniustest.Adapter.TabLayoutFragmentPagerAdapter
+import com.wotin.geniustest.CustomClass.GeniusPractice.GeniusPracticeDataCustomClass
+import com.wotin.geniustest.DB.GeniusPracticeDataDB
 import com.wotin.geniustest.DB.UserDB
 import com.wotin.geniustest.R
+import com.wotin.geniustest.deleteUserDataAndGeniusTestData
 import kotlinx.android.synthetic.main.activity_main.*
+import java.security.KeyStore
 import kotlin.concurrent.timer
 
 
@@ -89,7 +93,7 @@ class MainActivity : AppCompatActivity(),  NavigationView.OnNavigationItemSelect
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         when(item.itemId) {
             R.id.logout -> {
-                deleteUserData()
+                deleteUserDataAndGeniusTestData(applicationContext)
                 val intent = Intent(this, LoginActivity::class.java)
                 startActivity(intent)
                 finish()
@@ -103,20 +107,6 @@ class MainActivity : AppCompatActivity(),  NavigationView.OnNavigationItemSelect
         }
         layout_drawer.closeDrawers()
         return true
-    }
-
-    private fun deleteUserData() {
-        val userDB : UserDB = Room.databaseBuilder(
-            applicationContext,
-            UserDB::class.java, "user.db"
-        ).allowMainThreadQueries()
-            .build()
-        val userData = userDB.userDB().getAll()
-        userDB.userDB().deleteUser(userData)
-    }
-
-    private fun getUserGeniusTestData() {
-
     }
 
 }

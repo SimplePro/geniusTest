@@ -115,11 +115,15 @@ class LoginActivity : AppCompatActivity() {
                                         val practiceJson = MapJsonConverter().MapToJsonConverter(bestScore["practice"].toString())
                                         val testJson = MapJsonConverter().MapToJsonConverter(bestScore["test"].toString())
                                         val practice : GeniusPracticeDataCustomClass = GeniusPracticeDataCustomClass(UniqueId = uniqueId,
-                                            concentractionScore = practiceJson["practice_concentraction_score"].toString(), memoryScore = practiceJson["practice_memory_score"].toString(),
-                                            concentractionDifference = practiceJson["practice_concentraction_difference"].toString(), memoryDifference = practiceJson["practice_memory_difference"].toString())
+                                            concentractionScore = practiceJson["practice_concentraction_score"].toString().toFloat().toInt().toString(),
+                                            memoryScore = practiceJson["practice_memory_score"].toString().toFloat().toInt().toString(),
+                                            concentractionDifference = practiceJson["practice_concentraction_difference"].toString(),
+                                            memoryDifference = practiceJson["practice_memory_difference"].toString())
                                         val test : GeniusTestDataCustomClass = GeniusTestDataCustomClass(UniqueId = uniqueId,
-                                            concentractionScore = testJson["test_concentraction_score"].toString(), memoryScore = testJson["test_memory_score"].toString(),
-                                            concentractionDifference = testJson["test_concentraction_difference"].toString(), memoryDifference = testJson["test_memory_difference"].toString(),
+                                            concentractionScore = testJson["test_concentraction_score"].toString().toFloat().toInt().toString(),
+                                            memoryScore = testJson["test_memory_score"].toString().toFloat().toInt().toString(),
+                                            concentractionDifference = testJson["test_concentraction_difference"].toString(),
+                                            memoryDifference = testJson["test_memory_difference"].toString(),
                                             level = testLevel)
                                         Log.d("TAG",
                                                 "getGeniusDataApiService bestScore is $bestScore")
@@ -153,8 +157,5 @@ class LoginActivity : AppCompatActivity() {
             finish()
         }
     }
-
-
-
 
 }
