@@ -5,7 +5,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.wotin.geniustest.Adapter.ModeRecyclerViewAdapter
+import com.wotin.geniustest.Adapter.PracticeModeRecyclerViewAdapter
 import com.wotin.geniustest.CustomClass.GeniusPractice.GeniusPracticeDataCustomClass
 import com.wotin.geniustest.CustomClass.ModeCustomClass
 import com.wotin.geniustest.R
@@ -15,7 +15,7 @@ import kotlin.concurrent.timer
 
 class PracticeActivity : AppCompatActivity() {
 
-    lateinit var recyclerViewAdapter : ModeRecyclerViewAdapter
+    lateinit var recyclerViewAdapter : PracticeModeRecyclerViewAdapter
     lateinit var modeList : ArrayList<ModeCustomClass>
 
     lateinit var geniusPracticeData : GeniusPracticeDataCustomClass
@@ -32,7 +32,7 @@ class PracticeActivity : AppCompatActivity() {
         // 3초마다 윈도우를 조정해주는 메소드 실행.
         controlWindowOnTimer()
 
-        recyclerViewAdapter = ModeRecyclerViewAdapter(modeList)
+        recyclerViewAdapter = PracticeModeRecyclerViewAdapter(modeList)
         practice_mode_recyclerview.apply {
             adapter = recyclerViewAdapter
             layoutManager = LinearLayoutManager(this@PracticeActivity, LinearLayoutManager.VERTICAL, false)

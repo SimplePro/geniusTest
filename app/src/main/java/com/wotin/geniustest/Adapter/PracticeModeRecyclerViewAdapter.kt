@@ -1,5 +1,7 @@
 package com.wotin.geniustest.Adapter
 
+import android.app.Activity
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -7,17 +9,24 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
+import com.wotin.geniustest.Activity.PracticeConcentractionActivity
 import com.wotin.geniustest.CustomClass.ModeCustomClass
 import com.wotin.geniustest.R
 
-class ModeRecyclerViewAdapter(val modeList : ArrayList<ModeCustomClass>) : RecyclerView.Adapter<ModeRecyclerViewAdapter.CustomViewHolder>() {
+
+class PracticeModeRecyclerViewAdapter(val modeList : ArrayList<ModeCustomClass>) : RecyclerView.Adapter<PracticeModeRecyclerViewAdapter.CustomViewHolder>() {
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
-    ): ModeRecyclerViewAdapter.CustomViewHolder {
+    ): PracticeModeRecyclerViewAdapter.CustomViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.mode_recyclerview_item, parent, false)
         return CustomViewHolder(view).apply {
             modeLayout.setOnClickListener{
+                if(modeList[adapterPosition].mode == "집중력 테스트") {
+                    val intent = Intent(parent.context, PracticeConcentractionActivity::class.java)
+                    parent.context.startActivity(intent)
+                    (parent.context as Activity).finish()
+                }
 //                데이터에 따라서 다르게 행동해야 함. -> 기억력 테스트라면, 기억력 테스트를 하도록 하고. 집중력 테스트라면 집중력 테스트를 해야 한다.
             }
         }
@@ -25,7 +34,7 @@ class ModeRecyclerViewAdapter(val modeList : ArrayList<ModeCustomClass>) : Recyc
 
     override fun getItemCount(): Int = modeList.size
 
-    override fun onBindViewHolder(holder: ModeRecyclerViewAdapter.CustomViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: PracticeModeRecyclerViewAdapter.CustomViewHolder, position: Int) {
         holder.modeText.text = modeList[position].mode
         holder.modeScoreText.text = modeList[position].score.toString()
         holder.modeDifferenceText.text = modeList[position].difference

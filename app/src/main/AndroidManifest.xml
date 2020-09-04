@@ -12,7 +12,8 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Design.Light.NoActionBar"
         android:usesCleartextTraffic="true">
-        <activity android:name=".Activity.UserManagement.DeleteUserActivity"></activity>
+        <activity android:name=".Activity.PracticeConcentractionActivity"></activity>
+        <activity android:name=".Activity.UserManagement.DeleteUserActivity" />
         <activity android:name=".Activity.LoginAndSignUp.SignUpActivity" />
         <activity android:name=".Activity.LoginAndSignUp.LoginActivity" />
         <activity android:name=".Activity.GeniusTestActivity" />
