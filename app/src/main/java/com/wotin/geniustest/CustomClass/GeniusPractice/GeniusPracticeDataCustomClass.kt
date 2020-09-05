@@ -5,11 +5,11 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity(tableName = "GeniusPracticeData")
-data class GeniusPracticeDataCustomClass(
+    data class GeniusPracticeDataCustomClass(
     @ColumnInfo(name = "geniusPracticeUniqueId") val UniqueId : String,
-    @ColumnInfo(name = "geniusPracticeConcentractionScore") val concentractionScore : String,
-    @ColumnInfo(name = "geniusPracticeMemoryScore") val memoryScore : String,
-    @ColumnInfo(name = "geniusPracticeConcentractionDifference") val concentractionDifference : String,
-    @ColumnInfo(name = "geniusPracticeMemoryDifference") val memoryDifference : String,
+    @ColumnInfo(name = "geniusPracticeConcentractionScore") var concentractionScore : String,
+    @ColumnInfo(name = "geniusPracticeMemoryScore") var memoryScore : String,
+    @ColumnInfo(name = "geniusPracticeConcentractionDifference") var concentractionDifference : String,
+    @ColumnInfo(name = "geniusPracticeMemoryDifference") var memoryDifference : String,
     @PrimaryKey(autoGenerate = true) val primaryKey : Long = 0
 )

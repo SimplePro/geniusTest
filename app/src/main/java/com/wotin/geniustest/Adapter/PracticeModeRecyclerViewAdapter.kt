@@ -1,17 +1,22 @@
 package com.wotin.geniustest.Adapter
 
 import android.app.Activity
+import android.content.Context.CONNECTIVITY_SERVICE
 import android.content.Intent
+import android.net.ConnectivityManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.cardview.widget.CardView
+import androidx.core.content.ContextCompat.getSystemService
 import androidx.recyclerview.widget.RecyclerView
 import com.wotin.geniustest.Activity.PracticeConcentractionActivity
 import com.wotin.geniustest.CustomClass.ModeCustomClass
 import com.wotin.geniustest.R
+import com.wotin.geniustest.networkState
 
 
 class PracticeModeRecyclerViewAdapter(val modeList : ArrayList<ModeCustomClass>) : RecyclerView.Adapter<PracticeModeRecyclerViewAdapter.CustomViewHolder>() {
@@ -22,12 +27,14 @@ class PracticeModeRecyclerViewAdapter(val modeList : ArrayList<ModeCustomClass>)
         val view = LayoutInflater.from(parent.context).inflate(R.layout.mode_recyclerview_item, parent, false)
         return CustomViewHolder(view).apply {
             modeLayout.setOnClickListener{
-                if(modeList[adapterPosition].mode == "집중력 테스트") {
-                    val intent = Intent(parent.context, PracticeConcentractionActivity::class.java)
-                    parent.context.startActivity(intent)
-                    (parent.context as Activity).finish()
-                }
-//                데이터에 따라서 다르게 행동해야 함. -> 기억력 테스트라면, 기억력 테스트를 하도록 하고. 집중력 테스트라면 집중력 테스트를 해야 한다.
+                val connectivityManager : ConnectivityManager = parent.context.getSystemService(CONNECTIVITY_SERVICE) as ConnectivityManager
+                if(networkState(connectivityManager)) {
+                    if(modeList[adapterPosition].mode == "집중력 테스트") {
+                        val intent = Intent(parent.context, PracticeConcentractionActivity::class.java)
+                        parent.context.startActivity(intent)
+                        (parent.context as Activity).finish()
+                    }
+                } else Toast.makeText(parent.context.applicationContext, "네트워크 연결을 확인해주세요", Toast.LENGTH_LONG).show()
             }
         }
     }

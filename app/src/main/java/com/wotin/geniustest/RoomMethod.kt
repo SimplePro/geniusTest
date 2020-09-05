@@ -93,3 +93,14 @@ fun getGeniusPracticeData(
     return geniusPracticeDB.geniusPracticeDataDB().getAll()
 }
 
+fun updateGeniusPracticeData(context: Context, geniusPracticeData: GeniusPracticeDataCustomClass) {
+    val geniusPracticeDB : GeniusPracticeDataDB = Room.databaseBuilder(
+        context,
+        GeniusPracticeDataDB::class.java, "geniusPractice.db"
+    ).allowMainThreadQueries()
+        .build()
+
+    geniusPracticeDB.geniusPracticeDataDB().updateGeniusPracticeData(geniusPracticeData = geniusPracticeData)
+
+}
+

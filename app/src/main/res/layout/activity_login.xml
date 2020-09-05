@@ -30,6 +30,7 @@
 
 
         <EditText
+            android:maxLength="20"
             android:digits="abcdefghijklmnopqrstuvwxyz1234567890@."
             android:id="@+id/login_id_edittext"
             android:fontFamily="@font/mapo"
@@ -44,6 +45,7 @@
             android:background="@drawable/rounded_corner"
             android:textSize="17sp" />
         <EditText
+            android:maxLength="20"
             android:digits="abcdefghijklmnopqrstuvwxyz1234567890@."
             android:fontFamily="@font/mapo"
             android:id="@+id/login_password_edittext"

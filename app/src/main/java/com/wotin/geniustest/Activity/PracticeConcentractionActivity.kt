@@ -1,16 +1,34 @@
 package com.wotin.geniustest.Activity
 
+import android.content.Context
 import android.content.Intent
+import android.net.ConnectivityManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Vibrator
 import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.recyclerview.widget.GridLayoutManager
+import com.google.gson.JsonObject
 import com.wotin.geniustest.Adapter.PracticeConcentractionRecyclerViewAdapter
 import com.wotin.geniustest.R
+import com.wotin.geniustest.RetrofitInterface.RetrofitAboutGeniusData
+import com.wotin.geniustest.RetrofitInterface.RetrofitSignInAndSignUp
+import com.wotin.geniustest.RetrofitInterface.RetrofitUserDataAndGeniusData
+import com.wotin.geniustest.getGeniusPracticeData
+import com.wotin.geniustest.networkState
+import com.wotin.geniustest.updateGeniusPracticeData
 import kotlinx.android.synthetic.main.activity_practice_concentraction.*
+import okhttp3.OkHttpClient
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
+import java.lang.Exception
 import java.util.*
+import java.util.concurrent.TimeUnit
 import kotlin.collections.ArrayList
 import kotlin.math.max
 
@@ -24,9 +42,27 @@ class PracticeConcentractionActivity : AppCompatActivity(), PracticeConcentracti
     lateinit var t : Timer
     lateinit var tt : TimerTask
 
+    lateinit var retrofit: Retrofit
+    lateinit var getGeniusDataDifferenceApiService: RetrofitAboutGeniusData
+    lateinit var okHttpClient: OkHttpClient
+    val baseUrl = "http://220.72.174.101:8080"
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_practice_concentraction)
+
+        okHttpClient = OkHttpClient.Builder()
+            .connectTimeout(1, TimeUnit.MINUTES)
+            .readTimeout(30, TimeUnit.SECONDS)
+            .writeTimeout(15, TimeUnit.SECONDS)
+            .build()
+
+        retrofit = Retrofit.Builder()
+            .baseUrl(baseUrl)
+            .addConverterFactory(GsonConverterFactory.create())
+            .client(okHttpClient)
+            .build()
+        getGeniusDataDifferenceApiService = retrofit.create(RetrofitAboutGeniusData::class.java)
 
         practice_concentraction_timer_progressbar.min = 0
 
@@ -65,7 +101,7 @@ class PracticeConcentractionActivity : AppCompatActivity(), PracticeConcentracti
         setConcentractionList()
         t.cancel()
         tt.cancel()
-        counter = (5000 - (score * 200))
+        counter = (5000 - (score * 127))
         prog()
     }
 
@@ -82,6 +118,10 @@ class PracticeConcentractionActivity : AppCompatActivity(), PracticeConcentracti
                     runOnUiThread {
                         practice_concentraction_game_layout.visibility = View.GONE
                         practice_concentraction_result_layout.visibility = View.VISIBLE
+                        val connectivityManager : ConnectivityManager = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+                        if(networkState(connectivityManager)) {
+                            postDataToServer(score = score)
+                        }
                     }
                 }
             }
@@ -100,10 +140,14 @@ class PracticeConcentractionActivity : AppCompatActivity(), PracticeConcentracti
 
     override fun itemClicked(position: Int) {
         if(concentractionList[position] == "h" || concentractionList[position] == "j" || concentractionList[position] == "Y"
-            || concentractionList[position] == "9" || concentractionList[position] == "C") {
+            || concentractionList[position] == "p" || concentractionList[position] == "C") {
             restart()
         }
-        else counter -= 100
+        else {
+            val vib = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
+            vib.vibrate(500)
+            counter -= 100
+        }
     }
 
     private fun setConcentractionList() {
@@ -135,7 +179,7 @@ class PracticeConcentractionActivity : AppCompatActivity(), PracticeConcentracti
                     concentractionList.add("q")
                 }
                 val random2 = Random().nextInt(itemCount)
-                concentractionList[random2] = "9"
+                concentractionList[random2] = "p"
             }
             else -> {
                 for(i in 0 .. itemCount) {
@@ -177,6 +221,34 @@ class PracticeConcentractionActivity : AppCompatActivity(), PracticeConcentracti
             adapter = concentractionRecyclerViewAdapter
             setHasFixedSize(true)
         }
+    }
+
+    private fun postDataToServer(score : Int) {
+        val geniusPracticeData = getGeniusPracticeData(applicationContext)
+        val uId = geniusPracticeData.UniqueId
+        Log.d("TAG", "score is $score, uId is $uId")
+        getGeniusDataDifferenceApiService.getGeniusPracticeDifference(score.toString(), uId).enqueue(object : Callback<JsonObject> {
+            override fun onFailure(call: Call<JsonObject>, t: Throwable) {
+                Toast.makeText(applicationContext, "에러", Toast.LENGTH_LONG).show()
+                Log.d("TAG", "postDataToServer PracticeDifference error is $t")
+            }
+
+            override fun onResponse(call: Call<JsonObject>, response: Response<JsonObject>) {
+                try {
+                    Log.d("TAG", "postDataToServer PracticeDifference data is ${response.body()}")
+                    val practiceConcentractionDifference = response.body()!!.get("practice_concentraction_difference")
+                    if(practiceConcentractionDifference.asString.isNotEmpty()) {
+                        geniusPracticeData.concentractionScore = score.toString()
+                        geniusPracticeData.concentractionDifference = practiceConcentractionDifference.asString
+                        updateGeniusPracticeData(context = applicationContext, geniusPracticeData = geniusPracticeData)
+                    }
+                } catch (e : Exception) {
+                    Toast.makeText(applicationContext, "에러", Toast.LENGTH_LONG).show()
+                    Log.d("TAG", "postDataToServer PracticeDifference error is ${e.message}")
+                }
+            }
+
+        })
     }
 
 }
