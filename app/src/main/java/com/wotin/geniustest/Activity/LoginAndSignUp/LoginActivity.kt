@@ -104,6 +104,7 @@ class LoginActivity : AppCompatActivity() {
                                         UniqueId = response.body()!!.UniqueId,
                                         context = applicationContext
                                     )
+                                    saveUserDataSharedPreference(response.body()!!.UniqueId, response.body()!!.id, response.body()!!.password)
                                     getGeniusDataApiService.getGeniusData(response.body()!!.UniqueId).enqueue(object : Callback<RetrofitGetGeniusPracticeAndTestDataCustomClass> {
                                         override fun onFailure(call: Call<RetrofitGetGeniusPracticeAndTestDataCustomClass>, t: Throwable) {
                                             Toast.makeText(applicationContext, "데이터를 가져오는데 실패하였습니다", Toast.LENGTH_LONG).show()
@@ -120,7 +121,7 @@ class LoginActivity : AppCompatActivity() {
                                             val practiceJson = MapJsonConverter().MapToJsonConverter(bestScore["practice"].toString())
                                             val testJson = MapJsonConverter().MapToJsonConverter(bestScore["test"].toString())
 
-                                            saveUIDSharedPreference(uniqueId)
+
 
                                             val practice : GeniusPracticeDataCustomClass = GeniusPracticeDataCustomClass(UniqueId = uniqueId,
                                                 concentractionScore = practiceJson["practice_concentraction_score"].toString().toFloat().toInt().toString(),
@@ -172,11 +173,13 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
-    private fun saveUIDSharedPreference(UID : String) {
+    private fun saveUserDataSharedPreference(UID : String, id : String, password : String) {
         val pref = getPreferences(0)
         val editor = pref.edit()
 
-        editor.putString("UID", UID).apply()
+        editor.putString("UID", UID)
+            .putString("id", id)
+            .putString("password", password)
+            .apply()
     }
-
 }

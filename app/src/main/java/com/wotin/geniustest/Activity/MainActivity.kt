@@ -95,6 +95,7 @@ class MainActivity : AppCompatActivity(),  NavigationView.OnNavigationItemSelect
         when(item.itemId) {
             R.id.logout -> {
                 deleteUserDataAndGeniusTestAndPracticeData(applicationContext)
+                deleteUserDataSharedPreference()
                 val intent = Intent(this, LoginActivity::class.java)
                 startActivity(intent)
                 finish()
@@ -108,6 +109,17 @@ class MainActivity : AppCompatActivity(),  NavigationView.OnNavigationItemSelect
         }
         layout_drawer.closeDrawers()
         return true
+    }
+
+    private fun deleteUserDataSharedPreference() {
+        val pref = getPreferences(0)
+        val editor = pref.edit()
+
+        editor
+            .remove("UID")
+            .remove("id")
+            .remove("password")
+            .apply()
     }
 
 }

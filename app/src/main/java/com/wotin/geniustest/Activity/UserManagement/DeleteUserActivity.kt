@@ -74,6 +74,7 @@ class DeleteUserActivity : AppCompatActivity() {
                             Toast.makeText(applicationContext, "성공적으로 계정이 삭제되었습니다", Toast.LENGTH_LONG).show()
                             deleteUserDataAndGeniusTestAndPracticeData(applicationContext)
                             Toast.makeText(applicationContext, "${userData.name} 님 그동안 '천재 테스트' 를 즐겨주셔서 감사합니다.", Toast.LENGTH_LONG).show()
+                            deleteUserDataSharedPreference()
                             val intent = Intent(this@DeleteUserActivity, LoginActivity::class.java)
                             startActivity(intent)
                             finish()
@@ -93,4 +94,16 @@ class DeleteUserActivity : AppCompatActivity() {
         startActivity(intent)
         finish()
     }
+
+    private fun deleteUserDataSharedPreference() {
+        val pref = getPreferences(0)
+        val editor = pref.edit()
+
+        editor
+            .remove("UID")
+            .remove("id")
+            .remove("password")
+            .apply()
+    }
+
 }
