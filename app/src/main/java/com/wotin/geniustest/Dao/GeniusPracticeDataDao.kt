@@ -14,6 +14,6 @@ interface GeniusPracticeDataDao {
     @Insert
     fun insertGeniusPracticeData(geniusPracticeData : GeniusPracticeDataCustomClass)
 
-    @Delete
-    fun deleteGeniusPracticeData(geniusPracticeData: GeniusPracticeDataCustomClass)
+    @Query("DELETE FROM GeniusPracticeData")
+    fun deleteGeniusPracticeData()
 }

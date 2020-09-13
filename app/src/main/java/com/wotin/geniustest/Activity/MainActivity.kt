@@ -2,6 +2,7 @@ package com.wotin.geniustest.Activity
 
 import android.content.Intent
 import android.os.Bundle
+import android.system.Os.close
 import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
@@ -16,7 +17,7 @@ import com.wotin.geniustest.CustomClass.GeniusPractice.GeniusPracticeDataCustomC
 import com.wotin.geniustest.DB.GeniusPracticeDataDB
 import com.wotin.geniustest.DB.UserDB
 import com.wotin.geniustest.R
-import com.wotin.geniustest.deleteUserDataAndGeniusTestData
+import com.wotin.geniustest.deleteUserDataAndGeniusTestAndPracticeData
 import kotlinx.android.synthetic.main.activity_main.*
 import java.security.KeyStore
 import kotlin.concurrent.timer
@@ -93,7 +94,7 @@ class MainActivity : AppCompatActivity(),  NavigationView.OnNavigationItemSelect
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         when(item.itemId) {
             R.id.logout -> {
-                deleteUserDataAndGeniusTestData(applicationContext)
+                deleteUserDataAndGeniusTestAndPracticeData(applicationContext)
                 val intent = Intent(this, LoginActivity::class.java)
                 startActivity(intent)
                 finish()

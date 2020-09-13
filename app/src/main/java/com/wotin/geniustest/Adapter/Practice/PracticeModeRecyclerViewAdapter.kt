@@ -1,4 +1,4 @@
-package com.wotin.geniustest.Adapter
+package com.wotin.geniustest.Adapter.Practice
 
 import android.app.Activity
 import android.content.Context.CONNECTIVITY_SERVICE
@@ -11,21 +11,24 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.cardview.widget.CardView
-import androidx.core.content.ContextCompat.getSystemService
 import androidx.recyclerview.widget.RecyclerView
-import com.wotin.geniustest.Activity.PracticeConcentractionActivity
+import com.wotin.geniustest.Activity.Practice.PracticeConcentractionActivity
+import com.wotin.geniustest.Activity.Practice.PracticeQuicknessActivity
 import com.wotin.geniustest.CustomClass.ModeCustomClass
 import com.wotin.geniustest.R
 import com.wotin.geniustest.networkState
 
 
 class PracticeModeRecyclerViewAdapter(val modeList : ArrayList<ModeCustomClass>) : RecyclerView.Adapter<PracticeModeRecyclerViewAdapter.CustomViewHolder>() {
+
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
-    ): PracticeModeRecyclerViewAdapter.CustomViewHolder {
+    ): CustomViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.mode_recyclerview_item, parent, false)
-        return CustomViewHolder(view).apply {
+        return CustomViewHolder(
+            view
+        ).apply {
             modeLayout.setOnClickListener{
                 val connectivityManager : ConnectivityManager = parent.context.getSystemService(CONNECTIVITY_SERVICE) as ConnectivityManager
                 if(networkState(connectivityManager)) {
@@ -33,15 +36,20 @@ class PracticeModeRecyclerViewAdapter(val modeList : ArrayList<ModeCustomClass>)
                         val intent = Intent(parent.context, PracticeConcentractionActivity::class.java)
                         parent.context.startActivity(intent)
                         (parent.context as Activity).finish()
+                    } else if(modeList[adapterPosition].mode == "순발력 테스트") {
+                        val intent = Intent(parent.context, PracticeQuicknessActivity::class.java)
+                        parent.context.startActivity(intent)
+                        (parent.context as Activity).finish()
                     }
                 } else Toast.makeText(parent.context.applicationContext, "네트워크 연결을 확인해주세요", Toast.LENGTH_LONG).show()
+
             }
         }
     }
 
     override fun getItemCount(): Int = modeList.size
 
-    override fun onBindViewHolder(holder: PracticeModeRecyclerViewAdapter.CustomViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: CustomViewHolder, position: Int) {
         holder.modeText.text = modeList[position].mode
         holder.modeScoreText.text = modeList[position].score.toString()
         holder.modeDifferenceText.text = modeList[position].difference
@@ -51,6 +59,9 @@ class PracticeModeRecyclerViewAdapter(val modeList : ArrayList<ModeCustomClass>)
             }
             "집중력 테스트" -> {
                 holder.modeImage.setImageResource(R.drawable.concentration)
+            }
+            "순발력 테스트" -> {
+                holder.modeImage.setImageResource(R.drawable.quickness)
             }
         }
     }

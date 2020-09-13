@@ -119,16 +119,24 @@ class LoginActivity : AppCompatActivity() {
                                             val bestScore = MapJsonConverter().MapToJsonConverter(response.body()!!.best_score.toString())
                                             val practiceJson = MapJsonConverter().MapToJsonConverter(bestScore["practice"].toString())
                                             val testJson = MapJsonConverter().MapToJsonConverter(bestScore["test"].toString())
+
+                                            saveUIDSharedPreference(uniqueId)
+
                                             val practice : GeniusPracticeDataCustomClass = GeniusPracticeDataCustomClass(UniqueId = uniqueId,
                                                 concentractionScore = practiceJson["practice_concentraction_score"].toString().toFloat().toInt().toString(),
                                                 memoryScore = practiceJson["practice_memory_score"].toString().toFloat().toInt().toString(),
                                                 concentractionDifference = practiceJson["practice_concentraction_difference"].toString(),
-                                                memoryDifference = practiceJson["practice_memory_difference"].toString())
+                                                memoryDifference = practiceJson["practice_memory_difference"].toString(),
+                                                quicknessScore = practiceJson["practice_quickness_score"].toString(),
+                                                quicknessDifference = practiceJson["practice_quickness_difference"].toString())
+
                                             val test : GeniusTestDataCustomClass = GeniusTestDataCustomClass(UniqueId = uniqueId,
                                                 concentractionScore = testJson["test_concentraction_score"].toString().toFloat().toInt().toString(),
                                                 memoryScore = testJson["test_memory_score"].toString().toFloat().toInt().toString(),
                                                 concentractionDifference = testJson["test_concentraction_difference"].toString(),
                                                 memoryDifference = testJson["test_memory_difference"].toString(),
+                                                quicknessScore = testJson["test_quickness_score"].toString(),
+                                                quicknessDifference = testJson["test_quickness_difference"].toString(),
                                                 level = testLevel)
                                             Log.d("TAG",
                                                 "getGeniusDataApiService bestScore is $bestScore")
@@ -162,6 +170,13 @@ class LoginActivity : AppCompatActivity() {
             startActivity(intent)
             finish()
         }
+    }
+
+    private fun saveUIDSharedPreference(UID : String) {
+        val pref = getPreferences(0)
+        val editor = pref.edit()
+
+        editor.putString("UID", UID).apply()
     }
 
 }

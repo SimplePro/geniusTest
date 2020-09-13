@@ -3,7 +3,6 @@ package com.wotin.geniustest.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
-import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.room.Room
@@ -11,6 +10,8 @@ import com.wotin.geniustest.Activity.LoginAndSignUp.LoginActivity
 import com.wotin.geniustest.CustomClass.UserCustomClass
 import com.wotin.geniustest.DB.UserDB
 import com.wotin.geniustest.R
+import com.wotin.geniustest.deleteUserDataAndGeniusTestAndPracticeData
+import java.lang.Exception
 
 class IntroActivity : AppCompatActivity() {
     var handler: Handler? = null
@@ -26,6 +27,7 @@ class IntroActivity : AppCompatActivity() {
                 View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY or
                 View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION or
                 View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+
     }
 
     private fun getUserData() : UserCustomClass {
@@ -41,14 +43,21 @@ class IntroActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         runnable = Runnable {
-            val userData = getUserData()
-            val intent = if(userData == null) {
-                Intent(this, LoginActivity::class.java)
-            } else {
-                Intent(this, MainActivity::class.java)
+            try {
+                val userData = getUserData()
+                val intent = if(userData == null) {
+                    Intent(this, LoginActivity::class.java)
+                } else {
+                    Intent(this, MainActivity::class.java)
+                }
+                startActivity(intent)
+                finish()
+            } catch (e : Exception) {
+                deleteUserDataAndGeniusTestAndPracticeData(applicationContext)
+                val intent = Intent(this, LoginActivity::class.java)
+                startActivity(intent)
+                finish()
             }
-            startActivity(intent)
-            finish()
         }
 
         handler = Handler()

@@ -4,26 +4,28 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Activity.Practice.PracticeConcentractionActivity">
-    
+    tools:context=".Activity.Practice.PracticeQuicknessActivity">
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/practice_concentraction_game_layout"
+        android:id="@+id/practice_quickness_game_layout"
         >
 
         <ProgressBar
+            app:layout_constraintTop_toBottomOf="@+id/practice_quickness_score_layout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/practice_concentraction_timer_progressbar"
-            style="@android:style/Widget.Material.ProgressBar.Horizontal"
+            android:layout_height="20dp"
+            android:layout_marginHorizontal="30dp"
+            android:id="@+id/practice_quickness_timer_progressbar"
+            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
             android:progressDrawable="@drawable/progress_bar_background"
-            android:maxHeight="100dp"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
+            android:layout_marginTop="20dp"
+            />
 
         <LinearLayout
-            android:id="@+id/practice_concentraction_score_layout"
+            android:id="@+id/practice_quickness_score_layout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
@@ -49,30 +51,42 @@
                 android:fontFamily="@font/mapo"
                 android:textColor="@android:color/black"
                 android:textSize="40dp"
-                android:id="@+id/practice_concentraction_score_textview"/>
+                android:id="@+id/practice_quickness_score_textview"/>
 
         </LinearLayout>
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/practice_concentraction_recyclerview"
+            android:id="@+id/practice_quickness_recyclerview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/practice_concentraction_score_layout"
+            app:layout_constraintTop_toBottomOf="@id/practice_quickness_score_layout"
             app:layout_constraintBottom_toBottomOf="parent"
             android:layout_marginTop="20dp"
             />
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="빨강"
+            android:id="@+id/practice_quickness_color_textview"
+            android:textColor="#00ff00"
+            android:fontFamily="@font/mapo"
+            android:textSize="40dp"
+            app:layout_constraintTop_toBottomOf="@id/practice_quickness_timer_progressbar"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"/>
+
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-    
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/practice_concentraction_result_layout">
+        android:id="@+id/practice_quickness_result_layout">
 
         <ImageView
             android:layout_width="250dp"
@@ -92,8 +106,8 @@
             android:gravity="center"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/practice_concentraction_result_confirm_button"
-            android:layout_marginBottom="300dp"
+            app:layout_constraintBottom_toTopOf="@id/practice_quickness_result_confirm_button"
+            android:layout_marginBottom="260dp"
             >
 
             <TextView
@@ -114,15 +128,15 @@
                 android:textColor="@android:color/black"
                 android:textSize="70dp"
                 android:fontFamily="@font/mapo"
-                android:id="@+id/practice_concentraction_result_textview"/>
+                android:id="@+id/practice_quickness_result_textview"/>
 
 
         </LinearLayout>
-        
+
         <Button
             android:layout_width="120dp"
             android:layout_height="60dp"
-            android:id="@+id/practice_concentraction_result_confirm_button"
+            android:id="@+id/practice_quickness_result_confirm_button"
             android:text="확인"
             android:background="@drawable/rounded_corner_button"
             android:fontFamily="@font/mapo"
@@ -142,7 +156,7 @@
         android:layout_margin="10dp"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
-        android:id="@+id/go_to_mainactivity_from_practice_concentraction_activity_imageview"/>
-    
+        android:id="@+id/go_to_mainactivity_from_practice_quickness_activity_imageview"/>
+
 
 </RelativeLayout>

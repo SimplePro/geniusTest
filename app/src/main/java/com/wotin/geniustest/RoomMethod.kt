@@ -10,8 +10,11 @@ import com.wotin.geniustest.DB.GeniusPracticeDataDB
 import com.wotin.geniustest.DB.GeniusTestDataDB
 import com.wotin.geniustest.DB.UserDB
 import okhttp3.internal.connection.ConnectInterceptor
+import java.lang.Exception
 
-fun deleteUserDataAndGeniusTestData(context: Context) {
+lateinit var geniusPracticeDB : GeniusPracticeDataDB
+
+fun deleteUserDataAndGeniusTestAndPracticeData(context: Context) {
     deleteUserData(context)
     deleteGeniusPracticeData(context)
     deleteGeniusTestData(context)
@@ -22,20 +25,22 @@ fun deleteGeniusPracticeData(context: Context) {
     val geniusPracticeDB : GeniusPracticeDataDB = Room.databaseBuilder(
         context,
         GeniusPracticeDataDB::class.java, "geniusPractice.db"
-    ).allowMainThreadQueries()
+    )
+        .allowMainThreadQueries()
+        . fallbackToDestructiveMigration ()
         .build()
-    val geniusPracticeData = geniusPracticeDB.geniusPracticeDataDB().getAll()
-    geniusPracticeDB.geniusPracticeDataDB().deleteGeniusPracticeData(geniusPracticeData)
+    geniusPracticeDB.geniusPracticeDataDB().deleteGeniusPracticeData()
 }
 
 fun deleteGeniusTestData(context: Context) {
     val geniusTestDB : GeniusTestDataDB = Room.databaseBuilder(
         context,
         GeniusTestDataDB::class.java, "geniusTest.db"
-    ).allowMainThreadQueries()
+    )
+        .allowMainThreadQueries()
+        . fallbackToDestructiveMigration ()
         .build()
-    val geniusTestData = geniusTestDB.geniusTestDataDB().getAll()
-    geniusTestDB.geniusTestDataDB().deleteGeniusTestData(geniusTestData)
+    geniusTestDB.geniusTestDataDB().deleteGeniusTestData()
 }
 
 
@@ -46,7 +51,9 @@ fun insertGeniusTestData(
     val geniusTestDataDB: GeniusTestDataDB = Room.databaseBuilder(
         context,
         GeniusTestDataDB::class.java, "geniusTest.db"
-    ).allowMainThreadQueries()
+    )
+        .allowMainThreadQueries()
+        . fallbackToDestructiveMigration ()
         .build()
     geniusTestDataDB.geniusTestDataDB().insertGeniusTestData(
         geniusTestData
@@ -60,7 +67,9 @@ fun insertGeniusPracticeData(
     val geniusPracticeDataDB : GeniusPracticeDataDB = Room.databaseBuilder(
         context,
         GeniusPracticeDataDB::class.java, "geniusPractice.db"
-    ).allowMainThreadQueries()
+    )
+        .allowMainThreadQueries()
+        . fallbackToDestructiveMigration ()
         .build()
     geniusPracticeDataDB.geniusPracticeDataDB().insertGeniusPracticeData(
         geniusPracticeData
@@ -74,19 +83,29 @@ fun getGeniusTestData(
     val geniusTestDataDB : GeniusTestDataDB = Room.databaseBuilder(
         context,
         GeniusTestDataDB::class.java, "geniusTest.db"
-    ).allowMainThreadQueries()
+    )
+        .allowMainThreadQueries()
+        . fallbackToDestructiveMigration ()
         .build()
     return geniusTestDataDB.geniusTestDataDB().getAll()
 }
 
+
+
 fun getGeniusPracticeData(
     context: Context
 ): GeniusPracticeDataCustomClass {
-    val geniusPracticeDB : GeniusPracticeDataDB = Room.databaseBuilder(
-        context,
-        GeniusPracticeDataDB::class.java, "geniusPractice.db"
-    ).allowMainThreadQueries()
-        .build()
+    try {
+        geniusPracticeDB = Room.databaseBuilder(
+            context,
+            GeniusPracticeDataDB::class.java, "geniusPractice.db"
+        )
+            .allowMainThreadQueries()
+            . fallbackToDestructiveMigration ()
+            .build()
+    } catch (e : Exception){
+        Log.d("TAG", "getGeniusPracticeData: error is $e")
+    }
 
     Log.d("TAG", "getGeniusPracticeData is ${geniusPracticeDB.geniusPracticeDataDB().getAll()}")
 
@@ -97,7 +116,9 @@ fun updateGeniusPracticeData(context: Context, geniusPracticeData: GeniusPractic
     val geniusPracticeDB : GeniusPracticeDataDB = Room.databaseBuilder(
         context,
         GeniusPracticeDataDB::class.java, "geniusPractice.db"
-    ).allowMainThreadQueries()
+    )
+        .allowMainThreadQueries()
+        . fallbackToDestructiveMigration ()
         .build()
 
     geniusPracticeDB.geniusPracticeDataDB().updateGeniusPracticeData(geniusPracticeData = geniusPracticeData)

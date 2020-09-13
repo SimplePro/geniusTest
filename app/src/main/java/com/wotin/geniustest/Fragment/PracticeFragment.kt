@@ -9,13 +9,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.core.content.getSystemService
 import androidx.fragment.app.Fragment
-import androidx.room.Room
 import com.google.gson.JsonObject
-import com.wotin.geniustest.Activity.PracticeActivity
+import com.wotin.geniustest.Activity.Practice.PracticeActivity
 import com.wotin.geniustest.CustomClass.GeniusPractice.GeniusPracticeDataCustomClass
-import com.wotin.geniustest.DB.GeniusPracticeDataDB
 import com.wotin.geniustest.R
 import com.wotin.geniustest.RetrofitInterface.RetrofitAboutGeniusData
 import com.wotin.geniustest.getGeniusPracticeData
@@ -57,11 +54,16 @@ class PracticeFragment : Fragment() {
             .client(okHttpClient)
             .build()
         getGeniusDataDifferenceApiService = retrofit.create(RetrofitAboutGeniusData::class.java)
-        geniusPracticeData = getGeniusPracticeData(activity!!.applicationContext)
+        try {
+            geniusPracticeData = getGeniusPracticeData(activity!!.applicationContext)
+        } catch (e: Exception) {
+            Log.d("TAG", "onCreateView: error is $e")
+        }
 
 
         val connectivityManager = activity!!.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         if(networkState(connectivityManager)){
+            Log.d("TAG", "onCreateView: geniusPracticeData is $geniusPracticeData")
             getGeniusDataDifferenceApiService.getGeniusPracticeDifference(geniusPracticeData.concentractionScore, geniusPracticeData.UniqueId).enqueue(object :
                 Callback<JsonObject> {
                 override fun onFailure(call: Call<JsonObject>, t: Throwable) {
@@ -88,10 +90,10 @@ class PracticeFragment : Fragment() {
 
         geniusPracticeData = getGeniusPracticeData(activity!!.applicationContext)
 
-        Log.d("TAG", "((geniusPracticeData.concentractionDifference.toFloat() + geniusPracticeData.memoryDifference.toFloat() / 2).toString()) is " +
-                (((geniusPracticeData.concentractionDifference.toFloat() + geniusPracticeData.memoryDifference.toFloat()) / 2.0f).toString()))
+        Log.d("TAG", "((geniusPracticeData.concentractionDifference.toFloat() + geniusPracticeData.memoryDifference.toFloat() / 3).toString()) is " +
+                (((geniusPracticeData.concentractionDifference.toFloat() + geniusPracticeData.memoryDifference.toFloat() + geniusPracticeData.quicknessDifference.toFloat()) / 3.0f).toString()))
 
-        var allDifference = (((geniusPracticeData.concentractionDifference.toFloat() + geniusPracticeData.memoryDifference.toFloat()) / 2.0f))
+        var allDifference = (((geniusPracticeData.concentractionDifference.toFloat() + geniusPracticeData.memoryDifference.toFloat() + geniusPracticeData.quicknessDifference.toFloat()) / 3.0f))
         rootView.practice_all_difference_textview.text = String.format("%.2f", allDifference)
 
         rootView.practice_play_imageView.setOnClickListener {

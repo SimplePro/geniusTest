@@ -15,7 +15,7 @@ interface GeniusTestDataDao {
     @Insert
     fun insertGeniusTestData(geniusTestData : GeniusTestDataCustomClass)
 
-    @Delete
-    fun deleteGeniusTestData(geniusTestData: GeniusTestDataCustomClass)
+    @Query("DELETE FROM GeniusTestData")
+    fun deleteGeniusTestData()
 
 }

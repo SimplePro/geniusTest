@@ -1,11 +1,12 @@
-package com.wotin.geniustest.Activity
+package com.wotin.geniustest.Activity.Practice
 
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.wotin.geniustest.Adapter.PracticeModeRecyclerViewAdapter
+import com.wotin.geniustest.Activity.MainActivity
+import com.wotin.geniustest.Adapter.Practice.PracticeModeRecyclerViewAdapter
 import com.wotin.geniustest.CustomClass.GeniusPractice.GeniusPracticeDataCustomClass
 import com.wotin.geniustest.CustomClass.ModeCustomClass
 import com.wotin.geniustest.R
@@ -15,10 +16,10 @@ import kotlin.concurrent.timer
 
 class PracticeActivity : AppCompatActivity() {
 
-    lateinit var recyclerViewAdapter : PracticeModeRecyclerViewAdapter
-    lateinit var modeList : ArrayList<ModeCustomClass>
+    lateinit var recyclerViewAdapter: PracticeModeRecyclerViewAdapter
+    lateinit var modeList: ArrayList<ModeCustomClass>
 
-    lateinit var geniusPracticeData : GeniusPracticeDataCustomClass
+    lateinit var geniusPracticeData: GeniusPracticeDataCustomClass
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,16 +27,36 @@ class PracticeActivity : AppCompatActivity() {
 
         geniusPracticeData = getGeniusPracticeData(applicationContext)
 
-        modeList = arrayListOf(ModeCustomClass("기억력 테스트", geniusPracticeData.memoryScore.toInt(), geniusPracticeData.memoryDifference + "%"),
-            ModeCustomClass("집중력 테스트", geniusPracticeData.concentractionScore.toInt(), geniusPracticeData.concentractionDifference + "%"))
+
+        modeList = arrayListOf(
+            ModeCustomClass(
+                "기억력 테스트",
+                geniusPracticeData.memoryScore.toInt(),
+                geniusPracticeData.memoryDifference + "%"
+            ),
+            ModeCustomClass(
+                "집중력 테스트",
+                geniusPracticeData.concentractionScore.toInt(),
+                geniusPracticeData.concentractionDifference + "%"
+            ),
+            ModeCustomClass(
+                "순발력 테스트",
+                geniusPracticeData.quicknessScore.toFloat().toInt(),
+                geniusPracticeData.quicknessDifference + "%"
+            )
+        )
 
         // 3초마다 윈도우를 조정해주는 메소드 실행.
         controlWindowOnTimer()
 
-        recyclerViewAdapter = PracticeModeRecyclerViewAdapter(modeList)
+        recyclerViewAdapter =
+            PracticeModeRecyclerViewAdapter(
+                modeList
+            )
         practice_mode_recyclerview.apply {
             adapter = recyclerViewAdapter
-            layoutManager = LinearLayoutManager(this@PracticeActivity, LinearLayoutManager.VERTICAL, false)
+            layoutManager =
+                LinearLayoutManager(this@PracticeActivity, LinearLayoutManager.VERTICAL, false)
             setHasFixedSize(true)
         }
 

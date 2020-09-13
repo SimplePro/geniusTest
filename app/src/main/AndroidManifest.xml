@@ -3,7 +3,7 @@
     package="com.wotin.geniustest">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.VIBRATE" />
 
     <application
@@ -14,12 +14,13 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Design.Light.NoActionBar"
         android:usesCleartextTraffic="true">
-        <activity android:name=".Activity.PracticeConcentractionActivity"></activity>
+        <activity android:name=".Activity.Practice.PracticeQuicknessActivity"></activity>
+        <activity android:name=".Activity.Practice.PracticeConcentractionActivity" />
         <activity android:name=".Activity.UserManagement.DeleteUserActivity" />
         <activity android:name=".Activity.LoginAndSignUp.SignUpActivity" />
         <activity android:name=".Activity.LoginAndSignUp.LoginActivity" />
         <activity android:name=".Activity.GeniusTestActivity" />
-        <activity android:name=".Activity.PracticeActivity" />
+        <activity android:name=".Activity.Practice.PracticeActivity" />
         <activity android:name=".Activity.IntroActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

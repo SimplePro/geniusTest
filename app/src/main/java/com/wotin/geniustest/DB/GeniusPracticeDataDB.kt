@@ -5,7 +5,7 @@ import androidx.room.RoomDatabase
 import com.wotin.geniustest.CustomClass.GeniusPractice.GeniusPracticeDataCustomClass
 import com.wotin.geniustest.Dao.GeniusPracticeDataDao
 
-@Database(entities = [GeniusPracticeDataCustomClass::class], version = 1)
+@Database(entities = [GeniusPracticeDataCustomClass::class], version = 2)
 abstract class GeniusPracticeDataDB : RoomDatabase() {
     abstract fun geniusPracticeDataDB() : GeniusPracticeDataDao
 }

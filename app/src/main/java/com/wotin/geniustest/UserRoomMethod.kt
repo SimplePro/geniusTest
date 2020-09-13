@@ -9,17 +9,20 @@ fun deleteUserData(context: Context) {
     val userDB : UserDB = Room.databaseBuilder(
         context,
         UserDB::class.java, "user.db"
-    ).allowMainThreadQueries()
+    )
+        .allowMainThreadQueries()
+        . fallbackToDestructiveMigration ()
         .build()
-    val userData = userDB.userDB().getAll()
-    userDB.userDB().deleteUser(userData)
+    userDB.userDB().deleteUser()
 }
 
 fun insertUserData(name: String, id: String, password: String, UniqueId: String, context: Context) {
     val userDB: UserDB = Room.databaseBuilder(
         context,
         UserDB::class.java, "user.db"
-    ).allowMainThreadQueries()
+    )
+        .allowMainThreadQueries()
+        . fallbackToDestructiveMigration ()
         .build()
     userDB.userDB().insertUser(UserCustomClass(name, id, password, UniqueId))
 }

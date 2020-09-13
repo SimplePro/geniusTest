@@ -1,10 +1,9 @@
-package com.wotin.geniustest.Adapter
+package com.wotin.geniustest.Adapter.Practice
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import androidx.appcompat.view.menu.ActionMenuItemView
 import androidx.recyclerview.widget.RecyclerView
 import com.wotin.geniustest.R
 
@@ -17,9 +16,11 @@ class PracticeConcentractionRecyclerViewAdapter(val concentractionList : ArrayLi
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
-    ): PracticeConcentractionRecyclerViewAdapter.CustomViewHolder {
+    ): CustomViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.concentraction_recyclerview_item, parent, false)
-        return CustomViewHolder(view).apply {
+        return CustomViewHolder(
+            view
+        ).apply {
             itemView.setOnClickListener {
                 clickListener.itemClicked(adapterPosition)
             }
@@ -29,7 +30,7 @@ class PracticeConcentractionRecyclerViewAdapter(val concentractionList : ArrayLi
     override fun getItemCount(): Int = concentractionList.size
 
     override fun onBindViewHolder(
-        holder: PracticeConcentractionRecyclerViewAdapter.CustomViewHolder,
+        holder: CustomViewHolder,
         position: Int
     ) {
         holder.concentractionTextView.text = concentractionList[position]
