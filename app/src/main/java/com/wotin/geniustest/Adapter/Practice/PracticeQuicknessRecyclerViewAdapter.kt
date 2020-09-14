@@ -1,5 +1,7 @@
 package com.wotin.geniustest.Adapter.Practice
 
+import android.annotation.SuppressLint
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,7 +11,7 @@ import com.wotin.geniustest.R
 
 class PracticeQuicknessRecyclerViewAdapter(val quicknessList : ArrayList<String>, val clickListener: ItemClickListener) : RecyclerView.Adapter<PracticeQuicknessRecyclerViewAdapter.CustomViewHolder>() {
     interface ItemClickListener {
-        fun itemClick(position: Int)
+        fun itemClick(clickedColor : String)
     }
 
     override fun onCreateViewHolder(
@@ -19,21 +21,52 @@ class PracticeQuicknessRecyclerViewAdapter(val quicknessList : ArrayList<String>
         val view = LayoutInflater.from(parent.context).inflate(R.layout.quickness_recyclerview_item, parent, false)
         return CustomViewHolder(view).apply {
             itemView.setOnClickListener {
-                clickListener.itemClick(adapterPosition)
+                clickListener.itemClick(quicknessList[adapterPosition])
             }
         }
     }
 
     override fun getItemCount(): Int = quicknessList.size
 
+    @SuppressLint("ResourceType")
     override fun onBindViewHolder(
         holder: PracticeQuicknessRecyclerViewAdapter.CustomViewHolder,
         position: Int
     ) {
         when(quicknessList[position]) {
             "빨강" -> {
-//                holder.quicknessImageView.tint
+                holder.quicknessImageView.setBackgroundResource(R.drawable.red_circle)
+                Log.d("TAG", "onBindViewHolder: quicknessList[$position] is ${quicknessList[position]}")
             }
+            "주황" -> {
+                holder.quicknessImageView.setBackgroundResource(R.drawable.orange_circle)
+                Log.d("TAG", "onBindViewHolder: quicknessList[$position] is ${quicknessList[position]}")
+            }
+            "노랑" -> {
+                holder.quicknessImageView.setBackgroundResource(R.drawable.yellow_circle)
+                Log.d("TAG", "onBindViewHolder: quicknessList[$position] is ${quicknessList[position]}")
+            }
+            "연두" -> {
+                holder.quicknessImageView.setBackgroundResource(R.drawable.light_green_circle)
+                Log.d("TAG", "onBindViewHolder: quicknessList[$position] is ${quicknessList[position]}")
+            }
+            "초록" -> {
+                holder.quicknessImageView.setBackgroundResource(R.drawable.green_circle)
+                Log.d("TAG", "onBindViewHolder: quicknessList[$position] is ${quicknessList[position]}")
+            }
+            "하늘" -> {
+                holder.quicknessImageView.setBackgroundResource(R.drawable.sky_blue_circle)
+                Log.d("TAG", "onBindViewHolder: quicknessList[$position] is ${quicknessList[position]}")
+            }
+            "파랑" -> {
+                holder.quicknessImageView.setBackgroundResource(R.drawable.blue_circle)
+                Log.d("TAG", "onBindViewHolder: quicknessList[$position] is ${quicknessList[position]}")
+            }
+            "보라" -> {
+                holder.quicknessImageView.setBackgroundResource(R.drawable.purple_circle)
+                Log.d("TAG", "onBindViewHolder: quicknessList[$position] is ${quicknessList[position]}")
+            }
+
         }
     }
     class CustomViewHolder(itemView : View) : RecyclerView.ViewHolder(itemView) {

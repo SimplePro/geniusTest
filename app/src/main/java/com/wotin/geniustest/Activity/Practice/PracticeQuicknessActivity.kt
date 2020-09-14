@@ -7,11 +7,15 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.google.gson.JsonObject
 import com.wotin.geniustest.Activity.MainActivity
 import com.wotin.geniustest.Adapter.Practice.PracticeConcentractionRecyclerViewAdapter
+import com.wotin.geniustest.Adapter.Practice.PracticeQuicknessRecyclerViewAdapter
 import com.wotin.geniustest.R
 import com.wotin.geniustest.RetrofitInterface.RetrofitAboutGeniusData
 import com.wotin.geniustest.getGeniusPracticeData
@@ -27,13 +31,13 @@ import java.lang.Exception
 import java.util.*
 import kotlin.collections.ArrayList
 
-class PracticeQuicknessActivity : AppCompatActivity() {
+class PracticeQuicknessActivity : AppCompatActivity(), PracticeQuicknessRecyclerViewAdapter.ItemClickListener {
 
     var score = 1
     var counter = 5000
-    var itemCount = 49
     var quicknessList : ArrayList<String> = arrayListOf()
-    lateinit var quicknessRecyclerViewAdapter : PracticeConcentractionRecyclerViewAdapter
+    var currentColor = ""
+    lateinit var quicknessRecyclerViewAdapter : PracticeQuicknessRecyclerViewAdapter
     lateinit var t : Timer
     lateinit var tt : TimerTask
 
@@ -46,8 +50,18 @@ class PracticeQuicknessActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_practice_quickness)
 
+        setQuicknessList()
+
+        quicknessRecyclerViewAdapter = PracticeQuicknessRecyclerViewAdapter(quicknessList, this)
+
+        practice_quickness_recyclerview.apply {
+            layoutManager = LinearLayoutManager(this@PracticeQuicknessActivity, LinearLayoutManager.HORIZONTAL, false)
+            adapter = quicknessRecyclerViewAdapter
+            setHasFixedSize(true)
+        }
+
         go_to_mainactivity_from_practice_quickness_activity_imageview.setOnClickListener {
-            val intent = Intent(this, MainActivity::class.java)
+            val intent = Intent(this, PracticeActivity::class.java)
             startActivity(intent)
             finish()
         }
@@ -58,13 +72,10 @@ class PracticeQuicknessActivity : AppCompatActivity() {
         score += 1
         practice_quickness_score_textview.text = score.toString()
         practice_quickness_result_textview.text = score.toString()
-        if(score % 5 == 0) {
-            resetRecyclerViewGridLayout()
-        }
-        setConcentractionList()
+        setQuicknessList()
         t.cancel()
         tt.cancel()
-        counter = (5000 * 0.95).toInt()
+        counter = (5000 * 0.8).toInt()
         prog()
     }
 
@@ -101,78 +112,6 @@ class PracticeQuicknessActivity : AppCompatActivity() {
         finish()
     }
 
-    private fun setConcentractionList() {
-        quicknessList.removeAll(quicknessList)
-        when (Random().nextInt(5)) {
-            0 -> {
-                for(i in 0 .. itemCount) {
-                    quicknessList.add("n")
-                }
-                val random2 = Random().nextInt(itemCount)
-                quicknessList[random2] = "h"
-            }
-            1 -> {
-                for(i in 0 .. itemCount) {
-                    quicknessList.add("i")
-                }
-                val random2 = Random().nextInt(itemCount)
-                quicknessList[random2] = "j"
-            }
-            2 -> {
-                for(i in 0 .. itemCount) {
-                    quicknessList.add("V")
-                }
-                val random2 = Random().nextInt(itemCount)
-                quicknessList[random2] = "Y"
-            }
-            3 -> {
-                for(i in 0 .. itemCount) {
-                    quicknessList.add("q")
-                }
-                val random2 = Random().nextInt(itemCount)
-                quicknessList[random2] = "p"
-            }
-            else -> {
-                for(i in 0 .. itemCount) {
-                    quicknessList.add("G")
-                }
-                val random2 = Random().nextInt(itemCount)
-                quicknessList[random2] = "C"
-            }
-        }
-        practice_quickness_recyclerview.apply {
-            adapter = quicknessRecyclerViewAdapter
-            setHasFixedSize(true)
-        }
-    }
-
-    private fun resetRecyclerViewGridLayout() {
-        when {
-            score >= 20 -> {
-                itemCount = 74
-                val recyclerViewLayoutManager = GridLayoutManager(applicationContext, 15)
-                practice_quickness_recyclerview.layoutManager = recyclerViewLayoutManager
-            }
-            score >= 15 -> {
-                itemCount = 64
-                val recyclerViewLayoutManager = GridLayoutManager(applicationContext, 13)
-                practice_quickness_recyclerview.layoutManager = recyclerViewLayoutManager
-            }
-            score >= 10 -> {
-                itemCount = 59
-                val recyclerViewLayoutManager = GridLayoutManager(applicationContext, 12)
-                practice_quickness_recyclerview.layoutManager = recyclerViewLayoutManager
-            } else -> {
-            itemCount = 49
-        }
-        }
-        quicknessRecyclerViewAdapter.notifyDataSetChanged()
-        practice_quickness_recyclerview.apply {
-            adapter = quicknessRecyclerViewAdapter
-            setHasFixedSize(true)
-        }
-    }
-
     private fun postDataToServer(score : Int) {
         val geniusPracticeData = getGeniusPracticeData(applicationContext)
         val uId = geniusPracticeData.UniqueId
@@ -200,6 +139,57 @@ class PracticeQuicknessActivity : AppCompatActivity() {
             }
 
         })
+    }
+
+    private fun setQuicknessList() {
+        currentColor = arrayListOf<String>("빨강", "주황", "노랑", "연두", "초록", "하늘", "파랑", "보라").random()
+        when(currentColor) {
+            "빨강" -> {
+                practice_quickness_color_textview.setTextColor(resources.getColor(R.color.colorRed))
+            }
+            "주황" -> {
+                practice_quickness_color_textview.setTextColor(resources.getColor(R.color.colorOrange))
+            }
+            "노랑" -> {
+                practice_quickness_color_textview.setTextColor(resources.getColor(R.color.colorYellow))
+            }
+            "연두" -> {
+                practice_quickness_color_textview.setTextColor(resources.getColor(R.color.colorLightGreen))
+            }
+            "초록" -> {
+                practice_quickness_color_textview.setTextColor(resources.getColor(R.color.colorGreen))
+            }
+            "하늘" -> {
+                practice_quickness_color_textview.setTextColor(resources.getColor(R.color.colorSkyBlue))
+            }
+            "파랑" -> {
+                practice_quickness_color_textview.setTextColor(resources.getColor(R.color.colorBlue))
+            }
+            "보라" -> {
+                practice_quickness_color_textview.setTextColor(resources.getColor(R.color.colorPurple))
+            }
+        }
+        val fakeColorList = mutableListOf<String>("빨강", "주황", "노랑", "연두", "초록", "하늘", "파랑", "보라")
+        fakeColorList.remove(currentColor)
+        val fakeColor = fakeColorList.random()
+        practice_quickness_color_textview.text = fakeColor
+        val randIndex = Random().nextInt(2 - 1) + 1
+        Log.d("TAG", "setQuicknessList: currentColor is $currentColor randIndex is $randIndex")
+        for(i in 0 .. 1) {
+            if(i == randIndex - 1) {
+                quicknessList.add(currentColor)
+            } else {
+                quicknessList.add(fakeColor)
+            }
+        }
+    }
+
+    override fun itemClick(clickedColor: String) {
+        if(clickedColor == currentColor) {
+//            정답
+        } else {
+//            오답
+        }
     }
 
 }

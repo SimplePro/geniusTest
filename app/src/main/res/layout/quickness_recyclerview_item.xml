@@ -7,12 +7,11 @@
     android:layout_margin="20dp"
     >
 
-    <ImageView
+    <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/quickness_item_imageview"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:src="@drawable/circle_button_background"
-        android:tint="#00ff00"
-        tools:ignore="UseAppTint"/>
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:src="@drawable/red_circle"
+        />
 
 </LinearLayout>
