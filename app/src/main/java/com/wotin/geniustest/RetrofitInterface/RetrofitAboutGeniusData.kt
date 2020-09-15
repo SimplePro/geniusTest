@@ -10,8 +10,16 @@ import retrofit2.http.POST
 interface RetrofitAboutGeniusData {
     @FormUrlEncoded
     @POST("genius_test/update_practice_concentraction_data/")
-    fun getGeniusPracticeDifference(
+    fun getGeniusPracticeConcentractionDifference(
         @Field("concentraction_score") concentraction_score : String,
         @Field("pk") pk : String
     ): Call<JsonObject>
+
+    @FormUrlEncoded
+    @POST("genius_test/update_practice_quickness_data/")
+    fun getGeniusPracticeQuicknessDifference(
+        @Field("quickness_score") quickness_score : String,
+        @Field("pk") pk : String
+    ): Call<JsonObject>
+
 }

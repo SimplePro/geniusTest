@@ -5,6 +5,7 @@ import android.content.Intent
 import android.net.ConnectivityManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Vibrator
 import android.util.Log
 import android.view.View
 import android.widget.LinearLayout
@@ -21,14 +22,17 @@ import com.wotin.geniustest.RetrofitInterface.RetrofitAboutGeniusData
 import com.wotin.geniustest.getGeniusPracticeData
 import com.wotin.geniustest.networkState
 import com.wotin.geniustest.updateGeniusPracticeData
+import kotlinx.android.synthetic.main.activity_practice_concentraction.*
 import kotlinx.android.synthetic.main.activity_practice_quickness.*
 import okhttp3.OkHttpClient
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 import java.lang.Exception
 import java.util.*
+import java.util.concurrent.TimeUnit
 import kotlin.collections.ArrayList
 
 class PracticeQuicknessActivity : AppCompatActivity(), PracticeQuicknessRecyclerViewAdapter.ItemClickListener {
@@ -50,8 +54,20 @@ class PracticeQuicknessActivity : AppCompatActivity(), PracticeQuicknessRecycler
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_practice_quickness)
 
-        setQuicknessList()
+        okHttpClient = OkHttpClient.Builder()
+            .connectTimeout(1, TimeUnit.MINUTES)
+            .readTimeout(30, TimeUnit.SECONDS)
+            .writeTimeout(15, TimeUnit.SECONDS)
+            .build()
 
+        retrofit = Retrofit.Builder()
+            .baseUrl(baseUrl)
+            .addConverterFactory(GsonConverterFactory.create())
+            .client(okHttpClient)
+            .build()
+        geniusDataDifferenceApiService = retrofit.create(RetrofitAboutGeniusData::class.java)
+
+        setQuicknessList()
         quicknessRecyclerViewAdapter = PracticeQuicknessRecyclerViewAdapter(quicknessList, this)
 
         practice_quickness_recyclerview.apply {
@@ -60,7 +76,15 @@ class PracticeQuicknessActivity : AppCompatActivity(), PracticeQuicknessRecycler
             setHasFixedSize(true)
         }
 
+        prog()
+
         go_to_mainactivity_from_practice_quickness_activity_imageview.setOnClickListener {
+            val intent = Intent(this, PracticeActivity::class.java)
+            startActivity(intent)
+            finish()
+        }
+
+        practice_quickness_result_confirm_button.setOnClickListener {
             val intent = Intent(this, PracticeActivity::class.java)
             startActivity(intent)
             finish()
@@ -75,7 +99,7 @@ class PracticeQuicknessActivity : AppCompatActivity(), PracticeQuicknessRecycler
         setQuicknessList()
         t.cancel()
         tt.cancel()
-        counter = (5000 * 0.8).toInt()
+        counter = (counter * 0.95).toInt()
         prog()
     }
 
@@ -94,7 +118,8 @@ class PracticeQuicknessActivity : AppCompatActivity(), PracticeQuicknessRecycler
                         practice_quickness_result_layout.visibility = View.VISIBLE
                         val connectivityManager : ConnectivityManager = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
                         if(networkState(connectivityManager)) {
-                            postDataToServer(score = score)
+                            Log.d("TAG  ", "run: score is $score")
+                            postDataToServer(score)
                         }
                     }
                 }
@@ -116,7 +141,7 @@ class PracticeQuicknessActivity : AppCompatActivity(), PracticeQuicknessRecycler
         val geniusPracticeData = getGeniusPracticeData(applicationContext)
         val uId = geniusPracticeData.UniqueId
         Log.d("TAG", "score is $score, uId is $uId")
-        geniusDataDifferenceApiService.getGeniusPracticeDifference(score.toString(), uId).enqueue(object :
+        geniusDataDifferenceApiService.getGeniusPracticeQuicknessDifference(score.toString().toInt().toString(), uId).enqueue(object :
             Callback<JsonObject> {
             override fun onFailure(call: Call<JsonObject>, t: Throwable) {
                 Toast.makeText(applicationContext, "에러", Toast.LENGTH_LONG).show()
@@ -126,10 +151,10 @@ class PracticeQuicknessActivity : AppCompatActivity(), PracticeQuicknessRecycler
             override fun onResponse(call: Call<JsonObject>, response: Response<JsonObject>) {
                 try {
                     Log.d("TAG", "postDataToServer PracticeDifference data is ${response.body()}")
-                    val practiceConcentractionDifference = response.body()!!.get("practice_quickness_difference")
-                    if(practiceConcentractionDifference.asString.isNotEmpty()) {
+                    val practiceQuicknessDifference = response.body()!!.get("practice_quickness_difference")
+                    if(practiceQuicknessDifference.asString.isNotEmpty()) {
                         geniusPracticeData.quicknessScore = score.toString()
-                        geniusPracticeData.quicknessDifference = practiceConcentractionDifference.asString
+                        geniusPracticeData.quicknessDifference = practiceQuicknessDifference.asString
                         updateGeniusPracticeData(context = applicationContext, geniusPracticeData = geniusPracticeData)
                     }
                 } catch (e : Exception) {
@@ -142,6 +167,7 @@ class PracticeQuicknessActivity : AppCompatActivity(), PracticeQuicknessRecycler
     }
 
     private fun setQuicknessList() {
+        quicknessList.removeAll(quicknessList)
         currentColor = arrayListOf<String>("빨강", "주황", "노랑", "연두", "초록", "하늘", "파랑", "보라").random()
         when(currentColor) {
             "빨강" -> {
@@ -173,7 +199,7 @@ class PracticeQuicknessActivity : AppCompatActivity(), PracticeQuicknessRecycler
         fakeColorList.remove(currentColor)
         val fakeColor = fakeColorList.random()
         practice_quickness_color_textview.text = fakeColor
-        val randIndex = Random().nextInt(2 - 1) + 1
+        val randIndex = Random().nextInt(2) + 1
         Log.d("TAG", "setQuicknessList: currentColor is $currentColor randIndex is $randIndex")
         for(i in 0 .. 1) {
             if(i == randIndex - 1) {
@@ -182,13 +208,20 @@ class PracticeQuicknessActivity : AppCompatActivity(), PracticeQuicknessRecycler
                 quicknessList.add(fakeColor)
             }
         }
+        quicknessRecyclerViewAdapter = PracticeQuicknessRecyclerViewAdapter(quicknessList, this)
+        practice_quickness_recyclerview.apply {
+            adapter = quicknessRecyclerViewAdapter
+            setHasFixedSize(true)
+        }
     }
 
     override fun itemClick(clickedColor: String) {
         if(clickedColor == currentColor) {
-//            정답
+            restart()
         } else {
-//            오답
+            val vib = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
+            vib.vibrate(500)
+            counter -= 100
         }
     }
 

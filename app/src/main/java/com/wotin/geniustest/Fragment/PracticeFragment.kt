@@ -64,7 +64,7 @@ class PracticeFragment : Fragment() {
         val connectivityManager = activity!!.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         if(networkState(connectivityManager)){
             Log.d("TAG", "onCreateView: geniusPracticeData is $geniusPracticeData")
-            getGeniusDataDifferenceApiService.getGeniusPracticeDifference(geniusPracticeData.concentractionScore, geniusPracticeData.UniqueId).enqueue(object :
+            getGeniusDataDifferenceApiService.getGeniusPracticeConcentractionDifference(geniusPracticeData.concentractionScore, geniusPracticeData.UniqueId).enqueue(object :
                 Callback<JsonObject> {
                 override fun onFailure(call: Call<JsonObject>, t: Throwable) {
                     Toast.makeText(activity!!.applicationContext, "에러", Toast.LENGTH_LONG).show()
@@ -84,6 +84,28 @@ class PracticeFragment : Fragment() {
                 }
 
             })
+
+            getGeniusDataDifferenceApiService.getGeniusPracticeQuicknessDifference(geniusPracticeData.quicknessScore.toFloat().toInt().toString(), geniusPracticeData.UniqueId).enqueue(object :
+                Callback<JsonObject> {
+                override fun onFailure(call: Call<JsonObject>, t: Throwable) {
+                    Toast.makeText(activity!!.applicationContext, "에러", Toast.LENGTH_LONG).show()
+                    Log.d("TAG", "postDataToServer PracticeDifference error is $t")
+                }
+
+                override fun onResponse(call: Call<JsonObject>, response: Response<JsonObject>) {
+                    try {
+                        Log.d("TAG", "postDataToServer PracticeDifference data is ${response.body()}")
+                        val practiceQuicknessDifference = response.body()!!.get("practice_quickness_difference")
+                        geniusPracticeData.quicknessDifference = practiceQuicknessDifference.asString
+                        updateGeniusPracticeData(context = activity!!.applicationContext, geniusPracticeData = geniusPracticeData)
+                    } catch (e : Exception) {
+                        Toast.makeText(activity!!.applicationContext, "에러", Toast.LENGTH_LONG).show()
+                        Log.d("TAG", "postDataToServer PracticeDifference error is ${e.message}")
+                    }
+                }
+
+            })
+
         } else {
             Toast.makeText(activity!!.applicationContext, "네트워크 연결 실패", Toast.LENGTH_LONG).show()
         }

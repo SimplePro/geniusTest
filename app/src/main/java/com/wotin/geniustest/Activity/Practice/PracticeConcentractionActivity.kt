@@ -98,7 +98,7 @@ class PracticeConcentractionActivity : AppCompatActivity(), PracticeConcentracti
         setConcentractionList()
         t.cancel()
         tt.cancel()
-        counter = (5000 * 0.95).toInt()
+        counter = (counter * 0.95).toInt()
         prog()
     }
 
@@ -228,7 +228,7 @@ class PracticeConcentractionActivity : AppCompatActivity(), PracticeConcentracti
         val geniusPracticeData = getGeniusPracticeData(applicationContext)
         val uId = geniusPracticeData.UniqueId
         Log.d("TAG", "score is $score, uId is $uId")
-        geniusDataDifferenceApiService.getGeniusPracticeDifference(score.toString(), uId).enqueue(object : Callback<JsonObject> {
+        geniusDataDifferenceApiService.getGeniusPracticeConcentractionDifference(score.toString(), uId).enqueue(object : Callback<JsonObject> {
             override fun onFailure(call: Call<JsonObject>, t: Throwable) {
                 Toast.makeText(applicationContext, "에러", Toast.LENGTH_LONG).show()
                 Log.d("TAG", "postDataToServer PracticeDifference error is $t")

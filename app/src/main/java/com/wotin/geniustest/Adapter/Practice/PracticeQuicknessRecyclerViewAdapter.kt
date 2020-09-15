@@ -35,35 +35,35 @@ class PracticeQuicknessRecyclerViewAdapter(val quicknessList : ArrayList<String>
     ) {
         when(quicknessList[position]) {
             "빨강" -> {
-                holder.quicknessImageView.setBackgroundResource(R.drawable.red_circle)
+                holder.quicknessImageView.setImageResource(R.drawable.red_circle)
                 Log.d("TAG", "onBindViewHolder: quicknessList[$position] is ${quicknessList[position]}")
             }
             "주황" -> {
-                holder.quicknessImageView.setBackgroundResource(R.drawable.orange_circle)
+                holder.quicknessImageView.setImageResource(R.drawable.orange_circle)
                 Log.d("TAG", "onBindViewHolder: quicknessList[$position] is ${quicknessList[position]}")
             }
             "노랑" -> {
-                holder.quicknessImageView.setBackgroundResource(R.drawable.yellow_circle)
+                holder.quicknessImageView.setImageResource(R.drawable.yellow_circle)
                 Log.d("TAG", "onBindViewHolder: quicknessList[$position] is ${quicknessList[position]}")
             }
             "연두" -> {
-                holder.quicknessImageView.setBackgroundResource(R.drawable.light_green_circle)
+                holder.quicknessImageView.setImageResource(R.drawable.light_green_circle)
                 Log.d("TAG", "onBindViewHolder: quicknessList[$position] is ${quicknessList[position]}")
             }
             "초록" -> {
-                holder.quicknessImageView.setBackgroundResource(R.drawable.green_circle)
+                holder.quicknessImageView.setImageResource(R.drawable.green_circle)
                 Log.d("TAG", "onBindViewHolder: quicknessList[$position] is ${quicknessList[position]}")
             }
             "하늘" -> {
-                holder.quicknessImageView.setBackgroundResource(R.drawable.sky_blue_circle)
+                holder.quicknessImageView.setImageResource(R.drawable.sky_blue_circle)
                 Log.d("TAG", "onBindViewHolder: quicknessList[$position] is ${quicknessList[position]}")
             }
             "파랑" -> {
-                holder.quicknessImageView.setBackgroundResource(R.drawable.blue_circle)
+                holder.quicknessImageView.setImageResource(R.drawable.blue_circle)
                 Log.d("TAG", "onBindViewHolder: quicknessList[$position] is ${quicknessList[position]}")
             }
             "보라" -> {
-                holder.quicknessImageView.setBackgroundResource(R.drawable.purple_circle)
+                holder.quicknessImageView.setImageResource(R.drawable.purple_circle)
                 Log.d("TAG", "onBindViewHolder: quicknessList[$position] is ${quicknessList[position]}")
             }
 

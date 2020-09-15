@@ -7,7 +7,7 @@
     android:layout_margin="20dp"
     >
 
-    <de.hdodenhof.circleimageview.CircleImageView
+    <ImageView
         android:id="@+id/quickness_item_imageview"
         android:layout_width="150dp"
         android:layout_height="150dp"
