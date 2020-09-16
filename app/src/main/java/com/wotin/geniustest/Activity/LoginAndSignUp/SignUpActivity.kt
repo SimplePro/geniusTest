@@ -91,7 +91,7 @@ class SignUpActivity : AppCompatActivity() {
                             }
 
                         })
-                } else if(signup_id_edittext.text.isEmpty() || signup_password_edittext.text.isEmpty()) Toast.makeText(applicationContext, "name 과 id, password 를 입력해주세요", Toast.LENGTH_LONG).show()
+                } else if(signup_id_edittext.text.isEmpty() || signup_password_edittext.text.isEmpty()) Toast.makeText(applicationContext, "user 과 id, password 를 입력해주세요", Toast.LENGTH_LONG).show()
                 else if(signup_id_edittext.text.trim().length < 7 || signup_password_edittext.text.length < 8) Toast.makeText(applicationContext, "id 와 password 를 각각 7, 8 자 이상 입력해주세요", Toast.LENGTH_LONG).show()
             } else {
                 Toast.makeText(applicationContext, "네트워크 연결상태가 좋지 못합니다.", Toast.LENGTH_LONG).show()
