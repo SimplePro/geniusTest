@@ -19,7 +19,7 @@ interface RetrofitSignInAndSignUp {
     @FormUrlEncoded
     @POST("genius_test/sign_up/")
     fun signUp(
-        @Field("user")name : String,
+        @Field("name") name : String,
         @Field("id") id : String,
         @Field("password") password : String,
         @Field("UniqueId") UniqueId : String
