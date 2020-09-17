@@ -10,9 +10,8 @@ import android.widget.Toast
 import com.wotin.geniustest.CustomClass.SignInAndSignUpCustomClass
 import com.wotin.geniustest.EncryptionAndDetoxification
 import com.wotin.geniustest.R
-import com.wotin.geniustest.RetrofitInterface.RetrofitSignInAndSignUp
+import com.wotin.geniustest.RetrofitInterface.User.RetrofitSignInAndSignUp
 import com.wotin.geniustest.networkState
-import kotlinx.android.synthetic.main.activity_login.*
 import kotlinx.android.synthetic.main.activity_sign_up.*
 import okhttp3.OkHttpClient
 import retrofit2.Call

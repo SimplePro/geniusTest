@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.google.gson.JsonObject
 import com.wotin.geniustest.Adapter.Practice.PracticeConcentractionRecyclerViewAdapter
 import com.wotin.geniustest.R
-import com.wotin.geniustest.RetrofitInterface.RetrofitAboutGeniusData
+import com.wotin.geniustest.RetrofitInterface.Genius.RetrofitAboutGeniusData
 import com.wotin.geniustest.getGeniusPracticeData
 import com.wotin.geniustest.networkState
 import com.wotin.geniustest.updateGeniusPracticeData

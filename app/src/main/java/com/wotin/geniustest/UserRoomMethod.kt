@@ -26,3 +26,14 @@ fun insertUserData(name: String, id: String, password: String, UniqueId: String,
         .build()
     userDB.userDB().insertUser(UserCustomClass(name, id, password, UniqueId))
 }
+
+fun getUserData(context: Context): UserCustomClass {
+    val userDB: UserDB = Room.databaseBuilder(
+        context,
+        UserDB::class.java, "user.db"
+    )
+        .allowMainThreadQueries()
+        . fallbackToDestructiveMigration ()
+        .build()
+    return userDB.userDB().getAll()
+}

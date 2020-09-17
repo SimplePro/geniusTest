@@ -7,8 +7,6 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.room.Room
-import com.google.gson.JsonObject
 import com.wotin.geniustest.*
 import com.wotin.geniustest.Activity.MainActivity
 import com.wotin.geniustest.Converters.MapJsonConverter
@@ -16,11 +14,7 @@ import com.wotin.geniustest.CustomClass.GeniusPractice.GeniusPracticeDataCustomC
 import com.wotin.geniustest.CustomClass.GeniusTest.GeniusTestDataCustomClass
 import com.wotin.geniustest.CustomClass.RetrofitGetGeniusPracticeAndTestDataCustomClass
 import com.wotin.geniustest.CustomClass.SignInAndSignUpCustomClass
-import com.wotin.geniustest.CustomClass.UserCustomClass
-import com.wotin.geniustest.DB.GeniusPracticeDataDB
-import com.wotin.geniustest.DB.GeniusTestDataDB
-import com.wotin.geniustest.DB.UserDB
-import com.wotin.geniustest.RetrofitInterface.RetrofitSignInAndSignUp
+import com.wotin.geniustest.RetrofitInterface.User.RetrofitSignInAndSignUp
 import com.wotin.geniustest.RetrofitInterface.RetrofitUserDataAndGeniusData
 import kotlinx.android.synthetic.main.activity_login.*
 import okhttp3.OkHttpClient

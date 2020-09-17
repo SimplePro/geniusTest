@@ -3,22 +3,26 @@ package com.wotin.geniustest.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.system.Os.close
+import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
+import android.widget.ImageView
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import androidx.room.Room
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.tabs.TabLayout
+import com.wotin.geniustest.*
 import com.wotin.geniustest.Activity.LoginAndSignUp.LoginActivity
 import com.wotin.geniustest.Activity.UserManagement.DeleteUserActivity
+import com.wotin.geniustest.Activity.UserManagement.UserInformationActivity
 import com.wotin.geniustest.Adapter.TabLayoutFragmentPagerAdapter
 import com.wotin.geniustest.CustomClass.GeniusPractice.GeniusPracticeDataCustomClass
 import com.wotin.geniustest.DB.GeniusPracticeDataDB
 import com.wotin.geniustest.DB.UserDB
-import com.wotin.geniustest.R
-import com.wotin.geniustest.deleteUserDataAndGeniusTestAndPracticeData
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.navigation_view_header_layout.*
 import java.security.KeyStore
 import kotlin.concurrent.timer
 
@@ -37,6 +41,8 @@ class MainActivity : AppCompatActivity(),  NavigationView.OnNavigationItemSelect
         }
 
         navigation_view.setNavigationItemSelectedListener(this)
+        setNavigationHeaderLayout()
+
 
         fragment_view_pager.adapter =
             TabLayoutFragmentPagerAdapter(
@@ -59,21 +65,6 @@ class MainActivity : AppCompatActivity(),  NavigationView.OnNavigationItemSelect
                 }
             }
         }
-
-        tab_layout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
-            override fun onTabReselected(p0: TabLayout.Tab?) {
-
-            }
-
-            override fun onTabUnselected(p0: TabLayout.Tab?) {
-
-            }
-
-            override fun onTabSelected(p0: TabLayout.Tab?) {
-                val pos  = p0!!.position
-            }
-
-        })
     }
 
     //3초마다 윈도우를 조정해주는 메소드.
@@ -120,6 +111,32 @@ class MainActivity : AppCompatActivity(),  NavigationView.OnNavigationItemSelect
             .remove("id")
             .remove("password")
             .apply()
+    }
+
+    private fun setNavigationHeaderLayout() {
+        val headerView = LayoutInflater.from(this).inflate(R.layout.navigation_view_header_layout, null)
+        val userLevelImageView = headerView.findViewById<ImageView>(R.id.user_level_imageview_header_layout)
+        val userNameTextView = headerView.findViewById<TextView>(R.id.user_name_textview_header_layout)
+        val userIdTextView = headerView.findViewById<TextView>(R.id.user_id_textview_header_layout)
+        val userLevelTextView = headerView.findViewById<TextView>(R.id.user_level_textview_header_layout)
+        val userData = getUserData(applicationContext)
+        val userGeniusTestData = getGeniusTestData(applicationContext)
+        headerView.setOnClickListener {
+            val intent = Intent(this, UserInformationActivity::class.java)
+            intent.putExtra("userId", userData.id)
+            startActivity(intent)
+            finish()
+        }
+        userNameTextView.text = userData.name
+        userIdTextView.text = EncryptionAndDetoxification().encryptionAndDetoxification(userData.id)
+        userLevelTextView.text = userGeniusTestData.level
+        when(userLevelTextView.text.toString()) {
+            "초보" -> userLevelImageView.setImageResource(R.drawable.bad_brain)
+            "중수" -> userLevelImageView.setImageResource(R.drawable.normal_brain)
+            "고수" -> userLevelImageView.setImageResource(R.drawable.good_brain)
+            "천재" -> userLevelImageView.setImageResource(R.drawable.genius)
+        }
+        navigation_view.addHeaderView(headerView)
     }
 
 }

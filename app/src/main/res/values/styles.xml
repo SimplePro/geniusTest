@@ -14,4 +14,10 @@
 
     </style>
 
+    <style name="EditTheme" parent="Theme.AppCompat.Light.NoActionBar">
+
+    <item name="colorAccent">#000000</item>
+
+</style>
+
 </resources>

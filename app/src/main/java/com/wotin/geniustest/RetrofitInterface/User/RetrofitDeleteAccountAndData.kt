@@ -1,4 +1,4 @@
-package com.wotin.geniustest.RetrofitInterface
+package com.wotin.geniustest.RetrofitInterface.User
 
 import android.net.http.HttpResponseCache
 import com.wotin.geniustest.CustomClass.SignInAndSignUpCustomClass

@@ -17,9 +17,8 @@ import com.wotin.geniustest.CustomClass.RetrofitGetGeniusPracticeAndTestDataCust
 import com.wotin.geniustest.CustomClass.SignInAndSignUpCustomClass
 import com.wotin.geniustest.CustomClass.UserCustomClass
 import com.wotin.geniustest.DB.UserDB
-import com.wotin.geniustest.RetrofitInterface.RetrofitSignInAndSignUp
+import com.wotin.geniustest.RetrofitInterface.User.RetrofitSignInAndSignUp
 import com.wotin.geniustest.RetrofitInterface.RetrofitUserDataAndGeniusData
-import okhttp3.Callback
 import okhttp3.OkHttpClient
 import retrofit2.Call
 import retrofit2.Response

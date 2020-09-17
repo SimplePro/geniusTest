@@ -1,4 +1,4 @@
-package com.wotin.geniustest.RetrofitInterface
+package com.wotin.geniustest.RetrofitInterface.User
 
 import com.wotin.geniustest.CustomClass.SignInAndSignUpCustomClass
 import retrofit2.Call

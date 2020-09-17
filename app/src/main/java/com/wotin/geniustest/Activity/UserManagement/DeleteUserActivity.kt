@@ -11,8 +11,7 @@ import com.wotin.geniustest.Activity.MainActivity
 import com.wotin.geniustest.DB.UserDB
 import com.wotin.geniustest.EncryptionAndDetoxification
 import com.wotin.geniustest.R
-import com.wotin.geniustest.RetrofitInterface.RetrofitDeleteAccountAndData
-import com.wotin.geniustest.RetrofitInterface.RetrofitSignInAndSignUp
+import com.wotin.geniustest.RetrofitInterface.User.RetrofitDeleteAccountAndData
 import com.wotin.geniustest.deleteUserDataAndGeniusTestAndPracticeData
 import kotlinx.android.synthetic.main.activity_delete_user.*
 import okhttp3.OkHttpClient
