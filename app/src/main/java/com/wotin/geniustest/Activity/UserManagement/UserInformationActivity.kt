@@ -63,6 +63,7 @@ class UserInformationActivity : AppCompatActivity() {
 
         search_user_information_button.setOnClickListener {
             if(search_user_information_edittext.text.isNotEmpty()) {
+                isHearted = false
                 userId = EncryptionAndDetoxification().encryptionAndDetoxification(search_user_information_edittext.text.toString())
                 getUserDataFromServer(userId)
             } else {
