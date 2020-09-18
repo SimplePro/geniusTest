@@ -12,6 +12,7 @@ import com.wotin.geniustest.DB.UserDB
 import com.wotin.geniustest.EncryptionAndDetoxification
 import com.wotin.geniustest.R
 import com.wotin.geniustest.RetrofitInterface.User.RetrofitDeleteAccountAndData
+import com.wotin.geniustest.deleteTestModeData
 import com.wotin.geniustest.deleteUserDataAndGeniusTestAndPracticeData
 import kotlinx.android.synthetic.main.activity_delete_user.*
 import okhttp3.OkHttpClient
@@ -74,6 +75,7 @@ class DeleteUserActivity : AppCompatActivity() {
                             deleteUserDataAndGeniusTestAndPracticeData(applicationContext)
                             Toast.makeText(applicationContext, "${userData.name} 님 그동안 '천재 테스트' 를 즐겨주셔서 감사합니다.", Toast.LENGTH_LONG).show()
                             deleteUserDataSharedPreference()
+                            deleteTestModeData(applicationContext)
                             val intent = Intent(this@DeleteUserActivity, LoginActivity::class.java)
                             startActivity(intent)
                             finish()

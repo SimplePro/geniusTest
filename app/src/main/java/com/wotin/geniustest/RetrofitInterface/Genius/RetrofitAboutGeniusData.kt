@@ -22,4 +22,18 @@ interface RetrofitAboutGeniusData {
         @Field("pk") pk : String
     ): Call<JsonObject>
 
+    @FormUrlEncoded
+    @POST("genius_test/update_test_concentraction_data/")
+    fun getGeniusTestConcentractionDifference(
+        @Field("concentraction_score") concentraction_score : String,
+        @Field("pk") pk : String
+    ): Call<JsonObject>
+
+    @FormUrlEncoded
+    @POST("genius_test/update_test_quickness_data/")
+    fun getGeniusTestQuicknessDifference(
+        @Field("quickness_score") quickness_score : String,
+        @Field("pk") pk : String
+    ): Call<JsonObject>
+
 }

@@ -141,6 +141,7 @@ class LoginActivity : AppCompatActivity() {
                                             )
                                             insertGeniusPracticeData(practice, applicationContext)
                                             insertGeniusTestData(test, applicationContext)
+                                            insertTestModeData(applicationContext)
                                             val intent =
                                                 Intent(this@LoginActivity, MainActivity::class.java)
                                             startActivity(intent)

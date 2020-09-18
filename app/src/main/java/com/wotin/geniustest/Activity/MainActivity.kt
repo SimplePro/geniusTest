@@ -2,7 +2,6 @@ package com.wotin.geniustest.Activity
 
 import android.content.Intent
 import android.os.Bundle
-import android.system.Os.close
 import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
@@ -10,20 +9,13 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
-import androidx.room.Room
 import com.google.android.material.navigation.NavigationView
-import com.google.android.material.tabs.TabLayout
 import com.wotin.geniustest.*
 import com.wotin.geniustest.Activity.LoginAndSignUp.LoginActivity
 import com.wotin.geniustest.Activity.UserManagement.DeleteUserActivity
 import com.wotin.geniustest.Activity.UserManagement.UserInformationActivity
 import com.wotin.geniustest.Adapter.TabLayoutFragmentPagerAdapter
-import com.wotin.geniustest.CustomClass.GeniusPractice.GeniusPracticeDataCustomClass
-import com.wotin.geniustest.DB.GeniusPracticeDataDB
-import com.wotin.geniustest.DB.UserDB
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.navigation_view_header_layout.*
-import java.security.KeyStore
 import kotlin.concurrent.timer
 
 
@@ -87,6 +79,7 @@ class MainActivity : AppCompatActivity(),  NavigationView.OnNavigationItemSelect
             R.id.logout -> {
                 deleteUserDataAndGeniusTestAndPracticeData(applicationContext)
                 deleteUserDataSharedPreference()
+                deleteTestModeData(applicationContext)
                 val intent = Intent(this, LoginActivity::class.java)
                 startActivity(intent)
                 finish()

@@ -1,4 +1,4 @@
-package com.wotin.geniustest.Dao
+package com.wotin.geniustest.Dao.Genius
 
 import androidx.room.*
 import com.wotin.geniustest.CustomClass.GeniusTest.GeniusTestDataCustomClass

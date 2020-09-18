@@ -5,11 +5,10 @@ import android.util.Log
 import androidx.room.Room
 import com.wotin.geniustest.CustomClass.GeniusPractice.GeniusPracticeDataCustomClass
 import com.wotin.geniustest.CustomClass.GeniusTest.GeniusTestDataCustomClass
-import com.wotin.geniustest.CustomClass.UserCustomClass
-import com.wotin.geniustest.DB.GeniusPracticeDataDB
-import com.wotin.geniustest.DB.GeniusTestDataDB
-import com.wotin.geniustest.DB.UserDB
-import okhttp3.internal.connection.ConnectInterceptor
+import com.wotin.geniustest.CustomClass.TestModeCustomClass
+import com.wotin.geniustest.DB.Genius.GeniusPracticeDataDB
+import com.wotin.geniustest.DB.Genius.GeniusTestDataDB
+import com.wotin.geniustest.DB.TestModeDB
 import java.lang.Exception
 
 lateinit var geniusPracticeDB : GeniusPracticeDataDB
@@ -112,6 +111,60 @@ fun getGeniusPracticeData(
     return geniusPracticeDB.geniusPracticeDataDB().getAll()
 }
 
+fun deleteTestModeData(
+    context: Context
+) {
+    val testModeDB : TestModeDB = Room.databaseBuilder(
+        context,
+        TestModeDB::class.java, "testMode.db"
+    )
+        .allowMainThreadQueries()
+        .build()
+    testModeDB.testModeDB().deleteTestMode()
+}
+
+fun updateTestModeData(
+    context: Context,
+    testMode : TestModeCustomClass
+) {
+    val testModeDB : TestModeDB = Room.databaseBuilder(
+        context,
+        TestModeDB::class.java, "testMode.db"
+    )
+        .allowMainThreadQueries()
+        .build()
+    testModeDB.testModeDB().updateTestMode(testMode)
+}
+
+fun insertTestModeData(
+    context: Context
+) {
+    val testModeDB : TestModeDB = Room.databaseBuilder(
+        context,
+        TestModeDB::class.java, "testMode.db"
+    )
+        .allowMainThreadQueries()
+        .build()
+    testModeDB.testModeDB().insertTestMode(TestModeCustomClass("기억력 테스트", score = 1, difference = "99.9%"))
+    testModeDB.testModeDB().insertTestMode(TestModeCustomClass("집중력 테스트", score = 1, difference = "99.9%"))
+    testModeDB.testModeDB().insertTestMode(TestModeCustomClass("순발력 테스트", score = 1, difference = "99.9%"))
+}
+
+fun getTestModeData(
+    context: Context
+): ArrayList<TestModeCustomClass> {
+    val testModeDB : TestModeDB = Room.databaseBuilder(
+        context,
+        TestModeDB::class.java, "testMode.db"
+    )
+        .allowMainThreadQueries()
+        .build()
+    Log.d("TAG", "getTestModeData is ${testModeDB.testModeDB().getAllTestMode()}")
+
+    return testModeDB.testModeDB().getAllTestMode() as ArrayList<TestModeCustomClass>
+}
+
+
 fun updateGeniusPracticeData(context: Context, geniusPracticeData: GeniusPracticeDataCustomClass) {
     val geniusPracticeDB : GeniusPracticeDataDB = Room.databaseBuilder(
         context,
@@ -124,4 +177,3 @@ fun updateGeniusPracticeData(context: Context, geniusPracticeData: GeniusPractic
     geniusPracticeDB.geniusPracticeDataDB().updateGeniusPracticeData(geniusPracticeData = geniusPracticeData)
 
 }
-

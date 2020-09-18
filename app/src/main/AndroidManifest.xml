@@ -14,7 +14,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Design.Light.NoActionBar"
         android:usesCleartextTraffic="true">
-        <activity android:name=".Activity.UserManagement.UserInformationActivity"></activity>
+        <activity android:name=".Activity.Test.TestQuicknessActivity"></activity>
+        <activity android:name=".Activity.Test.TestConcentractionActivity" />
+        <activity android:name=".Activity.Test.TestActivity" />
+        <activity android:name=".Activity.UserManagement.UserInformationActivity" />
         <activity
             android:name=".Activity.Practice.PracticeQuicknessActivity"
             android:screenOrientation="portrait" />

@@ -1,70 +1,83 @@
-package com.wotin.geniustest.Activity.Practice
+package com.wotin.geniustest.Activity.Test
 
 import android.content.Intent
+import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
-import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.wotin.geniustest.*
 import com.wotin.geniustest.Activity.MainActivity
 import com.wotin.geniustest.Adapter.Practice.PracticeModeRecyclerViewAdapter
+import com.wotin.geniustest.Adapter.Test.TestModeRecyclerViewAdapter
 import com.wotin.geniustest.CustomClass.GeniusPractice.GeniusPracticeDataCustomClass
+import com.wotin.geniustest.CustomClass.GeniusTest.GeniusTestDataCustomClass
 import com.wotin.geniustest.CustomClass.PracticeModeCustomClass
-import com.wotin.geniustest.R
-import com.wotin.geniustest.getGeniusPracticeData
+import com.wotin.geniustest.CustomClass.TestModeCustomClass
 import kotlinx.android.synthetic.main.activity_practice.*
+import kotlinx.android.synthetic.main.activity_test.*
 import kotlin.concurrent.timer
 
-class PracticeActivity : AppCompatActivity() {
+class TestActivity : AppCompatActivity() {
 
-    lateinit var recyclerViewAdapter: PracticeModeRecyclerViewAdapter
-    lateinit var modeList: ArrayList<PracticeModeCustomClass>
+    lateinit var recyclerViewAdapter: TestModeRecyclerViewAdapter
+    lateinit var modeList: ArrayList<TestModeCustomClass>
 
-    lateinit var geniusPracticeData: GeniusPracticeDataCustomClass
+    lateinit var geniusPracticeData: GeniusTestDataCustomClass
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_practice)
+        setContentView(R.layout.activity_test)
 
-        geniusPracticeData = getGeniusPracticeData(applicationContext)
-
+        geniusPracticeData = getGeniusTestData(applicationContext)
 
         modeList = arrayListOf(
-            PracticeModeCustomClass(
+            TestModeCustomClass(
                 "기억력 테스트",
                 geniusPracticeData.memoryScore.toInt(),
                 geniusPracticeData.memoryDifference + "%"
             ),
-            PracticeModeCustomClass(
+            TestModeCustomClass(
                 "집중력 테스트",
                 geniusPracticeData.concentractionScore.toInt(),
                 geniusPracticeData.concentractionDifference + "%"
             ),
-            PracticeModeCustomClass(
+            TestModeCustomClass(
                 "순발력 테스트",
                 geniusPracticeData.quicknessScore.toFloat().toInt(),
                 geniusPracticeData.quicknessDifference + "%"
             )
         )
 
+        updateTestModeData(applicationContext, TestModeCustomClass("기억력 테스트", geniusPracticeData.memoryScore.toInt(),geniusPracticeData.memoryDifference + "%"))
+        updateTestModeData(applicationContext, TestModeCustomClass("집중력 테스트", geniusPracticeData.concentractionScore.toInt(),geniusPracticeData.concentractionDifference + "%"))
+        updateTestModeData(applicationContext, TestModeCustomClass("순발력 테스트", geniusPracticeData.quicknessScore.toFloat().toInt(),geniusPracticeData.quicknessDifference + "%"))
+
+        modeList = getTestModeData(applicationContext)
+
+        // 3초마다 윈도우를 조정해주는 메소드 실행.
+        controlWindowOnTimer()
+
+
         // 3초마다 윈도우를 조정해주는 메소드 실행.
         controlWindowOnTimer()
 
         recyclerViewAdapter =
-            PracticeModeRecyclerViewAdapter(
+            TestModeRecyclerViewAdapter(
                 modeList
             )
-        practice_mode_recyclerview.apply {
+        test_mode_recyclerview.apply {
             adapter = recyclerViewAdapter
             layoutManager =
-                LinearLayoutManager(this@PracticeActivity, LinearLayoutManager.VERTICAL, false)
+                LinearLayoutManager(this@TestActivity, LinearLayoutManager.VERTICAL, false)
             setHasFixedSize(true)
         }
 
-        practice_back_btn.setOnClickListener {
+        test_back_btn.setOnClickListener {
             val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
             finish()
         }
+
     }
 
     //3초마다 윈도우를 조정해주는 메소드.
@@ -87,6 +100,5 @@ class PracticeActivity : AppCompatActivity() {
         startActivity(intent)
         finish()
     }
-
 
 }
