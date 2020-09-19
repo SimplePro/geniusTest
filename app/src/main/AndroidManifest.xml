@@ -16,48 +16,69 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Design.Light.NoActionBar"
         android:usesCleartextTraffic="true">
-        <activity android:name=".Activity.Test.TestQuicknessActivity"></activity>
-        <activity android:name=".Activity.Test.TestConcentractionActivity" />
-        <activity android:name=".Activity.Test.TestActivity" />
-        <activity android:name=".Activity.UserManagement.UserInformationActivity" />
+        <activity android:name=".Activity.Test.TestQuicknessActivity"
+            android:launchMode="singleTask"
+            />
+        <activity android:name=".Activity.Test.TestConcentractionActivity"
+            android:launchMode="singleTask"
+            />
+        <activity android:name=".Activity.Test.TestActivity"
+            android:launchMode="singleTask"
+            />
+        <activity android:name=".Activity.UserManagement.UserInformationActivity"
+            android:launchMode="singleTask"
+            />
         <activity
             android:name=".Activity.Practice.PracticeQuicknessActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:launchMode="singleTask"
+            />
         <activity
             android:name=".Activity.Practice.PracticeConcentractionActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:launchMode="singleTask"
+            />
         <activity
             android:name=".Activity.UserManagement.DeleteUserActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:launchMode="singleTask"
+            />
         <activity
             android:name=".Activity.LoginAndSignUp.SignUpActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:launchMode="singleTask"
+            />
         <activity
             android:name=".Activity.LoginAndSignUp.LoginActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:launchMode="singleTask"
+            />
         <activity
             android:name=".Activity.GeniusTestActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:launchMode="singleTask"
+            />
         <activity
             android:name=".Activity.Practice.PracticeActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:launchMode="singleTask"
+            />
         <activity
             android:name=".Activity.MainActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:launchMode="singleTask"
+            />
         <activity
             android:name=".Activity.IntroActivity"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait"
+            android:launchMode="singleTask"
+            >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <receiver android:name=".Receiver.TestHeartManagementAlarmReceiver"
-            android:enabled="true"
-            android:exported="true"
-            />
 
         <service android:name=".Service.MemoryTestHeartManagementService"
             android:enabled="true"

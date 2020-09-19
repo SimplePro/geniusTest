@@ -1,10 +1,6 @@
 package com.wotin.geniustest.Adapter.Test
 
-import android.app.Activity
-import android.app.AlarmManager
-import android.app.PendingIntent
 import android.content.Context
-import android.content.Intent
 import android.net.ConnectivityManager
 import android.util.Log
 import android.view.LayoutInflater
@@ -15,15 +11,10 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
-import com.wotin.geniustest.Activity.Test.TestActivity
-import com.wotin.geniustest.Activity.Test.TestConcentractionActivity
-import com.wotin.geniustest.Activity.Test.TestQuicknessActivity
 import com.wotin.geniustest.CustomClass.TestModeCustomClass
 import com.wotin.geniustest.R
-import com.wotin.geniustest.Receiver.TestHeartManagementAlarmReceiver
 import com.wotin.geniustest.networkState
 import com.wotin.geniustest.updateTestModeData
-import java.util.*
 import kotlin.collections.ArrayList
 
 class TestModeRecyclerViewAdapter(val modeList : ArrayList<TestModeCustomClass>, val modeClickedInterface : ModeClickedInterface) : RecyclerView.Adapter<TestModeRecyclerViewAdapter.CustomViewHolder>() {

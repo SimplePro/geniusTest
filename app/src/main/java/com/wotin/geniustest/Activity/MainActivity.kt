@@ -2,6 +2,7 @@ package com.wotin.geniustest.Activity
 
 import android.content.Intent
 import android.os.Bundle
+import android.provider.Settings
 import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
@@ -15,6 +16,8 @@ import com.wotin.geniustest.Activity.LoginAndSignUp.LoginActivity
 import com.wotin.geniustest.Activity.UserManagement.DeleteUserActivity
 import com.wotin.geniustest.Activity.UserManagement.UserInformationActivity
 import com.wotin.geniustest.Adapter.TabLayoutFragmentPagerAdapter
+import com.wotin.geniustest.Service.ConcentractionTestHeartManagementService
+import com.wotin.geniustest.Service.QuicknessTestHeartManagementService
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlin.concurrent.timer
 
@@ -80,6 +83,8 @@ class MainActivity : AppCompatActivity(),  NavigationView.OnNavigationItemSelect
                 deleteUserDataAndGeniusTestAndPracticeData(applicationContext)
                 deleteUserDataSharedPreference()
                 deleteTestModeData(applicationContext)
+                stopService(Intent(this, ConcentractionTestHeartManagementService::class.java))
+                stopService(Intent(this, QuicknessTestHeartManagementService::class.java))
                 val intent = Intent(this, LoginActivity::class.java)
                 startActivity(intent)
                 finish()
