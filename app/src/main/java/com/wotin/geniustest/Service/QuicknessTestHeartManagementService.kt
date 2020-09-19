@@ -13,6 +13,7 @@ import com.wotin.geniustest.Receiver.TestHeartManagementAlarmReceiver
 import com.wotin.geniustest.getTestModeData
 import com.wotin.geniustest.updateTestModeData
 import java.util.*
+import kotlin.concurrent.thread
 
 class QuicknessTestHeartManagementService : Service() {
     override fun onBind(intent: Intent?): IBinder? {
@@ -38,11 +39,7 @@ class QuicknessTestHeartManagementService : Service() {
 
         startForeground(NOTIFICATION_ID, notification)
 
-        val data = getTestModeData(applicationContext)
-        data[2].start = true
-        val saveData = data[2]
-        updateTestModeData(applicationContext, saveData)
-        Log.d("TAG", "onStartCommand: updated data (quickness service)")
+        runBackground()
 
         Thread.sleep(2000)
         stopSelf()
@@ -50,4 +47,15 @@ class QuicknessTestHeartManagementService : Service() {
 
         return super.onStartCommand(intent, flags, startId)
     }
+
+    private fun runBackground() {
+        thread(start = true) {
+            val data = getTestModeData(applicationContext)
+            data[2].start = true
+            val saveData = data[2]
+            updateTestModeData(applicationContext, saveData)
+            Log.d("TAG", "onStartCommand: updated data (quickness service)")
+        }
+    }
+
 }

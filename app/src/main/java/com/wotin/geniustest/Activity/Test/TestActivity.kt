@@ -117,7 +117,7 @@ class TestActivity : AppCompatActivity(), TestModeRecyclerViewAdapter.ModeClicke
             val alarmIntent = Intent(this, TestHeartManagementAlarmReceiver::class.java)
             alarmIntent.putExtra("test", "concentraction")
             val pendingIntent = PendingIntent.getBroadcast(this, UUID.randomUUID().hashCode(), alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT)
-            alarmManager.setExact(AlarmManager.RTC, System.currentTimeMillis() + (1 * 60 * 100), pendingIntent) // 1 * 60 * 10000 이 10분 뒤
+            alarmManager.setExact(AlarmManager.RTC, System.currentTimeMillis() + (1 * 60 * 10000), pendingIntent) // 1 * 60 * 10000 이 10분 뒤
             recyclerViewAdapter.notifyDataSetChanged()
         } else if (mode == "순발력 테스트") {
 //            val intent = Intent(this, TestQuicknessActivity::class.java)
@@ -127,7 +127,7 @@ class TestActivity : AppCompatActivity(), TestModeRecyclerViewAdapter.ModeClicke
             val alarmIntent = Intent(this, TestHeartManagementAlarmReceiver::class.java)
             alarmIntent.putExtra("test", "quickness")
             val pendingIntent = PendingIntent.getBroadcast(this, UUID.randomUUID().hashCode(), alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT)
-            alarmManager.setExact(AlarmManager.RTC, System.currentTimeMillis() + (1 * 60 * 100), pendingIntent) // 1 * 60 * 10000 이 10분 뒤
+            alarmManager.setExact(AlarmManager.RTC, System.currentTimeMillis() + (1 * 60 * 10000), pendingIntent) // 1 * 60 * 10000 이 10분 뒤
             recyclerViewAdapter.notifyDataSetChanged()
         }
         val receiver = TestHeartManagementAlarmReceiver()
