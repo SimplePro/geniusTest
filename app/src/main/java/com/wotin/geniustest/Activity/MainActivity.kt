@@ -1,5 +1,8 @@
 package com.wotin.geniustest.Activity
 
+import android.app.AlarmManager
+import android.app.PendingIntent
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.provider.Settings
@@ -16,9 +19,11 @@ import com.wotin.geniustest.Activity.LoginAndSignUp.LoginActivity
 import com.wotin.geniustest.Activity.UserManagement.DeleteUserActivity
 import com.wotin.geniustest.Activity.UserManagement.UserInformationActivity
 import com.wotin.geniustest.Adapter.TabLayoutFragmentPagerAdapter
+import com.wotin.geniustest.Receiver.TestHeartManagementReceiver
 import com.wotin.geniustest.Service.ConcentractionTestHeartManagementService
 import com.wotin.geniustest.Service.QuicknessTestHeartManagementService
 import kotlinx.android.synthetic.main.activity_main.*
+import java.lang.Exception
 import kotlin.concurrent.timer
 
 
@@ -85,6 +90,7 @@ class MainActivity : AppCompatActivity(),  NavigationView.OnNavigationItemSelect
                 deleteTestModeData(applicationContext)
                 stopService(Intent(this, ConcentractionTestHeartManagementService::class.java))
                 stopService(Intent(this, QuicknessTestHeartManagementService::class.java))
+                cancelAlarm()
                 val intent = Intent(this, LoginActivity::class.java)
                 startActivity(intent)
                 finish()
@@ -135,6 +141,33 @@ class MainActivity : AppCompatActivity(),  NavigationView.OnNavigationItemSelect
             "천재" -> userLevelImageView.setImageResource(R.drawable.genius)
         }
         navigation_view.addHeaderView(headerView)
+    }
+
+    private fun cancelAlarm() {
+        val alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
+        val alarmIntent = Intent(this, TestHeartManagementReceiver::class.java)
+        try {
+            val memoryPendingIntent = PendingIntent.getBroadcast(this, 1, alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT)
+            alarmManager.cancel(memoryPendingIntent)
+            memoryPendingIntent.cancel()
+        } catch (e : Exception) {
+
+        }
+        try {
+            val concentractionPendingIntent = PendingIntent.getBroadcast(this, 2, alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT)
+            alarmManager.cancel(concentractionPendingIntent)
+            concentractionPendingIntent.cancel()
+        } catch (e : Exception) {
+
+        }
+
+        try {
+            val quicknessPendingIntent = PendingIntent.getBroadcast(this, 3, alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT)
+            alarmManager.cancel(quicknessPendingIntent)
+            quicknessPendingIntent.cancel()
+        } catch (e : Exception) {
+
+        }
     }
 
 }
