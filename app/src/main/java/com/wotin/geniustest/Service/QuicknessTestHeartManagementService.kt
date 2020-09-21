@@ -65,7 +65,7 @@ class QuicknessTestHeartManagementService : Service(), TestHeartManagementReceiv
         val alarmIntent = Intent(this, TestHeartManagementReceiver::class.java)
         alarmIntent.putExtra("test", "quickness")
         val alarmPendingIntent = PendingIntent.getBroadcast(this, 3, alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT)
-        alarmManager.setExact(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + (1 * 60 * 1000), alarmPendingIntent)
+        alarmManager.setExact(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + (1 * 60 * 10000), alarmPendingIntent)
 
         return super.onStartCommand(intent, flags, startId)
     }
