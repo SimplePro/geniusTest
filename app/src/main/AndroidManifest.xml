@@ -93,6 +93,8 @@
             android:exported="true"
             />
 
+        <receiver android:name=".Receiver.TestHeartManagementReceiver"/>
+
     </application>
 
 </manifest>

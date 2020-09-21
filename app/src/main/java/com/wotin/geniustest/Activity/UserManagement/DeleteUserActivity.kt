@@ -1,5 +1,8 @@
 package com.wotin.geniustest.Activity.UserManagement
 
+import android.app.AlarmManager
+import android.app.PendingIntent
+import android.content.Context
 import android.content.Intent
 import android.net.http.HttpResponseCache
 import androidx.appcompat.app.AppCompatActivity
@@ -11,6 +14,7 @@ import com.wotin.geniustest.Activity.MainActivity
 import com.wotin.geniustest.DB.UserDB
 import com.wotin.geniustest.EncryptionAndDetoxification
 import com.wotin.geniustest.R
+import com.wotin.geniustest.Receiver.TestHeartManagementReceiver
 import com.wotin.geniustest.RetrofitInterface.User.RetrofitDeleteAccountAndData
 import com.wotin.geniustest.Service.ConcentractionTestHeartManagementService
 import com.wotin.geniustest.Service.QuicknessTestHeartManagementService
@@ -23,6 +27,7 @@ import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.lang.Exception
 import java.util.concurrent.TimeUnit
 
 class DeleteUserActivity : AppCompatActivity() {
@@ -80,6 +85,7 @@ class DeleteUserActivity : AppCompatActivity() {
                             deleteTestModeData(applicationContext)
                             stopService(Intent(this@DeleteUserActivity, ConcentractionTestHeartManagementService::class.java))
                             stopService(Intent(this@DeleteUserActivity, QuicknessTestHeartManagementService::class.java))
+                            cancelAlarm()
                             val intent = Intent(this@DeleteUserActivity, LoginActivity::class.java)
                             startActivity(intent)
                             finish()
@@ -109,6 +115,33 @@ class DeleteUserActivity : AppCompatActivity() {
             .remove("id")
             .remove("password")
             .apply()
+    }
+
+    private fun cancelAlarm() {
+        val alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
+        val alarmIntent = Intent(this, TestHeartManagementReceiver::class.java)
+        try {
+            val memoryPendingIntent = PendingIntent.getBroadcast(this, 1, alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT)
+            alarmManager.cancel(memoryPendingIntent)
+            memoryPendingIntent.cancel()
+        } catch (e : Exception) {
+
+        }
+        try {
+            val concentractionPendingIntent = PendingIntent.getBroadcast(this, 2, alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT)
+            alarmManager.cancel(concentractionPendingIntent)
+            concentractionPendingIntent.cancel()
+        } catch (e : Exception) {
+
+        }
+
+        try {
+            val quicknessPendingIntent = PendingIntent.getBroadcast(this, 3, alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT)
+            alarmManager.cancel(quicknessPendingIntent)
+            quicknessPendingIntent.cancel()
+        } catch (e : Exception) {
+
+        }
     }
 
 }

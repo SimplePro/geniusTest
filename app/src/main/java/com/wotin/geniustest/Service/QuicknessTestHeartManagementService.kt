@@ -1,9 +1,7 @@
 package com.wotin.geniustest.Service
 
-import android.app.NotificationChannel
-import android.app.NotificationManager
-import android.app.PendingIntent
-import android.app.Service
+import android.app.*
+import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.os.Handler
@@ -12,12 +10,13 @@ import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
 import com.wotin.geniustest.R
+import com.wotin.geniustest.Receiver.TestHeartManagementReceiver
 import com.wotin.geniustest.getTestModeData
 import com.wotin.geniustest.updateTestModeData
 import kotlin.concurrent.thread
 import kotlin.concurrent.timer
 
-class QuicknessTestHeartManagementService : Service() {
+class QuicknessTestHeartManagementService : Service(), TestHeartManagementReceiver.QuicknessTestHeartManagementInterface {
     override fun onBind(intent: Intent?): IBinder? {
         return null
     }
@@ -51,43 +50,45 @@ class QuicknessTestHeartManagementService : Service() {
         intent.putExtra("android.provider.extra.APP_PACKAGE", packageName)
         val pendingIntent = PendingIntent.getActivities(this, 0, arrayOf(intent), PendingIntent.FLAG_UPDATE_CURRENT)
         val notification = NotificationCompat.Builder(this, CHNNEL_ID)
-            .setContentText("10 분 후에 순발력 테스트를 할 수 있습니다.")
+            .setContentText("10분이 지나면 알람을 꺼집니다. (순발력 테스트)")
             .setSubText("클릭하여 알림을 끌 수 있습니다.")
             .setContentIntent(pendingIntent)
             .setSmallIcon(R.drawable.genius)
 
+        val receiver = TestHeartManagementReceiver()
+        receiver.setQuicknessTestHeartManagement(this)
+        receiver.setContext(applicationContext)
+
         startForeground(NOTIFICATION_ID, notification.build())
-        var minutesCount = 11
-        timer(period = 1 * 60 * 1000) {
-            minutesCount -= 1
-            notification.setContentText("$minutesCount 분 후에 순발력 테스트를 할 수 있습니다.")
-            startForeground(NOTIFICATION_ID, notification.build())
-        }
 
-        Handler().postDelayed({
-            runBackground()
-
-            Thread.sleep(500)
-            stopSelf()
-            stopForeground(true)
-            try{
-                quicknessInterface.quicknessTestHeartManagement()
-            } catch (e : Exception) {
-                Log.d("TAG", "onStartCommand: quicknessInterface")
-            }
-
-        }, 1 * 60 * 10000)
+        val alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
+        val alarmIntent = Intent(this, TestHeartManagementReceiver::class.java)
+        alarmIntent.putExtra("test", "quickness")
+        val alarmPendingIntent = PendingIntent.getBroadcast(this, 3, alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT)
+        alarmManager.setExact(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + (1 * 60 * 1000), alarmPendingIntent)
 
         return super.onStartCommand(intent, flags, startId)
     }
 
     private fun runBackground() {
-        thread(start = true) {
-            val data = getTestModeData(applicationContext)
-            data[2].start = true
-            val saveData = data[2]
-            updateTestModeData(applicationContext, saveData)
-            Log.d("TAG", "onStartCommand: updated data (quickness service)")
+        Log.d("TAG", "runBackground quickness")
+        val data = getTestModeData(applicationContext)
+        data[2].start = true
+        val saveData = data[2]
+        updateTestModeData(applicationContext, saveData)
+        Log.d("TAG", "onStartCommand: updated data (quickness service)")
+    }
+
+    override fun testQuicknessHeartManagement() {
+        Log.d("TAG", "testQuicknessHeartManagement")
+        Thread.sleep(500)
+        runBackground()
+        stopSelf()
+        stopForeground(true)
+        try{
+            quicknessInterface.quicknessTestHeartManagement()
+        } catch (e : Exception) {
+            Log.d("TAG", "onStartCommand: quicknessInterface")
         }
     }
 
