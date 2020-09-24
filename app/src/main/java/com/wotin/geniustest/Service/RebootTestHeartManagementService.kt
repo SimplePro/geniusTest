@@ -31,16 +31,16 @@ class RebootTestHeartManagementService : Service() {
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         createNotificationChannel()
         val notification = Notification.Builder(this, CHANNEL_ID)
-            .setContentText("데이터 설정중...")
+            .setContentText("앱 설정중...")
             .setSmallIcon(R.drawable.genius)
 
         startForeground(NOTIFICATION_ID, notification.build())
-        
+
         Log.d("TAG", "RebootService : onStartCommand")
+        Thread.sleep(10000)
 
         updateDataConcentraction(applicationContext)
         updateDataQuickness(applicationContext)
-        Thread.sleep(2000)
         stopSelf()
         stopForeground(true)
         return super.onStartCommand(intent, flags, startId)
