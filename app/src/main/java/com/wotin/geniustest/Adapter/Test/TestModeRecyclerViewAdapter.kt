@@ -1,6 +1,8 @@
 package com.wotin.geniustest.Adapter.Test
 
+import android.app.Activity
 import android.content.Context
+import android.content.Intent
 import android.net.ConnectivityManager
 import android.util.Log
 import android.view.LayoutInflater
@@ -11,6 +13,8 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
+import com.wotin.geniustest.Activity.Test.TestConcentractionActivity
+import com.wotin.geniustest.Activity.Test.TestQuicknessActivity
 import com.wotin.geniustest.CustomClass.TestModeCustomClass
 import com.wotin.geniustest.R
 import com.wotin.geniustest.networkState
@@ -41,10 +45,16 @@ class TestModeRecyclerViewAdapter(val modeList : ArrayList<TestModeCustomClass>,
                         when(modeList[adapterPosition].mode) {
                             "집중력 테스트" -> {
                                 modeList[adapterPosition].start = false
+                                val intent = Intent(parent.context, TestConcentractionActivity::class.java)
+                                parent.context.startActivity(intent)
+                                (parent.context as Activity).finish()
                                 updateTestModeData(parent.context.applicationContext, modeList[adapterPosition])
                             }
                             "순발력 테스트" -> {
                                 modeList[adapterPosition].start = false
+                                val intent = Intent(parent.context, TestQuicknessActivity::class.java)
+                                parent.context.startActivity(intent)
+                                (parent.context as Activity).finish()
                                 updateTestModeData(parent.context.applicationContext, modeList[adapterPosition])
                             }
                         }

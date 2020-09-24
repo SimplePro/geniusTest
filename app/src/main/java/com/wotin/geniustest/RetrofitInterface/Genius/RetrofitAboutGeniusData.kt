@@ -36,4 +36,10 @@ interface RetrofitAboutGeniusData {
         @Field("pk") pk : String
     ): Call<JsonObject>
 
+    @FormUrlEncoded
+    @POST("genius_test/test_sum_difference/")
+    fun getGeniusTestSumDifference(
+        @Field("pk") pk : String
+    ): Call<JsonObject>
+
 }

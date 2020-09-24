@@ -29,13 +29,11 @@ class TestActivity : AppCompatActivity(), TestModeRecyclerViewAdapter.ModeClicke
     lateinit var recyclerViewAdapter: TestModeRecyclerViewAdapter
     lateinit var modeList: ArrayList<TestModeCustomClass>
 
-    lateinit var geniusPracticeData: GeniusTestDataCustomClass
+    lateinit var geniusTestData: GeniusTestDataCustomClass
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_test)
-
-        Thread.sleep(500)
 
         setModeList()
 
@@ -89,27 +87,11 @@ class TestActivity : AppCompatActivity(), TestModeRecyclerViewAdapter.ModeClicke
 
     override fun modeClicked(mode: String) {
         if(mode == "집중력 테스트") {
-//            val intent = Intent(this, TestConcentractionActivity::class.java)
-//            startActivity(intent)
-//            finish()
-//            val alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
-//            val alarmIntent = Intent(this, TestHeartManagementAlarmReceiver::class.java)
-//            alarmIntent.putExtra("test", "concentraction")
-//            val pendingIntent = PendingIntent.getBroadcast(this, UUID.randomUUID().hashCode(), alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT)
-//            alarmManager.setExact(AlarmManager.RTC, System.currentTimeMillis() + (1 * 60 * 1000), pendingIntent) // 1 * 60 * 10000 이 10분 뒤
             ContextCompat.startForegroundService(this, Intent(applicationContext, ConcentractionTestHeartManagementService::class.java))
             recyclerViewAdapter.notifyDataSetChanged()
             val service = ConcentractionTestHeartManagementService()
             service.setConcentractionInterface(this)
         } else if (mode == "순발력 테스트") {
-//            val intent = Intent(this, TestQuicknessActivity::class.java)
-//            startActivity(intent)
-//            finish()
-//            val alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
-//            val alarmIntent = Intent(this, TestHeartManagementAlarmReceiver::class.java)
-//            alarmIntent.putExtra("test", "quickness")
-//            val pendingIntent = PendingIntent.getBroadcast(this, UUID.randomUUID().hashCode(), alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT)
-//            alarmManager.setExact(AlarmManager.RTC, System.currentTimeMillis() + (1 * 60 * 1000), pendingIntent) // 1 * 60 * 10000 이 10분 뒤
             ContextCompat.startForegroundService(this, Intent(applicationContext, QuicknessTestHeartManagementService::class.java))
             recyclerViewAdapter.notifyDataSetChanged()
             val service = QuicknessTestHeartManagementService()
@@ -118,32 +100,46 @@ class TestActivity : AppCompatActivity(), TestModeRecyclerViewAdapter.ModeClicke
     }
 
     private fun setModeList() {
-        geniusPracticeData = getGeniusTestData(applicationContext)
-
+        geniusTestData = getGeniusTestData(applicationContext)
 
         modeList = arrayListOf(
             TestModeCustomClass(
                 "기억력 테스트",
-                geniusPracticeData.memoryScore.toInt(),
-                geniusPracticeData.memoryDifference + "%"
+                geniusTestData.memoryScore.toInt(),
+                geniusTestData.memoryDifference + "%"
             ),
             TestModeCustomClass(
                 "집중력 테스트",
-                geniusPracticeData.concentractionScore.toInt(),
-                geniusPracticeData.concentractionDifference + "%"
+                geniusTestData.concentractionScore.toInt(),
+                geniusTestData.concentractionDifference + "%"
             ),
             TestModeCustomClass(
                 "순발력 테스트",
-                geniusPracticeData.quicknessScore.toFloat().toInt(),
-                geniusPracticeData.quicknessDifference + "%"
+                geniusTestData.quicknessScore.toFloat().toInt(),
+                geniusTestData.quicknessDifference + "%"
             )
         )
 
-        updateTestModeData(applicationContext, TestModeCustomClass("기억력 테스트", geniusPracticeData.memoryScore.toInt(),geniusPracticeData.memoryDifference + "%"))
-        updateTestModeData(applicationContext, TestModeCustomClass("집중력 테스트", geniusPracticeData.concentractionScore.toInt(),geniusPracticeData.concentractionDifference + "%"))
-        updateTestModeData(applicationContext, TestModeCustomClass("순발력 테스트", geniusPracticeData.quicknessScore.toFloat().toInt(),geniusPracticeData.quicknessDifference + "%"))
+        val geniusTestModeData = getTestModeData(applicationContext)
+        geniusTestModeData[0].apply {
+            score = geniusTestData.memoryScore.toInt()
+            difference = geniusTestData.memoryDifference
+        }
+        geniusTestModeData[1].apply {
+            score = geniusTestData.concentractionScore.toInt()
+            difference = geniusTestData.concentractionDifference
+        }
+        geniusTestModeData[2].apply {
+            score = geniusTestData.quicknessScore.toFloat().toInt()
+            difference = geniusTestData.quicknessDifference
+        }
+
+        updateTestModeData(applicationContext, geniusTestModeData[0])
+        updateTestModeData(applicationContext, geniusTestModeData[1])
+        updateTestModeData(applicationContext, geniusTestModeData[2])
 
         modeList = getTestModeData(applicationContext)
+        Log.d("TAG", "testModeList is $modeList")
         recyclerViewAdapter = TestModeRecyclerViewAdapter(modeList, this)
         test_mode_recyclerview.adapter = recyclerViewAdapter
     }

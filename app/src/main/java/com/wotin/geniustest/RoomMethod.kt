@@ -177,3 +177,14 @@ fun updateGeniusPracticeData(context: Context, geniusPracticeData: GeniusPractic
     geniusPracticeDB.geniusPracticeDataDB().updateGeniusPracticeData(geniusPracticeData = geniusPracticeData)
 
 }
+
+fun updateGeniusTestData(context: Context, geniusTestData: GeniusTestDataCustomClass) {
+    val geniusTestDataDB : GeniusTestDataDB = Room.databaseBuilder(
+        context,
+        GeniusTestDataDB::class.java, "geniusTest.db"
+    )
+        .allowMainThreadQueries()
+        . fallbackToDestructiveMigration ()
+        .build()
+    geniusTestDataDB.geniusTestDataDB().updateGeniusTestData(geniusTestData)
+}
