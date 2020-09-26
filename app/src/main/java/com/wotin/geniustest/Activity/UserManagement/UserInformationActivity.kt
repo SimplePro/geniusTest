@@ -5,6 +5,7 @@ import android.content.Intent
 import android.net.http.HttpResponseCache
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.UserManager
 import android.util.Log
 import android.widget.Toast
 import com.google.gson.JsonArray
@@ -15,7 +16,8 @@ import com.wotin.geniustest.EncryptionAndDetoxification
 import com.wotin.geniustest.R
 import com.wotin.geniustest.RetrofitInterface.Genius.RetrofitPostUserHeart
 import com.wotin.geniustest.RetrofitInterface.User.RetrofitSearchUserData
-import com.wotin.geniustest.getUserData
+import com.wotin.geniustest.RoomMethod.GetRoomMethod
+import com.wotin.geniustest.RoomMethod.UserRoomMethod
 import kotlinx.android.synthetic.main.activity_user_information.*
 import okhttp3.OkHttpClient
 import retrofit2.Call
@@ -72,7 +74,7 @@ class UserInformationActivity : AppCompatActivity() {
         }
 
         user_heart_lottieanimation_among_user_information.setOnClickListener {
-            if(currentSeeUserUID == getUserData(applicationContext).UniqueId) {
+            if(currentSeeUserUID == UserRoomMethod().getUserData(applicationContext).UniqueId) {
                 Toast.makeText(applicationContext, "자기 자신에게는 하트를 할 수 없습니다.", Toast.LENGTH_SHORT).show()
             } else {
                 if(isHearted) {
@@ -154,9 +156,9 @@ class UserInformationActivity : AppCompatActivity() {
         user_id_text_view_among_user_information.text = EncryptionAndDetoxification().encryptionAndDetoxification(id)
         user_heart_text_view_among_user_information.text = heart.toList().size.toString()
 
-        if(currentSeeUserUID != getUserData(applicationContext).UniqueId) {
+        if(currentSeeUserUID != UserRoomMethod().getUserData(applicationContext).UniqueId) {
             for(i in heart.toList()) {
-                if(i.asString == getUserData(applicationContext).UniqueId) {
+                if(i.asString == UserRoomMethod().getUserData(applicationContext).UniqueId) {
                     Log.d("TAG", "setTheUI: i.asString == getUserData(applicationContext).UniqueId")
                     isHearted = true
                     break
@@ -213,7 +215,7 @@ class UserInformationActivity : AppCompatActivity() {
     }
 
     private fun plusHeart() {
-        postUserHeart.plusHeart(getUserData(applicationContext).UniqueId, currentSeeUserUID).enqueue(object : Callback<HttpResponseCache> {
+        postUserHeart.plusHeart(UserRoomMethod().getUserData(applicationContext).UniqueId, currentSeeUserUID).enqueue(object : Callback<HttpResponseCache> {
             override fun onFailure(call: Call<HttpResponseCache>, t: Throwable) {
                 Log.d("TAG", "onResponse: plusHeart error is $t")
             }
@@ -229,7 +231,7 @@ class UserInformationActivity : AppCompatActivity() {
     }
 
     private fun minusHeart() {
-        postUserHeart.minusHeart(getUserData(applicationContext).UniqueId, currentSeeUserUID).enqueue(object : Callback<HttpResponseCache> {
+        postUserHeart.minusHeart(UserRoomMethod().getUserData(applicationContext).UniqueId, currentSeeUserUID).enqueue(object : Callback<HttpResponseCache> {
             override fun onFailure(call: Call<HttpResponseCache>, t: Throwable) {
                 Log.d("TAG", "onFailure: minusHeart error is $t")
             }

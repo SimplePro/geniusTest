@@ -16,6 +16,8 @@ import com.wotin.geniustest.CustomClass.RetrofitGetGeniusPracticeAndTestDataCust
 import com.wotin.geniustest.CustomClass.SignInAndSignUpCustomClass
 import com.wotin.geniustest.RetrofitInterface.User.RetrofitSignInAndSignUp
 import com.wotin.geniustest.RetrofitInterface.RetrofitUserDataAndGeniusData
+import com.wotin.geniustest.RoomMethod.InsertRoomMethod
+import com.wotin.geniustest.RoomMethod.UserRoomMethod
 import kotlinx.android.synthetic.main.activity_login.*
 import okhttp3.OkHttpClient
 import retrofit2.Call
@@ -91,7 +93,7 @@ class LoginActivity : AppCompatActivity() {
                                                     .encryptionAndDetoxification(response.body()!!.password) + " " +
                                                 response.body()!!.UniqueId + " " + response.body()!!.name
                                     )
-                                    insertUserData(
+                                    UserRoomMethod().insertUserData(
                                         name = response.body()!!.name,
                                         id = response.body()!!.id,
                                         password = response.body()!!.password,
@@ -139,9 +141,9 @@ class LoginActivity : AppCompatActivity() {
                                                 "TAG",
                                                 "getGeniusDataApiService practice is $practice, test is $test"
                                             )
-                                            insertGeniusPracticeData(practice, applicationContext)
-                                            insertGeniusTestData(test, applicationContext)
-                                            insertTestModeData(applicationContext)
+                                            InsertRoomMethod().insertGeniusPracticeData(practice, applicationContext)
+                                            InsertRoomMethod().insertGeniusTestData(test, applicationContext)
+                                            InsertRoomMethod().insertTestModeData(applicationContext)
                                             val intent =
                                                 Intent(this@LoginActivity, MainActivity::class.java)
                                             startActivity(intent)

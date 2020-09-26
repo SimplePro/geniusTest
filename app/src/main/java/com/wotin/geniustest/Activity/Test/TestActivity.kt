@@ -16,6 +16,8 @@ import com.wotin.geniustest.Activity.MainActivity
 import com.wotin.geniustest.Adapter.Test.TestModeRecyclerViewAdapter
 import com.wotin.geniustest.CustomClass.GeniusTest.GeniusTestDataCustomClass
 import com.wotin.geniustest.CustomClass.TestModeCustomClass
+import com.wotin.geniustest.RoomMethod.GetRoomMethod
+import com.wotin.geniustest.RoomMethod.UpdateRoomMethod
 import com.wotin.geniustest.Service.ConcentractionTestHeartManagementService
 import com.wotin.geniustest.Service.QuicknessTestHeartManagementService
 import kotlinx.android.synthetic.main.activity_test.*
@@ -100,7 +102,7 @@ class TestActivity : AppCompatActivity(), TestModeRecyclerViewAdapter.ModeClicke
     }
 
     private fun setModeList() {
-        geniusTestData = getGeniusTestData(applicationContext)
+        geniusTestData = GetRoomMethod().getGeniusTestData(applicationContext)
 
         modeList = arrayListOf(
             TestModeCustomClass(
@@ -120,7 +122,7 @@ class TestActivity : AppCompatActivity(), TestModeRecyclerViewAdapter.ModeClicke
             )
         )
 
-        val geniusTestModeData = getTestModeData(applicationContext)
+        val geniusTestModeData = GetRoomMethod().getTestModeData(applicationContext)
         geniusTestModeData[0].apply {
             score = geniusTestData.memoryScore.toInt()
             difference = geniusTestData.memoryDifference
@@ -134,11 +136,11 @@ class TestActivity : AppCompatActivity(), TestModeRecyclerViewAdapter.ModeClicke
             difference = geniusTestData.quicknessDifference
         }
 
-        updateTestModeData(applicationContext, geniusTestModeData[0])
-        updateTestModeData(applicationContext, geniusTestModeData[1])
-        updateTestModeData(applicationContext, geniusTestModeData[2])
+        UpdateRoomMethod().updateTestModeData(applicationContext, geniusTestModeData[0])
+        UpdateRoomMethod().updateTestModeData(applicationContext, geniusTestModeData[1])
+        UpdateRoomMethod().updateTestModeData(applicationContext, geniusTestModeData[2])
 
-        modeList = getTestModeData(applicationContext)
+        modeList = GetRoomMethod().getTestModeData(applicationContext)
         Log.d("TAG", "testModeList is $modeList")
         recyclerViewAdapter = TestModeRecyclerViewAdapter(modeList, this)
         test_mode_recyclerview.adapter = recyclerViewAdapter
@@ -153,7 +155,7 @@ class TestActivity : AppCompatActivity(), TestModeRecyclerViewAdapter.ModeClicke
     override fun quicknessTestHeartManagement() {
         Log.d("TAG", "quicknessTestHeartManagement: start quicknessTestHeartManagement")
         Handler().postDelayed({
-            modeList = getTestModeData(applicationContext)
+            modeList = GetRoomMethod().getTestModeData(applicationContext)
             Log.d("TAG", "testHeartManagement: modeList is $modeList")
             recyclerViewAdapter = TestModeRecyclerViewAdapter(modeList, this)
             test_mode_recyclerview.apply {
@@ -166,7 +168,7 @@ class TestActivity : AppCompatActivity(), TestModeRecyclerViewAdapter.ModeClicke
     override fun concentractionTestHeartManagement() {
         Log.d("TAG", "concentractionTestHeartManagement: start concentractionTestHeartManagement")
         Handler().postDelayed({
-            modeList = getTestModeData(applicationContext)
+            modeList = GetRoomMethod().getTestModeData(applicationContext)
             Log.d("TAG", "testHeartManagement: modeList is $modeList")
             recyclerViewAdapter = TestModeRecyclerViewAdapter(modeList, this)
             test_mode_recyclerview.apply {

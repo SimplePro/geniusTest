@@ -9,8 +9,8 @@ import android.content.Intent
 import android.os.IBinder
 import android.util.Log
 import com.wotin.geniustest.R
-import com.wotin.geniustest.getTestModeData
-import com.wotin.geniustest.updateTestModeData
+import com.wotin.geniustest.RoomMethod.GetRoomMethod
+import com.wotin.geniustest.RoomMethod.UpdateRoomMethod
 import kotlin.concurrent.thread
 
 class RebootTestHeartManagementService : Service() {
@@ -49,20 +49,20 @@ class RebootTestHeartManagementService : Service() {
     private fun updateDataConcentraction(context: Context) {
         Log.d("TAG", "runBackground concentraction")
         thread(start = true) {
-            val data = getTestModeData(context = context)
+            val data = GetRoomMethod().getTestModeData(context = context)
             data[1].start = true
             val saveData = data[1]
-            updateTestModeData(context, saveData)
+            UpdateRoomMethod().updateTestModeData(context, saveData)
             Log.d("TAG", "onStartCommand: updated data (concentraction service)")
         }
     }
 
     private fun updateDataQuickness(context: Context) {
         Log.d("TAG", "runBackground quickness")
-        val data = getTestModeData(context)
+        val data = GetRoomMethod().getTestModeData(context)
         data[2].start = true
         val saveData = data[2]
-        updateTestModeData(context, saveData)
+        UpdateRoomMethod().updateTestModeData(context, saveData)
         Log.d("TAG", "onStartCommand: updated data (quickness service)")
     }
 

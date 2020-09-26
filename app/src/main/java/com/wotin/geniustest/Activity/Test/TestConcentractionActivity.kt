@@ -15,6 +15,8 @@ import com.wotin.geniustest.*
 import com.wotin.geniustest.Activity.Practice.PracticeActivity
 import com.wotin.geniustest.Adapter.Test.TestConcentractionRecycelrViewAdapter
 import com.wotin.geniustest.RetrofitInterface.Genius.RetrofitAboutGeniusData
+import com.wotin.geniustest.RoomMethod.GetRoomMethod
+import com.wotin.geniustest.RoomMethod.UpdateRoomMethod
 import kotlinx.android.synthetic.main.activity_practice_concentraction.*
 import kotlinx.android.synthetic.main.activity_test_concentraction.*
 import okhttp3.OkHttpClient
@@ -225,7 +227,7 @@ class TestConcentractionActivity : AppCompatActivity(), TestConcentractionRecyce
     }
 
     private fun postDataToServer(score : Int) {
-        val geniusTestData = getGeniusTestData(applicationContext)
+        val geniusTestData = GetRoomMethod().getGeniusTestData(applicationContext)
         val uId = geniusTestData.UniqueId
         Log.d("TAG", "score is $score, uId is $uId")
         geniusDataDifferenceApiService.getGeniusTestConcentractionDifference(score.toString(), uId).enqueue(object :
@@ -243,8 +245,8 @@ class TestConcentractionActivity : AppCompatActivity(), TestConcentractionRecyce
                     if(testConcentractionDifference.asString.isNotEmpty()) {
                         geniusTestData.concentractionScore = score.toString()
                         geniusTestData.concentractionDifference = testConcentractionDifference.asString
-                        updateGeniusTestData(context = applicationContext, geniusTestData = geniusTestData)
-                        Log.d("TAG", "postDataToServer testConcentractionDifference is Not Empty, getGeniusTestData is ${getGeniusTestData(applicationContext)}")
+                        UpdateRoomMethod().updateGeniusTestData(context = applicationContext, geniusTestData = geniusTestData)
+                        Log.d("TAG", "postDataToServer testConcentractionDifference is Not Empty, getGeniusTestData is ${GetRoomMethod().getGeniusTestData(applicationContext)}")
                     }
                 } catch (e : Exception) {
                     Toast.makeText(applicationContext, "에러", Toast.LENGTH_LONG).show()

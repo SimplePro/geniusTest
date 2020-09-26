@@ -15,9 +15,9 @@ import com.wotin.geniustest.Activity.Practice.PracticeActivity
 import com.wotin.geniustest.CustomClass.GeniusPractice.GeniusPracticeDataCustomClass
 import com.wotin.geniustest.R
 import com.wotin.geniustest.RetrofitInterface.Genius.RetrofitAboutGeniusData
-import com.wotin.geniustest.getGeniusPracticeData
+import com.wotin.geniustest.RoomMethod.GetRoomMethod
+import com.wotin.geniustest.RoomMethod.UpdateRoomMethod
 import com.wotin.geniustest.networkState
-import com.wotin.geniustest.updateGeniusPracticeData
 import kotlinx.android.synthetic.main.fragment_practice.view.*
 import okhttp3.OkHttpClient
 import retrofit2.Call
@@ -55,7 +55,7 @@ class PracticeFragment : Fragment() {
             .build()
         getGeniusDataDifferenceApiService = retrofit.create(RetrofitAboutGeniusData::class.java)
         try {
-            geniusPracticeData = getGeniusPracticeData(activity!!.applicationContext)
+            geniusPracticeData = GetRoomMethod().getGeniusPracticeData(activity!!.applicationContext)
         } catch (e: Exception) {
             Log.d("TAG", "onCreateView: error is $e")
         }
@@ -76,7 +76,7 @@ class PracticeFragment : Fragment() {
                         Log.d("TAG", "postDataToServer PracticeDifference data is ${response.body()}")
                         val practiceConcentractionDifference = response.body()!!.get("practice_concentraction_difference")
                         geniusPracticeData.concentractionDifference = practiceConcentractionDifference.asString
-                        updateGeniusPracticeData(context = activity!!.applicationContext, geniusPracticeData = geniusPracticeData)
+                        UpdateRoomMethod().updateGeniusPracticeData(context = activity!!.applicationContext, geniusPracticeData = geniusPracticeData)
                     } catch (e : Exception) {
                         Toast.makeText(activity!!.applicationContext, "에러", Toast.LENGTH_LONG).show()
                         Log.d("TAG", "postDataToServer PracticeDifference error is ${e.message}")
@@ -97,7 +97,7 @@ class PracticeFragment : Fragment() {
                         Log.d("TAG", "postDataToServer PracticeDifference data is ${response.body()}")
                         val practiceQuicknessDifference = response.body()!!.get("practice_quickness_difference")
                         geniusPracticeData.quicknessDifference = practiceQuicknessDifference.asString
-                        updateGeniusPracticeData(context = activity!!.applicationContext, geniusPracticeData = geniusPracticeData)
+                        UpdateRoomMethod().updateGeniusPracticeData(context = activity!!.applicationContext, geniusPracticeData = geniusPracticeData)
                     } catch (e : Exception) {
                         Toast.makeText(activity!!.applicationContext, "에러", Toast.LENGTH_LONG).show()
                         Log.d("TAG", "postDataToServer PracticeDifference error is ${e.message}")
@@ -110,7 +110,7 @@ class PracticeFragment : Fragment() {
             Toast.makeText(activity!!.applicationContext, "네트워크 연결 실패", Toast.LENGTH_LONG).show()
         }
 
-        geniusPracticeData = getGeniusPracticeData(activity!!.applicationContext)
+        geniusPracticeData = GetRoomMethod().getGeniusPracticeData(activity!!.applicationContext)
 
         Log.d("TAG", "((geniusPracticeData.concentractionDifference.toFloat() + geniusPracticeData.memoryDifference.toFloat() / 3).toString()) is " +
                 (((geniusPracticeData.concentractionDifference.toFloat() + geniusPracticeData.memoryDifference.toFloat() + geniusPracticeData.quicknessDifference.toFloat()) / 3.0f).toString()))

@@ -10,7 +10,7 @@ import com.wotin.geniustest.Adapter.Practice.PracticeModeRecyclerViewAdapter
 import com.wotin.geniustest.CustomClass.GeniusPractice.GeniusPracticeDataCustomClass
 import com.wotin.geniustest.CustomClass.PracticeModeCustomClass
 import com.wotin.geniustest.R
-import com.wotin.geniustest.getGeniusPracticeData
+import com.wotin.geniustest.RoomMethod.GetRoomMethod
 import kotlinx.android.synthetic.main.activity_practice.*
 import kotlin.concurrent.timer
 
@@ -25,7 +25,7 @@ class PracticeActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_practice)
 
-        geniusPracticeData = getGeniusPracticeData(applicationContext)
+        geniusPracticeData = GetRoomMethod().getGeniusPracticeData(applicationContext)
 
 
         modeList = arrayListOf(

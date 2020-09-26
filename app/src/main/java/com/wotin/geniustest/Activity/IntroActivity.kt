@@ -19,6 +19,9 @@ import com.wotin.geniustest.CustomClass.UserCustomClass
 import com.wotin.geniustest.DB.UserDB
 import com.wotin.geniustest.RetrofitInterface.User.RetrofitSignInAndSignUp
 import com.wotin.geniustest.RetrofitInterface.RetrofitUserDataAndGeniusData
+import com.wotin.geniustest.RoomMethod.DeleteRoomMethod
+import com.wotin.geniustest.RoomMethod.InsertRoomMethod
+import com.wotin.geniustest.RoomMethod.UserRoomMethod
 import okhttp3.OkHttpClient
 import retrofit2.Call
 import retrofit2.Response
@@ -92,7 +95,7 @@ class IntroActivity : AppCompatActivity() {
                 startActivity(intent)
                 finish()
             } catch (e : Exception) {
-                deleteUserDataAndGeniusTestAndPracticeData(applicationContext)
+                DeleteRoomMethod().deleteUserDataAndGeniusTestAndPracticeData(applicationContext)
                 val connectivityManager = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
                 if(networkState(connectivityManager)) {
                     getUserDataSharedPreference()
@@ -115,7 +118,7 @@ class IntroActivity : AppCompatActivity() {
                                 call: Call<SignInAndSignUpCustomClass>,
                                 response: Response<SignInAndSignUpCustomClass>
                             ) {
-                                insertUserData(
+                                UserRoomMethod().insertUserData(
                                     UniqueId = response.body()!!.UniqueId,
                                     id = response.body()!!.id,
                                     password = response.body()!!.password,
@@ -160,8 +163,8 @@ class IntroActivity : AppCompatActivity() {
                                             quicknessDifference = testJson["test_quickness_difference"].toString(),
                                             level = testLevel)
 
-                                        insertGeniusPracticeData(practice, applicationContext)
-                                        insertGeniusTestData(test, applicationContext)
+                                        InsertRoomMethod().insertGeniusPracticeData(practice, applicationContext)
+                                        InsertRoomMethod().insertGeniusTestData(test, applicationContext)
 
                                         val intent = Intent(this@IntroActivity, MainActivity::class.java)
                                         startActivity(intent)

@@ -4,17 +4,14 @@ import android.app.*
 import android.content.Context
 import android.content.Intent
 import android.os.Build
-import android.os.Handler
 import android.os.IBinder
 import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
 import com.wotin.geniustest.R
 import com.wotin.geniustest.Receiver.TestHeartManagementReceiver
-import com.wotin.geniustest.getTestModeData
-import com.wotin.geniustest.updateTestModeData
-import kotlin.concurrent.thread
-import kotlin.concurrent.timer
+import com.wotin.geniustest.RoomMethod.GetRoomMethod
+import com.wotin.geniustest.RoomMethod.UpdateRoomMethod
 
 class QuicknessTestHeartManagementService : Service(), TestHeartManagementReceiver.QuicknessTestHeartManagementInterface {
     override fun onBind(intent: Intent?): IBinder? {
@@ -72,10 +69,10 @@ class QuicknessTestHeartManagementService : Service(), TestHeartManagementReceiv
 
     private fun runBackground() {
         Log.d("TAG", "runBackground quickness")
-        val data = getTestModeData(applicationContext)
+        val data = GetRoomMethod().getTestModeData(applicationContext)
         data[2].start = true
         val saveData = data[2]
-        updateTestModeData(applicationContext, saveData)
+        UpdateRoomMethod().updateTestModeData(applicationContext, saveData)
         Log.d("TAG", "onStartCommand: updated data (quickness service)")
     }
 

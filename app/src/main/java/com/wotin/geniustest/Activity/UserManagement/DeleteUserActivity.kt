@@ -16,10 +16,9 @@ import com.wotin.geniustest.EncryptionAndDetoxification
 import com.wotin.geniustest.R
 import com.wotin.geniustest.Receiver.TestHeartManagementReceiver
 import com.wotin.geniustest.RetrofitInterface.User.RetrofitDeleteAccountAndData
+import com.wotin.geniustest.RoomMethod.DeleteRoomMethod
 import com.wotin.geniustest.Service.ConcentractionTestHeartManagementService
 import com.wotin.geniustest.Service.QuicknessTestHeartManagementService
-import com.wotin.geniustest.deleteTestModeData
-import com.wotin.geniustest.deleteUserDataAndGeniusTestAndPracticeData
 import kotlinx.android.synthetic.main.activity_delete_user.*
 import okhttp3.OkHttpClient
 import retrofit2.Call
@@ -79,10 +78,10 @@ class DeleteUserActivity : AppCompatActivity() {
                     ) {
                         if(response.code() == 204) {
                             Toast.makeText(applicationContext, "성공적으로 계정이 삭제되었습니다", Toast.LENGTH_LONG).show()
-                            deleteUserDataAndGeniusTestAndPracticeData(applicationContext)
+                            DeleteRoomMethod().deleteUserDataAndGeniusTestAndPracticeData(applicationContext)
                             Toast.makeText(applicationContext, "${userData.name} 님 그동안 '천재 테스트' 를 즐겨주셔서 감사합니다.", Toast.LENGTH_LONG).show()
                             deleteUserDataSharedPreference()
-                            deleteTestModeData(applicationContext)
+                            DeleteRoomMethod().deleteTestModeData(applicationContext)
                             stopService(Intent(this@DeleteUserActivity, ConcentractionTestHeartManagementService::class.java))
                             stopService(Intent(this@DeleteUserActivity, QuicknessTestHeartManagementService::class.java))
                             cancelAlarm()

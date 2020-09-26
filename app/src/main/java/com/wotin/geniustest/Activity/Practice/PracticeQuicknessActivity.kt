@@ -14,9 +14,9 @@ import com.google.gson.JsonObject
 import com.wotin.geniustest.Adapter.Practice.PracticeQuicknessRecyclerViewAdapter
 import com.wotin.geniustest.R
 import com.wotin.geniustest.RetrofitInterface.Genius.RetrofitAboutGeniusData
-import com.wotin.geniustest.getGeniusPracticeData
+import com.wotin.geniustest.RoomMethod.GetRoomMethod
+import com.wotin.geniustest.RoomMethod.UpdateRoomMethod
 import com.wotin.geniustest.networkState
-import com.wotin.geniustest.updateGeniusPracticeData
 import kotlinx.android.synthetic.main.activity_practice_quickness.*
 import okhttp3.OkHttpClient
 import retrofit2.Call
@@ -132,7 +132,7 @@ class PracticeQuicknessActivity : AppCompatActivity(), PracticeQuicknessRecycler
     }
 
     private fun postDataToServer(score : Int) {
-        val geniusPracticeData = getGeniusPracticeData(applicationContext)
+        val geniusPracticeData = GetRoomMethod().getGeniusPracticeData(applicationContext)
         val uId = geniusPracticeData.UniqueId
         Log.d("TAG", "score is $score, uId is $uId")
         geniusDataDifferenceApiService.getGeniusPracticeQuicknessDifference(score.toString().toInt().toString(), uId).enqueue(object :
@@ -149,7 +149,7 @@ class PracticeQuicknessActivity : AppCompatActivity(), PracticeQuicknessRecycler
                     if(practiceQuicknessDifference.asString.isNotEmpty()) {
                         geniusPracticeData.quicknessScore = score.toString()
                         geniusPracticeData.quicknessDifference = practiceQuicknessDifference.asString
-                        updateGeniusPracticeData(context = applicationContext, geniusPracticeData = geniusPracticeData)
+                        UpdateRoomMethod().updateGeniusPracticeData(context = applicationContext, geniusPracticeData = geniusPracticeData)
                     }
                 } catch (e : Exception) {
                     Toast.makeText(applicationContext, "에러", Toast.LENGTH_LONG).show()

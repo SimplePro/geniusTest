@@ -14,6 +14,8 @@ import com.google.gson.JsonObject
 import com.wotin.geniustest.*
 import com.wotin.geniustest.Adapter.Test.TestQuicknessRecyclerViewAdapter
 import com.wotin.geniustest.RetrofitInterface.Genius.RetrofitAboutGeniusData
+import com.wotin.geniustest.RoomMethod.GetRoomMethod
+import com.wotin.geniustest.RoomMethod.UpdateRoomMethod
 import kotlinx.android.synthetic.main.activity_test_quickness.*
 import okhttp3.OkHttpClient
 import retrofit2.Call
@@ -131,7 +133,7 @@ class TestQuicknessActivity : AppCompatActivity(), TestQuicknessRecyclerViewAdap
     }
 
     private fun postDataToServer(score : Int) {
-        val geniusTestData = getGeniusTestData(applicationContext)
+        val geniusTestData = GetRoomMethod().getGeniusTestData(applicationContext)
         val uId = geniusTestData.UniqueId
         Log.d("TAG", "score is $score, uId is $uId")
         geniusDataDifferenceApiService.getGeniusTestQuicknessDifference(score.toString().toInt().toString(), uId).enqueue(object :
@@ -148,7 +150,7 @@ class TestQuicknessActivity : AppCompatActivity(), TestQuicknessRecyclerViewAdap
                     if(TestQuicknessDifference.asString.isNotEmpty()) {
                         geniusTestData.quicknessScore = score.toString()
                         geniusTestData.quicknessDifference = TestQuicknessDifference.asString
-                        updateGeniusTestData(context = applicationContext, geniusTestData = geniusTestData)
+                        UpdateRoomMethod().updateGeniusTestData(context = applicationContext, geniusTestData = geniusTestData)
                     }
                 } catch (e : Exception) {
                     Toast.makeText(applicationContext, "에러", Toast.LENGTH_LONG).show()

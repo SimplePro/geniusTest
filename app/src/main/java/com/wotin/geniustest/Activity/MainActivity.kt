@@ -20,6 +20,9 @@ import com.wotin.geniustest.Activity.UserManagement.DeleteUserActivity
 import com.wotin.geniustest.Activity.UserManagement.UserInformationActivity
 import com.wotin.geniustest.Adapter.TabLayoutFragmentPagerAdapter
 import com.wotin.geniustest.Receiver.TestHeartManagementReceiver
+import com.wotin.geniustest.RoomMethod.DeleteRoomMethod
+import com.wotin.geniustest.RoomMethod.GetRoomMethod
+import com.wotin.geniustest.RoomMethod.UserRoomMethod
 import com.wotin.geniustest.Service.ConcentractionTestHeartManagementService
 import com.wotin.geniustest.Service.QuicknessTestHeartManagementService
 import kotlinx.android.synthetic.main.activity_main.*
@@ -85,9 +88,9 @@ class MainActivity : AppCompatActivity(),  NavigationView.OnNavigationItemSelect
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         when(item.itemId) {
             R.id.logout -> {
-                deleteUserDataAndGeniusTestAndPracticeData(applicationContext)
+                DeleteRoomMethod().deleteUserDataAndGeniusTestAndPracticeData(applicationContext)
                 deleteUserDataSharedPreference()
-                deleteTestModeData(applicationContext)
+                DeleteRoomMethod().deleteTestModeData(applicationContext)
                 stopService(Intent(this, ConcentractionTestHeartManagementService::class.java))
                 stopService(Intent(this, QuicknessTestHeartManagementService::class.java))
                 cancelAlarm()
@@ -123,8 +126,8 @@ class MainActivity : AppCompatActivity(),  NavigationView.OnNavigationItemSelect
         val userNameTextView = headerView.findViewById<TextView>(R.id.user_name_textview_header_layout)
         val userIdTextView = headerView.findViewById<TextView>(R.id.user_id_textview_header_layout)
         val userLevelTextView = headerView.findViewById<TextView>(R.id.user_level_textview_header_layout)
-        val userData = getUserData(applicationContext)
-        val userGeniusTestData = getGeniusTestData(applicationContext)
+        val userData = UserRoomMethod().getUserData(applicationContext)
+        val userGeniusTestData = GetRoomMethod().getGeniusTestData(applicationContext)
         headerView.setOnClickListener {
             val intent = Intent(this, UserInformationActivity::class.java)
             intent.putExtra("userId", userData.id)

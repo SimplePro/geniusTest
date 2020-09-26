@@ -13,8 +13,8 @@ import com.wotin.geniustest.Activity.Test.TestActivity
 import com.wotin.geniustest.CustomClass.GeniusTest.GeniusTestDataCustomClass
 import com.wotin.geniustest.R
 import com.wotin.geniustest.RetrofitInterface.Genius.RetrofitAboutGeniusData
-import com.wotin.geniustest.getGeniusTestData
-import com.wotin.geniustest.getUserData
+import com.wotin.geniustest.RoomMethod.GetRoomMethod
+import com.wotin.geniustest.RoomMethod.UserRoomMethod
 import kotlinx.android.synthetic.main.fragment_genius_test.*
 import kotlinx.android.synthetic.main.fragment_genius_test.view.*
 import okhttp3.OkHttpClient
@@ -56,7 +56,7 @@ class GeniusTestFragment : Fragment() {
         getTestSumDifference()
 
         val rootView = inflater.inflate(R.layout.fragment_genius_test, container, false)
-        geniusTestData = getGeniusTestData(activity!!.applicationContext)
+        geniusTestData = GetRoomMethod().getGeniusTestData(activity!!.applicationContext)
 
         rootView.genius_test_level_textview.text = geniusTestData.level
 
@@ -71,7 +71,7 @@ class GeniusTestFragment : Fragment() {
     }
 
     private fun getTestSumDifference() {
-        val userData = getUserData(activity!!.applicationContext)
+        val userData = UserRoomMethod().getUserData(activity!!.applicationContext)
         geniusDataDifferenceApiService.getGeniusTestSumDifference(pk = userData.UniqueId).enqueue(object : Callback<JsonObject> {
             override fun onFailure(call: Call<JsonObject>, t: Throwable) {
                 Log.d("TAG", "onFailure: getTestSumDifference error is $t")

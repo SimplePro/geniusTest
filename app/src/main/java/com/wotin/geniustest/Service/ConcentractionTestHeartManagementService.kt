@@ -1,26 +1,17 @@
 package com.wotin.geniustest.Service
 
+
+import com.wotin.geniustest.RoomMethod.GetRoomMethod
+import com.wotin.geniustest.RoomMethod.UpdateRoomMethod
 import android.app.*
 import android.content.Context
 import android.content.Intent
-import android.os.Handler
 import android.os.IBinder
-import android.provider.Settings
 import android.util.Log
-import android.widget.RemoteViews
-import androidx.annotation.RequiresApi
-import androidx.core.app.NotificationCompat
-import androidx.core.content.ContextCompat
-import com.wotin.geniustest.Activity.MainActivity
-import com.wotin.geniustest.Activity.Test.TestActivity
 import com.wotin.geniustest.R
 import com.wotin.geniustest.Receiver.TestHeartManagementReceiver
-import com.wotin.geniustest.getTestModeData
-import com.wotin.geniustest.updateTestModeData
 import java.lang.Exception
-import java.util.*
 import kotlin.concurrent.thread
-import kotlin.concurrent.timer
 
 class ConcentractionTestHeartManagementService : Service(), TestHeartManagementReceiver.ConcentractionTestHeartManagementInterface {
     override fun onBind(intent: Intent?): IBinder? {
@@ -79,10 +70,10 @@ class ConcentractionTestHeartManagementService : Service(), TestHeartManagementR
     private fun runBackground() {
         Log.d("TAG", "runBackground concentraction")
         thread(start = true) {
-            val data = getTestModeData(applicationContext)
+            val data = GetRoomMethod().getTestModeData(applicationContext)
             data[1].start = true
             val saveData = data[1]
-            updateTestModeData(applicationContext, saveData)
+            UpdateRoomMethod().updateTestModeData(applicationContext, saveData)
             Log.d("TAG", "onStartCommand: updated data (concentraction service)")
         }
     }
