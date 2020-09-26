@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="60dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    app:cardElevation="10dp"
+    android:background="#95A8B1"
+    android:foreground="?attr/selectableItemBackground"
+    >
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:id="@+id/brain_mode_textview"
+        android:textColor="@android:color/black"
+        android:text="좌뇌형"
+        android:fontFamily="@font/mapo"
+        android:textSize="20dp"
+        />
+
+</androidx.cardview.widget.CardView>

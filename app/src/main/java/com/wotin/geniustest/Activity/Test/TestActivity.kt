@@ -1,8 +1,5 @@
 package com.wotin.geniustest.Activity.Test
 
-import android.app.AlarmManager
-import android.app.PendingIntent
-import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -11,17 +8,19 @@ import android.util.Log
 import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.sothree.slidinguppanel.SlidingUpPanelLayout
 import com.wotin.geniustest.*
 import com.wotin.geniustest.Activity.MainActivity
 import com.wotin.geniustest.Adapter.Test.TestModeRecyclerViewAdapter
+import com.wotin.geniustest.Adapter.Test.TestQuicknessSlidingUpPanelRecyclerViewAdapter
 import com.wotin.geniustest.CustomClass.GeniusTest.GeniusTestDataCustomClass
 import com.wotin.geniustest.CustomClass.TestModeCustomClass
 import com.wotin.geniustest.RoomMethod.GetRoomMethod
 import com.wotin.geniustest.RoomMethod.UpdateRoomMethod
 import com.wotin.geniustest.Service.ConcentractionTestHeartManagementService
 import com.wotin.geniustest.Service.QuicknessTestHeartManagementService
+import kotlinx.android.synthetic.main.activity_practice.*
 import kotlinx.android.synthetic.main.activity_test.*
-import java.util.*
 import kotlin.collections.ArrayList
 import kotlin.concurrent.timer
 
@@ -38,6 +37,12 @@ class TestActivity : AppCompatActivity(), TestModeRecyclerViewAdapter.ModeClicke
         setContentView(R.layout.activity_test)
 
         setModeList()
+
+        setBottomDragView()
+
+        close_test_drag_layout_button.setOnClickListener {
+            test_sliding_up_panel_layout.panelState = SlidingUpPanelLayout.PanelState.HIDDEN
+        }
 
         // 3초마다 윈도우를 조정해주는 메소드 실행.
         controlWindowOnTimer()
@@ -94,10 +99,8 @@ class TestActivity : AppCompatActivity(), TestModeRecyclerViewAdapter.ModeClicke
             val service = ConcentractionTestHeartManagementService()
             service.setConcentractionInterface(this)
         } else if (mode == "순발력 테스트") {
-            ContextCompat.startForegroundService(this, Intent(applicationContext, QuicknessTestHeartManagementService::class.java))
+            test_sliding_up_panel_layout.panelState = SlidingUpPanelLayout.PanelState.EXPANDED
             recyclerViewAdapter.notifyDataSetChanged()
-            val service = QuicknessTestHeartManagementService()
-            service.setQuicknessInterface(this)
         }
     }
 
@@ -176,6 +179,16 @@ class TestActivity : AppCompatActivity(), TestModeRecyclerViewAdapter.ModeClicke
             }
             recyclerViewAdapter.notifyDataSetChanged()
         }, 500)
+    }
+
+    private fun setBottomDragView() {
+        val brainModeList = arrayListOf<String>("우뇌형", "좌뇌형")
+        val dragRecyclerViewAdapter = TestQuicknessSlidingUpPanelRecyclerViewAdapter(brainModeList)
+        test_drag_recycler_view.apply {
+            adapter = dragRecyclerViewAdapter
+            layoutManager = LinearLayoutManager(this@TestActivity, LinearLayoutManager.VERTICAL, false)
+            setHasFixedSize(true)
+        }
     }
 
 }

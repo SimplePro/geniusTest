@@ -43,10 +43,15 @@ class PracticeQuicknessActivity : AppCompatActivity(), PracticeQuicknessRecycler
     lateinit var geniusDataDifferenceApiService: RetrofitAboutGeniusData
     lateinit var okHttpClient: OkHttpClient
     val baseUrl = "http://220.72.174.101:8080"
+    var brain_mode = "right_brain"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_practice_quickness)
+
+        if(intent.hasExtra("brain_mode")) {
+            brain_mode = intent.getStringExtra("brain_mode")
+        }
 
         okHttpClient = OkHttpClient.Builder()
             .connectTimeout(1, TimeUnit.MINUTES)
@@ -93,7 +98,7 @@ class PracticeQuicknessActivity : AppCompatActivity(), PracticeQuicknessRecycler
         setQuicknessList()
         t.cancel()
         tt.cancel()
-        counter = (counter * 0.95).toInt()
+        counter = if(counter >= 200) (counter * 0.95).toInt() else 200
         prog()
     }
 
@@ -210,9 +215,9 @@ class PracticeQuicknessActivity : AppCompatActivity(), PracticeQuicknessRecycler
     }
 
     override fun itemClick(clickedColor: String) {
-        if(clickedColor == currentColor) {
-            restart()
-        } else {
+        if(clickedColor == currentColor && brain_mode == "right_brain") restart()
+        else if (clickedColor != currentColor && brain_mode == "left_brain") restart()
+        else {
             val vib = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
             vib.vibrate(500)
             counter -= 100

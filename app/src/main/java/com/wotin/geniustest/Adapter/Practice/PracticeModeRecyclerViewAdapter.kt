@@ -19,7 +19,11 @@ import com.wotin.geniustest.R
 import com.wotin.geniustest.networkState
 
 
-class PracticeModeRecyclerViewAdapter(val modeList : ArrayList<PracticeModeCustomClass>) : RecyclerView.Adapter<PracticeModeRecyclerViewAdapter.CustomViewHolder>() {
+class PracticeModeRecyclerViewAdapter(val modeList : ArrayList<PracticeModeCustomClass>, val quicknessModeClicked: QuicknessModeClickedInterface) : RecyclerView.Adapter<PracticeModeRecyclerViewAdapter.CustomViewHolder>() {
+
+    interface QuicknessModeClickedInterface {
+        fun quicknessModeClicked()
+    }
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -37,9 +41,7 @@ class PracticeModeRecyclerViewAdapter(val modeList : ArrayList<PracticeModeCusto
                         parent.context.startActivity(intent)
                         (parent.context as Activity).finish()
                     } else if(modeList[adapterPosition].mode == "순발력 테스트") {
-                        val intent = Intent(parent.context, PracticeQuicknessActivity::class.java)
-                        parent.context.startActivity(intent)
-                        (parent.context as Activity).finish()
+                        quicknessModeClicked.quicknessModeClicked()
                     }
                 } else Toast.makeText(parent.context.applicationContext, "네트워크 연결을 확인해주세요", Toast.LENGTH_LONG).show()
 

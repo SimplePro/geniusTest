@@ -1,12 +1,21 @@
 package com.wotin.geniustest.Activity.Practice
 
+import android.content.Context
+import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
+import android.widget.Button
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.slidingpanelayout.widget.SlidingPaneLayout
+import com.sothree.slidinguppanel.SlidingUpPanelLayout
 import com.wotin.geniustest.Activity.MainActivity
 import com.wotin.geniustest.Adapter.Practice.PracticeModeRecyclerViewAdapter
+import com.wotin.geniustest.Adapter.Practice.PracticeQuicknessSlidingUpPanelRecyclerViewAdapter
 import com.wotin.geniustest.CustomClass.GeniusPractice.GeniusPracticeDataCustomClass
 import com.wotin.geniustest.CustomClass.PracticeModeCustomClass
 import com.wotin.geniustest.R
@@ -14,7 +23,8 @@ import com.wotin.geniustest.RoomMethod.GetRoomMethod
 import kotlinx.android.synthetic.main.activity_practice.*
 import kotlin.concurrent.timer
 
-class PracticeActivity : AppCompatActivity() {
+class PracticeActivity : AppCompatActivity(),
+    PracticeModeRecyclerViewAdapter.QuicknessModeClickedInterface {
 
     lateinit var recyclerViewAdapter: PracticeModeRecyclerViewAdapter
     lateinit var modeList: ArrayList<PracticeModeCustomClass>
@@ -24,6 +34,14 @@ class PracticeActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_practice)
+
+        setBottomDragView()
+
+        close_practice_drag_layout_button.setOnClickListener {
+            practice_sliding_up_panel_layout.panelState = SlidingUpPanelLayout.PanelState.HIDDEN
+        }
+
+
 
         geniusPracticeData = GetRoomMethod().getGeniusPracticeData(applicationContext)
 
@@ -51,7 +69,8 @@ class PracticeActivity : AppCompatActivity() {
 
         recyclerViewAdapter =
             PracticeModeRecyclerViewAdapter(
-                modeList
+                modeList,
+                this
             )
         practice_mode_recyclerview.apply {
             adapter = recyclerViewAdapter
@@ -86,6 +105,20 @@ class PracticeActivity : AppCompatActivity() {
         val intent = Intent(this, MainActivity::class.java)
         startActivity(intent)
         finish()
+    }
+
+    private fun setBottomDragView() {
+        val brainModeList = arrayListOf<String>("우뇌형", "좌뇌형")
+        val dragRecyclerViewAdapter = PracticeQuicknessSlidingUpPanelRecyclerViewAdapter(brainModeList)
+        practice_drag_recycler_view.apply {
+            adapter = dragRecyclerViewAdapter
+            layoutManager = LinearLayoutManager(this@PracticeActivity, LinearLayoutManager.VERTICAL, false)
+            setHasFixedSize(true)
+        }
+    }
+
+    override fun quicknessModeClicked() {
+        practice_sliding_up_panel_layout.panelState = SlidingUpPanelLayout.PanelState.EXPANDED
     }
 
 

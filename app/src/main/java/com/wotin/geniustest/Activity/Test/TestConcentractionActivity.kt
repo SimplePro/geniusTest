@@ -99,7 +99,7 @@ class TestConcentractionActivity : AppCompatActivity(), TestConcentractionRecyce
         setConcentractionList()
         t.cancel()
         tt.cancel()
-        counter = (counter * 0.95).toInt()
+        counter = if(counter >= 200) (counter * 0.95).toInt() else 200
         prog()
     }
 

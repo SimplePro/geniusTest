@@ -12,12 +12,14 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.cardview.widget.CardView
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.wotin.geniustest.Activity.Test.TestConcentractionActivity
 import com.wotin.geniustest.Activity.Test.TestQuicknessActivity
 import com.wotin.geniustest.CustomClass.TestModeCustomClass
 import com.wotin.geniustest.R
 import com.wotin.geniustest.RoomMethod.UpdateRoomMethod
+import com.wotin.geniustest.Service.QuicknessTestHeartManagementService
 import com.wotin.geniustest.networkState
 import kotlin.collections.ArrayList
 
@@ -51,11 +53,11 @@ class TestModeRecyclerViewAdapter(val modeList : ArrayList<TestModeCustomClass>,
                                 UpdateRoomMethod().updateTestModeData(parent.context.applicationContext, modeList[adapterPosition])
                             }
                             "순발력 테스트" -> {
-                                modeList[adapterPosition].start = false
-                                val intent = Intent(parent.context, TestQuicknessActivity::class.java)
-                                parent.context.startActivity(intent)
-                                (parent.context as Activity).finish()
-                                UpdateRoomMethod().updateTestModeData(parent.context.applicationContext, modeList[adapterPosition])
+//                                modeList[adapterPosition].start = false
+//                                val intent = Intent(parent.context, TestQuicknessActivity::class.java)
+//                                parent.context.startActivity(intent)
+//                                (parent.context as Activity).finish()
+//                                UpdateRoomMethod().updateTestModeData(parent.context.applicationContext, modeList[adapterPosition])
                             }
                         }
                         modeClickedInterface.modeClicked(modeList[adapterPosition].mode)

@@ -34,9 +34,9 @@ dependencies {
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'androidx.cardview:cardview:1.0.0'
     implementation 'androidx.room:room-runtime:2.2.5'
-    testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+    testImplementation 'junit:junit:4.13'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.2'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
 
 //    TabLayout
     //noinspection GradleCompatible
@@ -68,6 +68,9 @@ dependencies {
 
     //LottieAnimation
     implementation 'com.airbnb.android:lottie:3.4.2'
+
+    // sliding up panel
+    implementation 'com.sothree.slidinguppanel:library:3.4.0'
 
 
 }
