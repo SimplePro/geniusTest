@@ -7,6 +7,16 @@
     android:foreground="?attr/selectableItemBackground"
     >
 
+    <ImageView
+        android:layout_gravity="right|bottom"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:src="@drawable/confused"
+        android:padding="2dp"
+        android:layout_margin="3dp"
+        android:id="@+id/test_mode_question_mark_imageview"
+        />
+
     <LinearLayout
         android:layout_margin="4dp"
         android:layout_width="match_parent"

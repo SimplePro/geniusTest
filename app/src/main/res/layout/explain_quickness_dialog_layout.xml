@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="600dp"
+    android:layout_marginHorizontal="20dp"
+    android:orientation="vertical"
+    android:background="@android:color/white"
+    >
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="순발력 테스트"
+        android:fontFamily="@font/nanum"
+        android:textColor="@android:color/black"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="35dp"
+        android:textSize="20dp"/>
+
+    <ImageView
+        android:layout_gravity="center_horizontal"
+        android:layout_width="300dp"
+        android:layout_height="300dp"
+        android:src="@drawable/quickness_test"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"
+        />
+
+    <TextView
+        android:gravity="center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="우뇌형 기준으로는 글자색깔에 \n해당되는 색을 누르면 점수로 인정이 되고,\n좌뇌형 기준으로는 글자가 말하는\n색을 누르면 점수로 인정됩니다!\n
+        위와 같은 상황일 때는 우뇌형 - 보라색\n좌뇌형 - 주황색이 정답입니다!\n긴장되고, 흥미진진한 순발력 테스트를 해보세요!"
+        android:fontFamily="@font/nanum"
+        android:textColor="@android:color/black"
+        android:layout_gravity="center_horizontal"
+        android:textSize="17dp"
+        android:layout_marginBottom="40dp"
+        />
+
+
+
+</LinearLayout>

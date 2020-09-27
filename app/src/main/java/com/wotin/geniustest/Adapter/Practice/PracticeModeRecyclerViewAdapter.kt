@@ -1,12 +1,16 @@
 package com.wotin.geniustest.Adapter.Practice
 
 import android.app.Activity
+import android.app.AlertDialog
 import android.content.Context.CONNECTIVITY_SERVICE
 import android.content.Intent
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.net.ConnectivityManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.Window
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
@@ -33,18 +37,47 @@ class PracticeModeRecyclerViewAdapter(val modeList : ArrayList<PracticeModeCusto
         return CustomViewHolder(
             view
         ).apply {
-            modeLayout.setOnClickListener{
-                val connectivityManager : ConnectivityManager = parent.context.getSystemService(CONNECTIVITY_SERVICE) as ConnectivityManager
-                if(networkState(connectivityManager)) {
-                    if(modeList[adapterPosition].mode == "집중력 테스트") {
-                        val intent = Intent(parent.context, PracticeConcentractionActivity::class.java)
+            modeLayout.setOnClickListener {
+                val connectivityManager: ConnectivityManager =
+                    parent.context.getSystemService(CONNECTIVITY_SERVICE) as ConnectivityManager
+                if (networkState(connectivityManager)) {
+                    if (modeList[adapterPosition].mode == "집중력 테스트") {
+                        val intent =
+                            Intent(parent.context, PracticeConcentractionActivity::class.java)
                         parent.context.startActivity(intent)
                         (parent.context as Activity).finish()
-                    } else if(modeList[adapterPosition].mode == "순발력 테스트") {
+                    } else if (modeList[adapterPosition].mode == "순발력 테스트") {
                         quicknessModeClicked.quicknessModeClicked()
                     }
-                } else Toast.makeText(parent.context.applicationContext, "네트워크 연결을 확인해주세요", Toast.LENGTH_LONG).show()
+                } else Toast.makeText(
+                    parent.context.applicationContext,
+                    "네트워크 연결을 확인해주세요",
+                    Toast.LENGTH_LONG
+                ).show()
+            }
+            modeQuestionMark.setOnClickListener {
+                when(modeList[adapterPosition].mode) {
+                    "집중력 테스트" -> {
+                        val dialog = AlertDialog.Builder(parent.context)
+                        val EDialog = LayoutInflater.from(parent.context)
+                        val MView = EDialog.inflate(R.layout.explain_concentraction_dialog_layout, null)
+                        val builder = dialog.create()
 
+                        builder.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+                        builder.window?.requestFeature(Window.FEATURE_NO_TITLE)
+
+                        builder.setView(MView)
+                        builder.show()
+                    }
+                    "순발력 테스트" -> {
+                        val dialog = AlertDialog.Builder(parent.context)
+                        val EDialog = LayoutInflater.from(parent.context)
+                        val MView = EDialog.inflate(R.layout.explain_quickness_dialog_layout, null)
+                        val builder = dialog.create()
+                        builder.setView(MView)
+                        builder.show()
+                    }
+                }
             }
         }
     }
@@ -74,5 +107,6 @@ class PracticeModeRecyclerViewAdapter(val modeList : ArrayList<PracticeModeCusto
         val modeScoreText = itemView.findViewById<TextView>(R.id.practice_mode_item_score_textview)
         val modeDifferenceText = itemView.findViewById<TextView>(R.id.practice_mode_item_difference_textview)
         val modeLayout = itemView.findViewById<CardView>(R.id.practice_mode_item_layout)
+        val modeQuestionMark = itemView.findViewById<ImageView>(R.id.practice_mode_question_mark_imageview)
     }
 }

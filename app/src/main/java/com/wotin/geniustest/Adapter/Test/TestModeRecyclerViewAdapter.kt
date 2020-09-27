@@ -1,13 +1,18 @@
 package com.wotin.geniustest.Adapter.Test
 
 import android.app.Activity
+import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.net.ConnectivityManager
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.Window
+import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
@@ -52,13 +57,6 @@ class TestModeRecyclerViewAdapter(val modeList : ArrayList<TestModeCustomClass>,
                                 (parent.context as Activity).finish()
                                 UpdateRoomMethod().updateTestModeData(parent.context.applicationContext, modeList[adapterPosition])
                             }
-                            "순발력 테스트" -> {
-//                                modeList[adapterPosition].start = false
-//                                val intent = Intent(parent.context, TestQuicknessActivity::class.java)
-//                                parent.context.startActivity(intent)
-//                                (parent.context as Activity).finish()
-//                                UpdateRoomMethod().updateTestModeData(parent.context.applicationContext, modeList[adapterPosition])
-                            }
                         }
                         modeClickedInterface.modeClicked(modeList[adapterPosition].mode)
                     } else {
@@ -66,6 +64,30 @@ class TestModeRecyclerViewAdapter(val modeList : ArrayList<TestModeCustomClass>,
                     }
                 } else Toast.makeText(parent.context.applicationContext, "네트워크 연결을 확인해주세요", Toast.LENGTH_LONG).show()
 
+            }
+            modeQuestionMark.setOnClickListener {
+                when(modeList[adapterPosition].mode) {
+                    "집중력 테스트" -> {
+                        val dialog = AlertDialog.Builder(parent.context)
+                        val EDialog = LayoutInflater.from(parent.context)
+                        val MView = EDialog.inflate(R.layout.explain_concentraction_dialog_layout, null)
+                        val builder = dialog.create()
+
+                        builder.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+                        builder.window?.requestFeature(Window.FEATURE_NO_TITLE)
+
+                        builder.setView(MView)
+                        builder.show()
+                    }
+                    "순발력 테스트" -> {
+                        val dialog = AlertDialog.Builder(parent.context)
+                        val EDialog = LayoutInflater.from(parent.context)
+                        val MView = EDialog.inflate(R.layout.explain_quickness_dialog_layout, null)
+                        val builder = dialog.create()
+                        builder.setView(MView)
+                        builder.show()
+                    }
+                }
             }
         }
     }
@@ -101,5 +123,6 @@ class TestModeRecyclerViewAdapter(val modeList : ArrayList<TestModeCustomClass>,
         val modeDifferenceText = itemView.findViewById<TextView>(R.id.test_mode_item_difference_textview)
         val modeLayout = itemView.findViewById<CardView>(R.id.test_mode_item_layout)
         val modeStartImageView = itemView.findViewById<ImageView>(R.id.test_mode_item_start_imageview)
+        val modeQuestionMark = itemView.findViewById<ImageView>(R.id.test_mode_question_mark_imageview)
     }
 }

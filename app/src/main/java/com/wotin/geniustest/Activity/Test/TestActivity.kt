@@ -19,7 +19,6 @@ import com.wotin.geniustest.RoomMethod.GetRoomMethod
 import com.wotin.geniustest.RoomMethod.UpdateRoomMethod
 import com.wotin.geniustest.Service.ConcentractionTestHeartManagementService
 import com.wotin.geniustest.Service.QuicknessTestHeartManagementService
-import kotlinx.android.synthetic.main.activity_practice.*
 import kotlinx.android.synthetic.main.activity_test.*
 import kotlin.collections.ArrayList
 import kotlin.concurrent.timer
