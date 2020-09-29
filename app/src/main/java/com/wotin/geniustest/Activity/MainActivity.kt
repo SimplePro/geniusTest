@@ -117,9 +117,9 @@ class MainActivity : AppCompatActivity(),  NavigationView.OnNavigationItemSelect
                     server_check_to_time_textview.text = toTime
                     window!!.setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE, WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
                     server_check_layout.visibility = View.VISIBLE
+
                 }
             }
-
         })
     }
 
