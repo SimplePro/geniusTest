@@ -1,32 +1,48 @@
 package com.wotin.geniustest.Activity
 
 import android.app.AlarmManager
+import android.app.AlertDialog
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
 import android.provider.Settings
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
-import android.widget.ImageView
-import android.widget.TextView
+import android.view.WindowManager
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import com.google.android.material.navigation.NavigationView
+import com.google.android.material.tabs.TabLayout
+import com.google.gson.JsonObject
 import com.wotin.geniustest.*
 import com.wotin.geniustest.Activity.LoginAndSignUp.LoginActivity
 import com.wotin.geniustest.Activity.UserManagement.DeleteUserActivity
 import com.wotin.geniustest.Activity.UserManagement.UserInformationActivity
 import com.wotin.geniustest.Adapter.TabLayoutFragmentPagerAdapter
+import com.wotin.geniustest.Fragment.PracticeFragment
 import com.wotin.geniustest.Receiver.TestHeartManagementReceiver
+import com.wotin.geniustest.RetrofitInterface.Genius.RetrofitAboutGeniusData
+import com.wotin.geniustest.RetrofitInterface.RetrofitServerCheck
 import com.wotin.geniustest.RoomMethod.DeleteRoomMethod
 import com.wotin.geniustest.RoomMethod.GetRoomMethod
 import com.wotin.geniustest.RoomMethod.UserRoomMethod
 import com.wotin.geniustest.Service.ConcentractionTestHeartManagementService
 import com.wotin.geniustest.Service.QuicknessTestHeartManagementService
 import kotlinx.android.synthetic.main.activity_main.*
+import okhttp3.OkHttpClient
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 import java.lang.Exception
+import java.util.*
+import java.util.concurrent.TimeUnit
 import kotlin.concurrent.timer
 
 
@@ -35,6 +51,8 @@ class MainActivity : AppCompatActivity(),  NavigationView.OnNavigationItemSelect
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        serverCheck()
 
         // 3초마다 윈도우 조정해주는 메소드 실행.
         controlWindowOnTimer()
@@ -46,11 +64,11 @@ class MainActivity : AppCompatActivity(),  NavigationView.OnNavigationItemSelect
         navigation_view.setNavigationItemSelectedListener(this)
         setNavigationHeaderLayout()
 
-
         fragment_view_pager.adapter =
             TabLayoutFragmentPagerAdapter(
                 supportFragmentManager
             )
+
         tab_layout.setupWithViewPager(fragment_view_pager)
         for(i in 0 until tab_layout.tabCount) {
             when(i) {
@@ -68,6 +86,41 @@ class MainActivity : AppCompatActivity(),  NavigationView.OnNavigationItemSelect
                 }
             }
         }
+        Objects.requireNonNull(tab_layout.getTabAt(0))!!.select()
+    }
+
+    private fun serverCheck() {
+        var okHttpClient: OkHttpClient = OkHttpClient.Builder()
+            .connectTimeout(1, TimeUnit.MINUTES)
+            .readTimeout(30, TimeUnit.SECONDS)
+            .writeTimeout(15, TimeUnit.SECONDS)
+            .build()
+        val baseUrl = "http://220.72.174.101:8080"
+        var retrofit = Retrofit.Builder()
+            .baseUrl(baseUrl)
+            .addConverterFactory(GsonConverterFactory.create())
+            .client(okHttpClient)
+            .build()
+        val geniusTestServerCheck = retrofit.create(RetrofitServerCheck::class.java)
+
+        geniusTestServerCheck.serverCheck().enqueue(object : Callback<JsonObject> {
+            override fun onFailure(call: Call<JsonObject>, t: Throwable) {
+                Toast.makeText(applicationContext, "에러", Toast.LENGTH_LONG).show()
+            }
+
+            override fun onResponse(call: Call<JsonObject>, response: Response<JsonObject>) {
+                Log.d("TAG", "geniusTestServerCheck onResponse ${response.body()!!}")
+                if(response.body()!!.get("from_time").asString.isNotEmpty()) {
+                    val fromTime = response.body()!!.get("from_time").asString
+                    val toTime = response.body()!!.get("to_time").asString
+                    server_check_from_time_textview.text = fromTime
+                    server_check_to_time_textview.text = toTime
+                    window!!.setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE, WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
+                    server_check_layout.visibility = View.VISIBLE
+                }
+            }
+
+        })
     }
 
     //3초마다 윈도우를 조정해주는 메소드.

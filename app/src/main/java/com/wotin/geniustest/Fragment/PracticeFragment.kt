@@ -60,7 +60,6 @@ class PracticeFragment : Fragment() {
             Log.d("TAG", "onCreateView: error is $e")
         }
 
-
         val connectivityManager = activity!!.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         if(networkState(connectivityManager)){
             Log.d("TAG", "onCreateView: geniusPracticeData is $geniusPracticeData")
