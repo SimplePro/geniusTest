@@ -177,7 +177,7 @@ class MainActivity : AppCompatActivity(),  NavigationView.OnNavigationItemSelect
                     val mapI = MapJsonConverter().MapToJsonConverter(i.toString())
                     heartToMeList.add(UserInformationCustomClass(
                         level = mapI["level"].toString(), id = mapI["id"].toString(), heartNum = mapI["heart_number"].toString().toFloat().toInt().toString(),
-                        testSumDifference = mapI["genius_difference"].toString()))
+                        testSumDifference = mapI["genius_difference"].toString() + "%"))
                 }
                 heartToMeList.forEach { heartToMe ->
                     Log.d("TAG", "onResponse: hearToMeList Element is ${heartToMe.level} ${heartToMe.id} ${heartToMe.heartNum} ${heartToMe.testSumDifference}")
