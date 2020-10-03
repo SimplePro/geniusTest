@@ -10,7 +10,6 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.wotin.geniustest.Activity.Test.TestActivity
 import com.wotin.geniustest.Activity.Test.TestQuicknessActivity
-import com.wotin.geniustest.CustomClass.TestModeCustomClass
 import com.wotin.geniustest.R
 import com.wotin.geniustest.RoomMethod.GetRoomMethod
 import com.wotin.geniustest.RoomMethod.UpdateRoomMethod

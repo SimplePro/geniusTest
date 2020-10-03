@@ -12,19 +12,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.Window
-import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.cardview.widget.CardView
-import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.wotin.geniustest.Activity.Test.TestConcentractionActivity
-import com.wotin.geniustest.Activity.Test.TestQuicknessActivity
-import com.wotin.geniustest.CustomClass.TestModeCustomClass
+import com.wotin.geniustest.CustomClass.GeniusTest.TestModeCustomClass
 import com.wotin.geniustest.R
 import com.wotin.geniustest.RoomMethod.UpdateRoomMethod
-import com.wotin.geniustest.Service.QuicknessTestHeartManagementService
 import com.wotin.geniustest.networkState
 import kotlin.collections.ArrayList
 

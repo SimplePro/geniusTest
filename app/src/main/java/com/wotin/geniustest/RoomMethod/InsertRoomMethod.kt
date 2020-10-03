@@ -5,7 +5,7 @@ import android.util.Log
 import androidx.room.Room
 import com.wotin.geniustest.CustomClass.GeniusPractice.GeniusPracticeDataCustomClass
 import com.wotin.geniustest.CustomClass.GeniusTest.GeniusTestDataCustomClass
-import com.wotin.geniustest.CustomClass.TestModeCustomClass
+import com.wotin.geniustest.CustomClass.GeniusTest.TestModeCustomClass
 import com.wotin.geniustest.DB.Genius.GeniusPracticeDataDB
 import com.wotin.geniustest.DB.Genius.GeniusTestDataDB
 import com.wotin.geniustest.DB.TestModeDB
@@ -55,9 +55,27 @@ class InsertRoomMethod {
         )
             .allowMainThreadQueries()
             .build()
-        testModeDB.testModeDB().insertTestMode(TestModeCustomClass("기억력 테스트", score = 1, difference = "99.9%"))
-        testModeDB.testModeDB().insertTestMode(TestModeCustomClass("집중력 테스트", score = 1, difference = "99.9%"))
-        testModeDB.testModeDB().insertTestMode(TestModeCustomClass("순발력 테스트", score = 1, difference = "99.9%"))
+        testModeDB.testModeDB().insertTestMode(
+            TestModeCustomClass(
+                "기억력 테스트",
+                score = 1,
+                difference = "99.9%"
+            )
+        )
+        testModeDB.testModeDB().insertTestMode(
+            TestModeCustomClass(
+                "집중력 테스트",
+                score = 1,
+                difference = "99.9%"
+            )
+        )
+        testModeDB.testModeDB().insertTestMode(
+            TestModeCustomClass(
+                "순발력 테스트",
+                score = 1,
+                difference = "99.9%"
+            )
+        )
     }
 
 }

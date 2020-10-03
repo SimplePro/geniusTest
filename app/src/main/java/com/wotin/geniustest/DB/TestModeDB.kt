@@ -2,7 +2,7 @@ package com.wotin.geniustest.DB
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
-import com.wotin.geniustest.CustomClass.TestModeCustomClass
+import com.wotin.geniustest.CustomClass.GeniusTest.TestModeCustomClass
 import com.wotin.geniustest.Dao.TestModeDao
 
 @Database(entities = [TestModeCustomClass::class], version = 1)

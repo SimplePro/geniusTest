@@ -1,4 +1,4 @@
-package com.wotin.geniustest.CustomClass
+package com.wotin.geniustest.CustomClass.GeniusTest
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity

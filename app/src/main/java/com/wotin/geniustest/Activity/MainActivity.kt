@@ -16,18 +16,27 @@ import android.view.WindowManager
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.tabs.TabLayout
+import com.google.gson.JsonArray
 import com.google.gson.JsonObject
 import com.wotin.geniustest.*
 import com.wotin.geniustest.Activity.LoginAndSignUp.LoginActivity
 import com.wotin.geniustest.Activity.UserManagement.DeleteUserActivity
 import com.wotin.geniustest.Activity.UserManagement.UserInformationActivity
 import com.wotin.geniustest.Adapter.TabLayoutFragmentPagerAdapter
+import com.wotin.geniustest.Adapter.UserInformationRecyclerViewAdapter
+import com.wotin.geniustest.Converters.MapJsonConverter
+import com.wotin.geniustest.CustomClass.UserInformationCustomClass
 import com.wotin.geniustest.Fragment.PracticeFragment
 import com.wotin.geniustest.Receiver.TestHeartManagementReceiver
 import com.wotin.geniustest.RetrofitInterface.Genius.RetrofitAboutGeniusData
+import com.wotin.geniustest.RetrofitInterface.RetrofitAboutHeart
 import com.wotin.geniustest.RetrofitInterface.RetrofitServerCheck
+import com.wotin.geniustest.RetrofitInterface.RetrofitUserDataAndGeniusData
+import com.wotin.geniustest.RetrofitInterface.User.RetrofitSignInAndSignUp
 import com.wotin.geniustest.RoomMethod.DeleteRoomMethod
 import com.wotin.geniustest.RoomMethod.GetRoomMethod
 import com.wotin.geniustest.RoomMethod.UserRoomMethod
@@ -43,14 +52,34 @@ import retrofit2.converter.gson.GsonConverterFactory
 import java.lang.Exception
 import java.util.*
 import java.util.concurrent.TimeUnit
+import kotlin.collections.ArrayList
 import kotlin.concurrent.timer
 
 
 class MainActivity : AppCompatActivity(),  NavigationView.OnNavigationItemSelectedListener {
 
+    lateinit var retrofit: Retrofit
+    lateinit var getAboutHeart : RetrofitAboutHeart
+    lateinit var okHttpClient: OkHttpClient
+    val baseUrl = "http://220.72.174.101:8080"
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        okHttpClient = OkHttpClient.Builder()
+            .connectTimeout(1, TimeUnit.MINUTES)
+            .readTimeout(30, TimeUnit.SECONDS)
+            .writeTimeout(15, TimeUnit.SECONDS)
+            .build()
+
+        retrofit = Retrofit.Builder()
+            .baseUrl(baseUrl)
+            .addConverterFactory(GsonConverterFactory.create())
+            .client(okHttpClient)
+            .build()
+
+        getAboutHeart = retrofit.create(RetrofitAboutHeart::class.java)
 
         // 3초마다 윈도우 조정해주는 메소드 실행.
         controlWindowOnTimer()
@@ -120,9 +149,96 @@ class MainActivity : AppCompatActivity(),  NavigationView.OnNavigationItemSelect
                 startActivity(intent)
                 finish()
             }
+
+            R.id.heart_to_me -> {
+                getHeartToMe()
+            }
+
+            R.id.heart_to_people -> {
+                getHeartToPeople()
+            }
+
         }
         layout_drawer.closeDrawers()
         return true
+    }
+
+    private fun getHeartToMe() {
+        getAboutHeart.getHeartToMePeople(UserRoomMethod().getUserData(applicationContext).UniqueId).enqueue(object : Callback<JsonArray> {
+            override fun onFailure(call: Call<JsonArray>, t: Throwable) {
+                Log.d("TAG", "getHeartToMe Failure, $t")
+                Toast.makeText(applicationContext, "데이터를 가져오는데 실패했습니다.", Toast.LENGTH_SHORT).show()
+            }
+
+            override fun onResponse(call: Call<JsonArray>, response: Response<JsonArray>) {
+                Log.d("TAG", "getHeartToMe data is ${response.body()!!}")
+                val heartToMeList : ArrayList<UserInformationCustomClass> = arrayListOf()
+                for(i in response.body()!!) {
+                    val mapI = MapJsonConverter().MapToJsonConverter(i.toString())
+                    heartToMeList.add(UserInformationCustomClass(
+                        level = mapI["level"].toString(), id = mapI["id"].toString(), heartNum = mapI["heart_number"].toString().toFloat().toInt().toString(),
+                        testSumDifference = mapI["genius_difference"].toString()))
+                }
+                heartToMeList.forEach { heartToMe ->
+                    Log.d("TAG", "onResponse: hearToMeList Element is ${heartToMe.level} ${heartToMe.id} ${heartToMe.heartNum} ${heartToMe.testSumDifference}")
+                }
+                val alertDialog = AlertDialog.Builder(this@MainActivity)
+                val eDialog = LayoutInflater.from(this@MainActivity)
+                val mView = eDialog.inflate(R.layout.heart_user_information_dialog, null)
+                val builder = alertDialog.create()
+                val heartUserRecyclerView = mView.findViewById<RecyclerView>(R.id.heart_user_information_recyclerview)
+                val heartUserTextView = mView.findViewById<TextView>(R.id.heart_user_information_tome_or_topeople_textview)
+                heartUserTextView.text = "나를 좋아하는 사람"
+                val heartUserRecyclerViewAdapter = UserInformationRecyclerViewAdapter(heartToMeList)
+                heartUserRecyclerView.apply {
+                    adapter = heartUserRecyclerViewAdapter
+                    layoutManager = LinearLayoutManager(this@MainActivity, LinearLayoutManager.VERTICAL, false)
+                    setHasFixedSize(true)
+                }
+                builder.setView(mView)
+                builder.show()
+            }
+
+        })
+    }
+
+    private fun getHeartToPeople() {
+        getAboutHeart.getHeartToPeople(UserRoomMethod().getUserData(applicationContext).UniqueId).enqueue(object : Callback<JsonArray> {
+            override fun onFailure(call: Call<JsonArray>, t: Throwable) {
+                Log.d("TAG", "getHeartToMe Failure, $t")
+                Toast.makeText(applicationContext, "데이터를 가져오는데 실패했습니다.", Toast.LENGTH_SHORT).show()
+            }
+
+            override fun onResponse(call: Call<JsonArray>, response: Response<JsonArray>) {
+                Log.d("TAG", "getHeartToMe data is ${response.body()!!}")
+                val heartToPeopleList : ArrayList<UserInformationCustomClass> = arrayListOf()
+                for(i in response.body()!!) {
+                    val mapI = MapJsonConverter().MapToJsonConverter(i.toString())
+                    heartToPeopleList.add(UserInformationCustomClass(
+                        level = mapI["level"].toString(), id = mapI["id"].toString(), heartNum = mapI["heart_number"].toString().toFloat().toInt().toString(),
+                        testSumDifference = mapI["genius_difference"].toString()))
+                }
+                heartToPeopleList.forEach { heartToPeople ->
+                    Log.d("TAG", "onResponse: hearToMeList Element is ${heartToPeople.level} ${heartToPeople.id} ${heartToPeople.heartNum} ${heartToPeople.testSumDifference}")
+                }
+                val alertDialog = AlertDialog.Builder(this@MainActivity)
+                val eDialog = LayoutInflater.from(this@MainActivity)
+                val mView = eDialog.inflate(R.layout.heart_user_information_dialog, null)
+                val builder = alertDialog.create()
+                val heartUserRecyclerView = mView.findViewById<RecyclerView>(R.id.heart_user_information_recyclerview)
+                val heartUserTextView = mView.findViewById<TextView>(R.id.heart_user_information_tome_or_topeople_textview)
+                heartUserTextView.text = "내가 좋아하는 사람"
+                val heartUserRecyclerViewAdapter = UserInformationRecyclerViewAdapter(heartToPeopleList)
+                heartUserRecyclerView.apply {
+                    adapter = heartUserRecyclerViewAdapter
+                    layoutManager = LinearLayoutManager(this@MainActivity, LinearLayoutManager.VERTICAL, false)
+                    setHasFixedSize(true)
+                }
+                builder.setView(mView)
+                builder.show()
+            }
+
+        })
     }
 
     private fun deleteUserDataSharedPreference() {

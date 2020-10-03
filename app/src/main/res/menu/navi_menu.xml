@@ -11,4 +11,14 @@
         android:icon="@drawable/delete_user"
         />
 
+    <item android:id="@+id/heart_to_me"
+        android:title="나를 좋아하는 사람"
+        android:icon="@drawable/me"
+        />
+
+    <item android:id="@+id/heart_to_people"
+        android:title="내가 좋아하는 사람"
+        android:icon="@drawable/you"
+        />
+
 </menu>

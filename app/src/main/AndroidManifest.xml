@@ -54,11 +54,6 @@
             android:launchMode="singleTask"
             />
         <activity
-            android:name=".Activity.GeniusTestActivity"
-            android:screenOrientation="portrait"
-            android:launchMode="singleTask"
-            />
-        <activity
             android:name=".Activity.Practice.PracticeActivity"
             android:screenOrientation="portrait"
             android:launchMode="singleTask"

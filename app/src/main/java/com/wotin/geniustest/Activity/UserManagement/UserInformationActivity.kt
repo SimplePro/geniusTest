@@ -69,7 +69,7 @@ class UserInformationActivity : AppCompatActivity() {
                 userId = EncryptionAndDetoxification().encryptionAndDetoxification(search_user_information_edittext.text.toString())
                 getUserDataFromServer(userId)
             } else {
-                Toast.makeText(applicationContext, "아이디를 입력해주세요.", Toast.LENGTH_SHORT).show()
+                getUserDataFromServer(UserRoomMethod().getUserData(applicationContext).id)
             }
         }
 

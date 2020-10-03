@@ -1,23 +1,16 @@
 package com.wotin.geniustest.Activity.Practice
 
-import android.content.Context
-import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
-import android.widget.Button
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.slidingpanelayout.widget.SlidingPaneLayout
 import com.sothree.slidinguppanel.SlidingUpPanelLayout
 import com.wotin.geniustest.Activity.MainActivity
 import com.wotin.geniustest.Adapter.Practice.PracticeModeRecyclerViewAdapter
 import com.wotin.geniustest.Adapter.Practice.PracticeQuicknessSlidingUpPanelRecyclerViewAdapter
 import com.wotin.geniustest.CustomClass.GeniusPractice.GeniusPracticeDataCustomClass
-import com.wotin.geniustest.CustomClass.PracticeModeCustomClass
+import com.wotin.geniustest.CustomClass.GeniusPractice.PracticeModeCustomClass
 import com.wotin.geniustest.R
 import com.wotin.geniustest.RoomMethod.GetRoomMethod
 import kotlinx.android.synthetic.main.activity_practice.*

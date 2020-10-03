@@ -14,7 +14,7 @@ import com.wotin.geniustest.Activity.MainActivity
 import com.wotin.geniustest.Adapter.Test.TestModeRecyclerViewAdapter
 import com.wotin.geniustest.Adapter.Test.TestQuicknessSlidingUpPanelRecyclerViewAdapter
 import com.wotin.geniustest.CustomClass.GeniusTest.GeniusTestDataCustomClass
-import com.wotin.geniustest.CustomClass.TestModeCustomClass
+import com.wotin.geniustest.CustomClass.GeniusTest.TestModeCustomClass
 import com.wotin.geniustest.RoomMethod.GetRoomMethod
 import com.wotin.geniustest.RoomMethod.UpdateRoomMethod
 import com.wotin.geniustest.Service.ConcentractionTestHeartManagementService

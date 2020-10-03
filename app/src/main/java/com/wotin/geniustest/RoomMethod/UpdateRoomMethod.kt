@@ -4,7 +4,7 @@ import android.content.Context
 import androidx.room.Room
 import com.wotin.geniustest.CustomClass.GeniusPractice.GeniusPracticeDataCustomClass
 import com.wotin.geniustest.CustomClass.GeniusTest.GeniusTestDataCustomClass
-import com.wotin.geniustest.CustomClass.TestModeCustomClass
+import com.wotin.geniustest.CustomClass.GeniusTest.TestModeCustomClass
 import com.wotin.geniustest.DB.Genius.GeniusPracticeDataDB
 import com.wotin.geniustest.DB.Genius.GeniusTestDataDB
 import com.wotin.geniustest.DB.TestModeDB

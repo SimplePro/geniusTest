@@ -17,8 +17,7 @@ import android.widget.Toast
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.wotin.geniustest.Activity.Practice.PracticeConcentractionActivity
-import com.wotin.geniustest.Activity.Practice.PracticeQuicknessActivity
-import com.wotin.geniustest.CustomClass.PracticeModeCustomClass
+import com.wotin.geniustest.CustomClass.GeniusPractice.PracticeModeCustomClass
 import com.wotin.geniustest.R
 import com.wotin.geniustest.networkState
 

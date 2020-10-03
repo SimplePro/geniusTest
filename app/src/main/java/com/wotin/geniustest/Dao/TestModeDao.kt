@@ -1,7 +1,7 @@
 package com.wotin.geniustest.Dao
 
 import androidx.room.*
-import com.wotin.geniustest.CustomClass.TestModeCustomClass
+import com.wotin.geniustest.CustomClass.GeniusTest.TestModeCustomClass
 
 @Dao
 interface TestModeDao {
