@@ -52,8 +52,6 @@ class MainActivity : AppCompatActivity(),  NavigationView.OnNavigationItemSelect
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        serverCheck()
-
         // 3초마다 윈도우 조정해주는 메소드 실행.
         controlWindowOnTimer()
 
@@ -86,41 +84,6 @@ class MainActivity : AppCompatActivity(),  NavigationView.OnNavigationItemSelect
                 }
             }
         }
-        Objects.requireNonNull(tab_layout.getTabAt(0))!!.select()
-    }
-
-    private fun serverCheck() {
-        var okHttpClient: OkHttpClient = OkHttpClient.Builder()
-            .connectTimeout(1, TimeUnit.MINUTES)
-            .readTimeout(30, TimeUnit.SECONDS)
-            .writeTimeout(15, TimeUnit.SECONDS)
-            .build()
-        val baseUrl = "http://220.72.174.101:8080"
-        var retrofit = Retrofit.Builder()
-            .baseUrl(baseUrl)
-            .addConverterFactory(GsonConverterFactory.create())
-            .client(okHttpClient)
-            .build()
-        val geniusTestServerCheck = retrofit.create(RetrofitServerCheck::class.java)
-
-        geniusTestServerCheck.serverCheck().enqueue(object : Callback<JsonObject> {
-            override fun onFailure(call: Call<JsonObject>, t: Throwable) {
-                Toast.makeText(applicationContext, "에러", Toast.LENGTH_LONG).show()
-            }
-
-            override fun onResponse(call: Call<JsonObject>, response: Response<JsonObject>) {
-                Log.d("TAG", "geniusTestServerCheck onResponse ${response.body()!!}")
-                if(response.body()!!.get("from_time").asString.isNotEmpty()) {
-                    val fromTime = response.body()!!.get("from_time").asString
-                    val toTime = response.body()!!.get("to_time").asString
-                    server_check_from_time_textview.text = fromTime
-                    server_check_to_time_textview.text = toTime
-                    window!!.setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE, WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
-                    server_check_layout.visibility = View.VISIBLE
-
-                }
-            }
-        })
     }
 
     //3초마다 윈도우를 조정해주는 메소드.
