@@ -1,6 +1,7 @@
 package com.wotin.geniustest.Activity.Test
 
 import android.content.Intent
+import android.os.AsyncTask
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
@@ -20,6 +21,10 @@ import com.wotin.geniustest.RoomMethod.UpdateRoomMethod
 import com.wotin.geniustest.Service.ConcentractionTestHeartManagementService
 import com.wotin.geniustest.Service.QuicknessTestHeartManagementService
 import kotlinx.android.synthetic.main.activity_test.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 import kotlin.collections.ArrayList
 import kotlin.concurrent.timer
 
@@ -46,9 +51,13 @@ class TestActivity : AppCompatActivity(), TestModeRecyclerViewAdapter.ModeClicke
         // 3초마다 윈도우를 조정해주는 메소드 실행.
         controlWindowOnTimer()
 
-
         // 3초마다 윈도우를 조정해주는 메소드 실행.
         controlWindowOnTimer()
+
+        test_refresh_layout.setOnRefreshListener {
+            setModeList()
+            test_refresh_layout.isRefreshing = false
+        }
 
         recyclerViewAdapter =
             TestModeRecyclerViewAdapter(
@@ -104,44 +113,48 @@ class TestActivity : AppCompatActivity(), TestModeRecyclerViewAdapter.ModeClicke
     }
 
     private fun setModeList() {
-        geniusTestData = GetRoomMethod().getGeniusTestData(applicationContext)
+        val scope = CoroutineScope(Job() + Dispatchers.Main)
+        scope.launch {
 
-        modeList = arrayListOf(
-            TestModeCustomClass(
-                "기억력 테스트",
-                geniusTestData.memoryScore.toInt(),
-                geniusTestData.memoryDifference + "%"
-            ),
-            TestModeCustomClass(
-                "집중력 테스트",
-                geniusTestData.concentractionScore.toInt(),
-                geniusTestData.concentractionDifference + "%"
-            ),
-            TestModeCustomClass(
-                "순발력 테스트",
-                geniusTestData.quicknessScore.toFloat().toInt(),
-                geniusTestData.quicknessDifference + "%"
+            geniusTestData = GetRoomMethod().getGeniusTestData(applicationContext)
+
+            modeList = arrayListOf(
+                TestModeCustomClass(
+                    "기억력 테스트",
+                    geniusTestData.memoryScore.toInt(),
+                    geniusTestData.memoryDifference + "%"
+                ),
+                TestModeCustomClass(
+                    "집중력 테스트",
+                    geniusTestData.concentractionScore.toInt(),
+                    geniusTestData.concentractionDifference + "%"
+                ),
+                TestModeCustomClass(
+                    "순발력 테스트",
+                    geniusTestData.quicknessScore.toFloat().toInt(),
+                    geniusTestData.quicknessDifference + "%"
+                )
             )
-        )
 
-        val geniusTestModeData = GetRoomMethod().getTestModeData(applicationContext)
-        geniusTestModeData[0].apply {
-            score = geniusTestData.memoryScore.toInt()
-            difference = geniusTestData.memoryDifference
-        }
-        geniusTestModeData[1].apply {
-            score = geniusTestData.concentractionScore.toInt()
-            difference = geniusTestData.concentractionDifference
-        }
-        geniusTestModeData[2].apply {
-            score = geniusTestData.quicknessScore.toFloat().toInt()
-            difference = geniusTestData.quicknessDifference
-        }
+            val geniusTestModeData = GetRoomMethod().getTestModeData(applicationContext)
+            geniusTestModeData[0].apply {
+                score = geniusTestData.memoryScore.toInt()
+                difference = geniusTestData.memoryDifference
+            }
+            geniusTestModeData[1].apply {
+                score = geniusTestData.concentractionScore.toInt()
+                difference = geniusTestData.concentractionDifference
+            }
+            geniusTestModeData[2].apply {
+                score = geniusTestData.quicknessScore.toFloat().toInt()
+                difference = geniusTestData.quicknessDifference
+            }
 
-        UpdateRoomMethod().updateTestModeData(applicationContext, geniusTestModeData[0])
-        UpdateRoomMethod().updateTestModeData(applicationContext, geniusTestModeData[1])
-        UpdateRoomMethod().updateTestModeData(applicationContext, geniusTestModeData[2])
-
+            UpdateRoomMethod().updateTestModeData(applicationContext, geniusTestModeData[0])
+            UpdateRoomMethod().updateTestModeData(applicationContext, geniusTestModeData[1])
+            UpdateRoomMethod().updateTestModeData(applicationContext, geniusTestModeData[2])
+        }
+        Thread.sleep(100)
         modeList = GetRoomMethod().getTestModeData(applicationContext)
         Log.d("TAG", "testModeList is $modeList")
         recyclerViewAdapter = TestModeRecyclerViewAdapter(modeList, this)
@@ -156,28 +169,24 @@ class TestActivity : AppCompatActivity(), TestModeRecyclerViewAdapter.ModeClicke
 
     override fun quicknessTestHeartManagement() {
         Log.d("TAG", "quicknessTestHeartManagement: start quicknessTestHeartManagement")
-        Handler().postDelayed({
-            modeList = GetRoomMethod().getTestModeData(applicationContext)
-            Log.d("TAG", "testHeartManagement: modeList is $modeList")
-            recyclerViewAdapter = TestModeRecyclerViewAdapter(modeList, this)
-            test_mode_recyclerview.apply {
-                adapter = recyclerViewAdapter
-            }
-            recyclerViewAdapter.notifyDataSetChanged()
-        }, 500)
+        modeList = GetRoomMethod().getTestModeData(this.applicationContext)
+        Log.d("TAG", "testHeartManagement: modeList is $modeList")
+        recyclerViewAdapter = TestModeRecyclerViewAdapter(modeList, this)
+        test_mode_recyclerview.apply {
+            adapter = recyclerViewAdapter
+        }
+        recyclerViewAdapter.notifyDataSetChanged()
     }
 
     override fun concentractionTestHeartManagement() {
         Log.d("TAG", "concentractionTestHeartManagement: start concentractionTestHeartManagement")
-        Handler().postDelayed({
-            modeList = GetRoomMethod().getTestModeData(applicationContext)
-            Log.d("TAG", "testHeartManagement: modeList is $modeList")
-            recyclerViewAdapter = TestModeRecyclerViewAdapter(modeList, this)
-            test_mode_recyclerview.apply {
-                adapter = recyclerViewAdapter
-            }
-            recyclerViewAdapter.notifyDataSetChanged()
-        }, 500)
+        modeList = GetRoomMethod().getTestModeData(this.applicationContext)
+        Log.d("TAG", "testHeartManagement: modeList is $modeList")
+        recyclerViewAdapter = TestModeRecyclerViewAdapter(modeList, this)
+        test_mode_recyclerview.apply {
+            adapter = recyclerViewAdapter
+        }
+        recyclerViewAdapter.notifyDataSetChanged()
     }
 
     private fun setBottomDragView() {

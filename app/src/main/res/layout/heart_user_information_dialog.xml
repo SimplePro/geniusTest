@@ -4,6 +4,7 @@
     android:layout_height="500dp"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -27,11 +28,20 @@
         android:id="@+id/heart_user_information_tome_or_topeople_textview_bottom_view"
         />
 
-    <androidx.recyclerview.widget.RecyclerView
-        app:layout_constraintTop_toBottomOf="@id/heart_user_information_tome_or_topeople_textview_bottom_view"
-        android:layout_marginTop="30dp"
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:layout_width="match_parent"
         android:layout_height="400dp"
-        android:id="@+id/heart_user_information_recyclerview"/>
+        app:layout_constraintTop_toBottomOf="@id/heart_user_information_tome_or_topeople_textview_bottom_view"
+        android:layout_marginTop="30dp"
+        android:id="@+id/heart_user_refresh_layout">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="400dp"
+            android:id="@+id/heart_user_information_recyclerview"/>
+
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

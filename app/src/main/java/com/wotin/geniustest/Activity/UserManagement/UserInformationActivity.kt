@@ -64,13 +64,20 @@ class UserInformationActivity : AppCompatActivity() {
         }
 
         search_user_information_button.setOnClickListener {
+            isHearted = false
             if(search_user_information_edittext.text.isNotEmpty()) {
-                isHearted = false
                 userId = EncryptionAndDetoxification().encryptionAndDetoxification(search_user_information_edittext.text.toString())
                 getUserDataFromServer(userId)
             } else {
-                getUserDataFromServer(UserRoomMethod().getUserData(applicationContext).id)
+                userId = UserRoomMethod().getUserData(applicationContext).id
+                getUserDataFromServer(userId)
             }
+        }
+
+        refresh_layout_among_user_information.setOnRefreshListener {
+            isHearted = false
+            getUserDataFromServer(userId)
+            refresh_layout_among_user_information.isRefreshing = false
         }
 
         user_heart_lottieanimation_among_user_information.setOnClickListener {

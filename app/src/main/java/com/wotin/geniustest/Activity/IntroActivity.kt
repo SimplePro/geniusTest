@@ -123,7 +123,7 @@ class IntroActivity : AppCompatActivity() {
                 } else returnValue = false
             }
         })
-        delay(500L)
+        delay(1000L)
         return returnValue
     }
 
@@ -136,7 +136,7 @@ class IntroActivity : AppCompatActivity() {
 
     suspend fun setNextIntent() {
         val serverCheckVariable = serverCheck()
-        delay(500L)
+        delay(1000L)
         when (serverCheckVariable) {
             null -> {
                 runOnUiThread {
@@ -293,7 +293,7 @@ class IntroActivity : AppCompatActivity() {
                         }
                     }
                     handler?.run {
-                        postDelayed(runnable, 3000)
+                        postDelayed(runnable, 1000)
                     }
                 }
             }

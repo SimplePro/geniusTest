@@ -15,69 +15,76 @@
     >
 
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        >
+        android:id="@+id/test_refresh_layout">
 
-        <ImageView
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:src="@drawable/left_arrow"
-            android:id="@+id/test_back_btn"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            android:layout_margin="5dp"
-            />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/mapo"
-            android:text="테스트"
-            android:textColor="@android:color/black"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginTop="20dp"
-            android:textSize="30dp"
-            android:id="@+id/test_title_textview"
-            android:textStyle="bold"
-            />
-
-        <View
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="1.5dp"
-            android:layout_marginHorizontal="30dp"
-            android:background="@android:color/black"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/test_title_textview"
-            android:layout_marginTop="30dp"
-            android:id="@+id/test_title_bottom_view"
-            />
+            android:layout_height="match_parent"
+            >
 
-        <ImageView
-            android:layout_width="250dp"
-            android:layout_height="250dp"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:src="@drawable/genius"
-            android:tint="#6DFFFFFF"
-            tools:ignore="UseAppTint" />
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/left_arrow"
+                android:id="@+id/test_back_btn"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                android:layout_margin="5dp"
+                />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:id="@+id/test_mode_recyclerview"
-            app:layout_constraintTop_toBottomOf="@id/test_title_bottom_view"
-            android:layout_marginTop="50dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/mapo"
+                android:text="테스트"
+                android:textColor="@android:color/black"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginTop="20dp"
+                android:textSize="30dp"
+                android:id="@+id/test_title_textview"
+                android:textStyle="bold"
+                />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1.5dp"
+                android:layout_marginHorizontal="30dp"
+                android:background="@android:color/black"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/test_title_textview"
+                android:layout_marginTop="30dp"
+                android:id="@+id/test_title_bottom_view"
+                />
+
+            <ImageView
+                android:layout_width="250dp"
+                android:layout_height="250dp"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:src="@drawable/genius"
+                android:tint="#6DFFFFFF"
+                tools:ignore="UseAppTint" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:id="@+id/test_mode_recyclerview"
+                app:layout_constraintTop_toBottomOf="@id/test_title_bottom_view"
+                android:layout_marginTop="50dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
     <LinearLayout
         android:id="@+id/test_drag_layout"
@@ -112,5 +119,5 @@
             />
 
     </LinearLayout>
-    
+
 </com.sothree.slidinguppanel.SlidingUpPanelLayout>

@@ -18,6 +18,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.tabs.TabLayout
 import com.google.gson.JsonArray
@@ -62,6 +63,14 @@ class MainActivity : AppCompatActivity(),  NavigationView.OnNavigationItemSelect
     lateinit var getAboutHeart : RetrofitAboutHeart
     lateinit var okHttpClient: OkHttpClient
     val baseUrl = "http://220.72.174.101:8080"
+
+    lateinit var heartAlertDialog : AlertDialog.Builder
+    lateinit var heartEDialog: LayoutInflater
+    lateinit var heartMView : View
+    lateinit var heartBuilder : AlertDialog
+    lateinit var heartUserRecyclerView : RecyclerView
+    lateinit var heartUserTextView : TextView
+    lateinit var heartUserRefreshLayout : SwipeRefreshLayout
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -151,16 +160,35 @@ class MainActivity : AppCompatActivity(),  NavigationView.OnNavigationItemSelect
             }
 
             R.id.heart_to_me -> {
-                getHeartToMe()
+                setHeartToMeDialog()
             }
 
             R.id.heart_to_people -> {
-                getHeartToPeople()
+                setHeartToPeopleDialog()
             }
 
         }
         layout_drawer.closeDrawers()
         return true
+    }
+
+    private fun setHeartToMeDialog() {
+        heartAlertDialog = AlertDialog.Builder(this@MainActivity)
+        heartEDialog = LayoutInflater.from(this@MainActivity)
+        heartMView = heartEDialog.inflate(R.layout.heart_user_information_dialog, null)
+        heartBuilder = heartAlertDialog.create()
+        heartUserRecyclerView = heartMView.findViewById<RecyclerView>(R.id.heart_user_information_recyclerview)
+        heartUserTextView = heartMView.findViewById<TextView>(R.id.heart_user_information_tome_or_topeople_textview)
+        heartUserRefreshLayout = heartMView.findViewById(R.id.heart_user_refresh_layout)
+        Thread.sleep(100)
+        heartUserRefreshLayout.setOnRefreshListener {
+            getHeartToMe()
+            heartUserRefreshLayout.isRefreshing = false
+        }
+        heartUserTextView.text = "나를 좋아하는 사람"
+        getHeartToMe()
+        heartBuilder.setView(heartMView)
+        heartBuilder.show()
     }
 
     private fun getHeartToMe() {
@@ -182,24 +210,36 @@ class MainActivity : AppCompatActivity(),  NavigationView.OnNavigationItemSelect
                 heartToMeList.forEach { heartToMe ->
                     Log.d("TAG", "onResponse: hearToMeList Element is ${heartToMe.level} ${heartToMe.id} ${heartToMe.heartNum} ${heartToMe.testSumDifference}")
                 }
-                val alertDialog = AlertDialog.Builder(this@MainActivity)
-                val eDialog = LayoutInflater.from(this@MainActivity)
-                val mView = eDialog.inflate(R.layout.heart_user_information_dialog, null)
-                val builder = alertDialog.create()
-                val heartUserRecyclerView = mView.findViewById<RecyclerView>(R.id.heart_user_information_recyclerview)
-                val heartUserTextView = mView.findViewById<TextView>(R.id.heart_user_information_tome_or_topeople_textview)
-                heartUserTextView.text = "나를 좋아하는 사람"
                 val heartUserRecyclerViewAdapter = UserInformationRecyclerViewAdapter(heartToMeList)
                 heartUserRecyclerView.apply {
                     adapter = heartUserRecyclerViewAdapter
                     layoutManager = LinearLayoutManager(this@MainActivity, LinearLayoutManager.VERTICAL, false)
                     setHasFixedSize(true)
                 }
-                builder.setView(mView)
-                builder.show()
+                heartBuilder.setView(heartMView)
+                heartBuilder.show()
             }
 
         })
+    }
+
+    private fun setHeartToPeopleDialog() {
+        heartAlertDialog = AlertDialog.Builder(this@MainActivity)
+        heartEDialog = LayoutInflater.from(this@MainActivity)
+        heartMView = heartEDialog.inflate(R.layout.heart_user_information_dialog, null)
+        heartBuilder = heartAlertDialog.create()
+        heartUserRecyclerView = heartMView.findViewById<RecyclerView>(R.id.heart_user_information_recyclerview)
+        heartUserTextView = heartMView.findViewById<TextView>(R.id.heart_user_information_tome_or_topeople_textview)
+        heartUserRefreshLayout = heartMView.findViewById(R.id.heart_user_refresh_layout)
+        Thread.sleep(100)
+        heartUserRefreshLayout.setOnRefreshListener {
+            getHeartToPeople()
+            heartUserRefreshLayout.isRefreshing = false
+        }
+        heartUserTextView.text = "내가 좋아하는 사람"
+        getHeartToPeople()
+        heartBuilder.setView(heartMView)
+        heartBuilder.show()
     }
 
     private fun getHeartToPeople() {
@@ -208,7 +248,6 @@ class MainActivity : AppCompatActivity(),  NavigationView.OnNavigationItemSelect
                 Log.d("TAG", "getHeartToMe Failure, $t")
                 Toast.makeText(applicationContext, "데이터를 가져오는데 실패했습니다.", Toast.LENGTH_SHORT).show()
             }
-
             override fun onResponse(call: Call<JsonArray>, response: Response<JsonArray>) {
                 Log.d("TAG", "getHeartToMe data is ${response.body()!!}")
                 val heartToPeopleList : ArrayList<UserInformationCustomClass> = arrayListOf()
@@ -216,26 +255,17 @@ class MainActivity : AppCompatActivity(),  NavigationView.OnNavigationItemSelect
                     val mapI = MapJsonConverter().MapToJsonConverter(i.toString())
                     heartToPeopleList.add(UserInformationCustomClass(
                         level = mapI["level"].toString(), id = mapI["id"].toString(), heartNum = mapI["heart_number"].toString().toFloat().toInt().toString(),
-                        testSumDifference = mapI["genius_difference"].toString()))
+                        testSumDifference = mapI["genius_difference"].toString() + "%"))
                 }
                 heartToPeopleList.forEach { heartToPeople ->
                     Log.d("TAG", "onResponse: hearToMeList Element is ${heartToPeople.level} ${heartToPeople.id} ${heartToPeople.heartNum} ${heartToPeople.testSumDifference}")
                 }
-                val alertDialog = AlertDialog.Builder(this@MainActivity)
-                val eDialog = LayoutInflater.from(this@MainActivity)
-                val mView = eDialog.inflate(R.layout.heart_user_information_dialog, null)
-                val builder = alertDialog.create()
-                val heartUserRecyclerView = mView.findViewById<RecyclerView>(R.id.heart_user_information_recyclerview)
-                val heartUserTextView = mView.findViewById<TextView>(R.id.heart_user_information_tome_or_topeople_textview)
-                heartUserTextView.text = "내가 좋아하는 사람"
                 val heartUserRecyclerViewAdapter = UserInformationRecyclerViewAdapter(heartToPeopleList)
                 heartUserRecyclerView.apply {
                     adapter = heartUserRecyclerViewAdapter
                     layoutManager = LinearLayoutManager(this@MainActivity, LinearLayoutManager.VERTICAL, false)
                     setHasFixedSize(true)
                 }
-                builder.setView(mView)
-                builder.show()
             }
 
         })
@@ -302,6 +332,15 @@ class MainActivity : AppCompatActivity(),  NavigationView.OnNavigationItemSelect
             quicknessPendingIntent.cancel()
         } catch (e : Exception) {
 
+        }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        try {
+            heartBuilder.dismiss()
+        } catch (e : Exception) {
+            Log.d("TAG", "onDestroy: heartBuilder.dismiss() error is $e")
         }
     }
 
