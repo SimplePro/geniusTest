@@ -11,7 +11,12 @@ class TestHeartManagementReceiver: BroadcastReceiver() {
     companion object {
         lateinit var concentractionTestHeartManagement: ConcentractionTestHeartManagementInterface
         lateinit var quicknessTestHeartManagement: QuicknessTestHeartManagementInterface
+        lateinit var memoryTestHeartManagement: MemoryTestHeartManagementInterface
         lateinit var context: Context
+    }
+
+    fun setMemoryTestHeartManagement(memoryTestHeartManagementParameter: MemoryTestHeartManagementInterface) {
+        memoryTestHeartManagement = memoryTestHeartManagementParameter
     }
 
     fun setConcentractionTestHeartManagement(concentractionTestHeartManagementParameter: ConcentractionTestHeartManagementInterface) {
@@ -26,6 +31,10 @@ class TestHeartManagementReceiver: BroadcastReceiver() {
         context = contextParameter
     }
 
+    interface MemoryTestHeartManagementInterface {
+        fun testMemoryHeartManagement()
+    }
+
     interface ConcentractionTestHeartManagementInterface {
         fun testCocentractionHeartManagement()
     }
@@ -37,6 +46,10 @@ class TestHeartManagementReceiver: BroadcastReceiver() {
     override fun onReceive(context: Context?, intent: Intent?) {
         if(intent!!.hasExtra("test")) {
             when(intent!!.getStringExtra("test")) {
+                "memory" -> {
+                    Log.d("TAG", "intent.hasExtra('test') and test is memory")
+                    memoryTestHeartManagement.testMemoryHeartManagement()
+                }
                 "concentraction" -> {
                     Log.d("TAG", "intent.hasExtra('test') and test is concentraction")
                     concentractionTestHeartManagement.testCocentractionHeartManagement()

@@ -18,6 +18,7 @@ import android.widget.Toast
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.wotin.geniustest.Activity.Test.TestConcentractionActivity
+import com.wotin.geniustest.Activity.Test.TestMemoryActivity
 import com.wotin.geniustest.CustomClass.GeniusTest.TestModeCustomClass
 import com.wotin.geniustest.R
 import com.wotin.geniustest.RoomMethod.UpdateRoomMethod
@@ -46,6 +47,13 @@ class TestModeRecyclerViewAdapter(val modeList : ArrayList<TestModeCustomClass>,
                     Log.d("TAG", "onCreateViewHolder: adapterPosition is $adapterPosition")
                     if(modeList[adapterPosition].start) {
                         when(modeList[adapterPosition].mode) {
+                            "기억력 테스트" -> {
+                                modeList[adapterPosition].start = false
+                                val intent = Intent(parent.context, TestMemoryActivity::class.java)
+                                parent.context.startActivity(intent)
+                                (parent.context as Activity).finish()
+                                UpdateRoomMethod().updateTestModeData(parent.context.applicationContext, modeList[adapterPosition])
+                            }
                             "집중력 테스트" -> {
                                 modeList[adapterPosition].start = false
                                 val intent = Intent(parent.context, TestConcentractionActivity::class.java)

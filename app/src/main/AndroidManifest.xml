@@ -5,7 +5,7 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.VIBRATE" />
-    <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
     <application
@@ -16,58 +16,52 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Design.Light.NoActionBar"
         android:usesCleartextTraffic="true">
-        <activity android:name=".Activity.Test.TestQuicknessActivity"
-            android:launchMode="singleTask"
-            />
-        <activity android:name=".Activity.Test.TestConcentractionActivity"
-            android:launchMode="singleTask"
-            />
-        <activity android:name=".Activity.Test.TestActivity"
-            android:launchMode="singleTask"
-            />
-        <activity android:name=".Activity.UserManagement.UserInformationActivity"
-            android:launchMode="singleTask"
-            />
+        <activity android:name=".Activity.Test.TestMemoryActivity"></activity>
+        <activity android:name=".Activity.Practice.PracticeMemoryActivity" />
+        <activity
+            android:name=".Activity.Test.TestQuicknessActivity"
+            android:launchMode="singleTask" />
+        <activity
+            android:name=".Activity.Test.TestConcentractionActivity"
+            android:launchMode="singleTask" />
+        <activity
+            android:name=".Activity.Test.TestActivity"
+            android:launchMode="singleTask" />
+        <activity
+            android:name=".Activity.UserManagement.UserInformationActivity"
+            android:launchMode="singleTask" />
         <activity
             android:name=".Activity.Practice.PracticeQuicknessActivity"
-            android:screenOrientation="portrait"
             android:launchMode="singleTask"
-            />
+            android:screenOrientation="portrait" />
         <activity
             android:name=".Activity.Practice.PracticeConcentractionActivity"
-            android:screenOrientation="portrait"
             android:launchMode="singleTask"
-            />
+            android:screenOrientation="portrait" />
         <activity
             android:name=".Activity.UserManagement.DeleteUserActivity"
-            android:screenOrientation="portrait"
             android:launchMode="singleTask"
-            />
+            android:screenOrientation="portrait" />
         <activity
             android:name=".Activity.LoginAndSignUp.SignUpActivity"
-            android:screenOrientation="portrait"
             android:launchMode="singleTask"
-            />
+            android:screenOrientation="portrait" />
         <activity
             android:name=".Activity.LoginAndSignUp.LoginActivity"
-            android:screenOrientation="portrait"
             android:launchMode="singleTask"
-            />
+            android:screenOrientation="portrait" />
         <activity
             android:name=".Activity.Practice.PracticeActivity"
-            android:screenOrientation="portrait"
             android:launchMode="singleTask"
-            />
+            android:screenOrientation="portrait" />
         <activity
             android:name=".Activity.MainActivity"
-            android:screenOrientation="portrait"
             android:launchMode="singleTask"
-            />
+            android:screenOrientation="portrait" />
         <activity
             android:name=".Activity.IntroActivity"
-            android:screenOrientation="portrait"
             android:launchMode="singleTask"
-            >
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -75,31 +69,29 @@
             </intent-filter>
         </activity>
 
-        <service android:name=".Service.MemoryTestHeartManagementService"
+        <service
+            android:name=".Service.MemoryTestHeartManagementService"
             android:enabled="true"
-            android:exported="true"
-            />
-        <service android:name=".Service.ConcentractionTestHeartManagementService"
+            android:exported="true" />
+        <service
+            android:name=".Service.ConcentractionTestHeartManagementService"
             android:enabled="true"
-            android:exported="true"
-            />
-        <service android:name=".Service.QuicknessTestHeartManagementService"
+            android:exported="true" />
+        <service
+            android:name=".Service.QuicknessTestHeartManagementService"
             android:enabled="true"
-            android:exported="true"
-            />
-        <service android:name=".Service.RebootTestHeartManagementService"/>
+            android:exported="true" />
+        <service android:name=".Service.RebootTestHeartManagementService" />
 
-        <receiver android:name=".Receiver.TestHeartManagementReceiver"/>
+        <receiver android:name=".Receiver.TestHeartManagementReceiver" />
         <receiver android:name=".Receiver.RebootReceiver">
             <intent-filter>
                 <category android:name="android.intent.category.DEFAULT" />
 
-                <action android:name="android.intent.action.QUICKBOOT_POWERON"/>
-
-                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+                <action android:name="android.intent.action.QUICKBOOT_POWERON" />
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
-
     </application>
 
 </manifest>

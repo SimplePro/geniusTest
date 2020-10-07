@@ -17,6 +17,7 @@ import android.widget.Toast
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.wotin.geniustest.Activity.Practice.PracticeConcentractionActivity
+import com.wotin.geniustest.Activity.Practice.PracticeMemoryActivity
 import com.wotin.geniustest.CustomClass.GeniusPractice.PracticeModeCustomClass
 import com.wotin.geniustest.R
 import com.wotin.geniustest.networkState
@@ -40,7 +41,12 @@ class PracticeModeRecyclerViewAdapter(val modeList : ArrayList<PracticeModeCusto
                 val connectivityManager: ConnectivityManager =
                     parent.context.getSystemService(CONNECTIVITY_SERVICE) as ConnectivityManager
                 if (networkState(connectivityManager)) {
-                    if (modeList[adapterPosition].mode == "집중력 테스트") {
+                    if (modeList[adapterPosition].mode == "기억력 테스트") {
+                        val intent = Intent(parent.context, PracticeMemoryActivity::class.java)
+                        parent.context.startActivity(intent)
+//                        (parent.context as Activity).finish()
+                    }
+                    else if (modeList[adapterPosition].mode == "집중력 테스트") {
                         val intent =
                             Intent(parent.context, PracticeConcentractionActivity::class.java)
                         parent.context.startActivity(intent)

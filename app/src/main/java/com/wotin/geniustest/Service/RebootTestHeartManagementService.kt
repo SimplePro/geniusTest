@@ -39,11 +39,21 @@ class RebootTestHeartManagementService : Service() {
         Log.d("TAG", "RebootService : onStartCommand")
         Thread.sleep(10000)
 
+        updateDataMemory(applicationContext)
         updateDataConcentraction(applicationContext)
         updateDataQuickness(applicationContext)
         stopSelf()
         stopForeground(true)
         return super.onStartCommand(intent, flags, startId)
+    }
+
+    private fun updateDataMemory(context: Context) {
+        Log.d("TAG", "runBackground memory")
+        val data = GetRoomMethod().getTestModeData(context)
+        data[0].start = true
+        val saveData = data[0]
+        UpdateRoomMethod().updateTestModeData(context, saveData)
+        Log.d("TAG", "onStartCommand: updated data (memory service)")
     }
 
     private fun updateDataConcentraction(context: Context) {

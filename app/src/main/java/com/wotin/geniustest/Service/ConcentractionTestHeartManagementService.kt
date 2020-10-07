@@ -89,7 +89,7 @@ class ConcentractionTestHeartManagementService : Service(), TestHeartManagementR
         try{
             concentractionInterface.concentractionTestHeartManagement()
         } catch (e : Exception) {
-            Log.d("TAG", "onStartCommand: quicknessInterface")
+            Log.d("TAG", "onStartCommand: ConcentractionInterface")
         }
     }
 
