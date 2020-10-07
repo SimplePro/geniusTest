@@ -42,6 +42,7 @@ import com.wotin.geniustest.RoomMethod.DeleteRoomMethod
 import com.wotin.geniustest.RoomMethod.GetRoomMethod
 import com.wotin.geniustest.RoomMethod.UserRoomMethod
 import com.wotin.geniustest.Service.ConcentractionTestHeartManagementService
+import com.wotin.geniustest.Service.MemoryTestHeartManagementService
 import com.wotin.geniustest.Service.QuicknessTestHeartManagementService
 import kotlinx.android.synthetic.main.activity_main.*
 import okhttp3.OkHttpClient
@@ -145,6 +146,7 @@ class MainActivity : AppCompatActivity(),  NavigationView.OnNavigationItemSelect
                 DeleteRoomMethod().deleteUserDataAndGeniusTestAndPracticeData(applicationContext)
                 deleteUserDataSharedPreference()
                 DeleteRoomMethod().deleteTestModeData(applicationContext)
+                stopService(Intent(this, MemoryTestHeartManagementService::class.java))
                 stopService(Intent(this, ConcentractionTestHeartManagementService::class.java))
                 stopService(Intent(this, QuicknessTestHeartManagementService::class.java))
                 cancelAlarm()
