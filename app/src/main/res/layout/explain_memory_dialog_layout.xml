@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="600dp"
+    android:layout_marginHorizontal="20dp"
+    android:orientation="vertical"
+    android:background="@android:color/white"
+    >
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="580dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="580dp"
+            android:orientation="vertical">
+
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="기억력 테스트"
+                android:fontFamily="@font/nanum"
+                android:textColor="@android:color/black"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="35dp"
+                android:textSize="20dp"/>
+
+            <ImageView
+                android:layout_gravity="center_horizontal"
+                android:layout_width="300dp"
+                android:layout_height="300dp"
+                android:src="@drawable/memory_test1"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="20dp"
+                />
+
+            <TextView
+                android:gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="숫자가 사라지기 전에 외우세요!"
+                android:fontFamily="@font/nanum"
+                android:textColor="@android:color/black"
+                android:layout_gravity="center_horizontal"
+                android:textSize="17dp"
+                android:layout_marginBottom="40dp"
+                />
+
+            <ImageView
+                android:layout_gravity="center_horizontal"
+                android:layout_width="300dp"
+                android:layout_height="300dp"
+                android:src="@drawable/memory_test2"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="20dp"
+                />
+
+            <TextView
+                android:gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="외웠던 숫자를 입력하면 점수가 올라갑니다! 당신의 기억력을 테스트해보세요!"
+                android:fontFamily="@font/nanum"
+                android:textColor="@android:color/black"
+                android:layout_gravity="center_horizontal"
+                android:textSize="17dp"
+                android:layout_marginBottom="40dp"
+                />
+        </LinearLayout>
+
+    </ScrollView>
+
+
+
+</LinearLayout>

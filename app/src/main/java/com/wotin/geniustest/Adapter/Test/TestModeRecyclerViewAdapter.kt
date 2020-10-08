@@ -71,6 +71,18 @@ class TestModeRecyclerViewAdapter(val modeList : ArrayList<TestModeCustomClass>,
             }
             modeQuestionMark.setOnClickListener {
                 when(modeList[adapterPosition].mode) {
+                    "기억력 테스트" -> {
+                        val dialog = AlertDialog.Builder(parent.context)
+                        val EDialog = LayoutInflater.from(parent.context)
+                        val MView = EDialog.inflate(R.layout.explain_memory_dialog_layout, null)
+                        val builder = dialog.create()
+
+                        builder.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+                        builder.window?.requestFeature(Window.FEATURE_NO_TITLE)
+
+                        builder.setView(MView)
+                        builder.show()
+                    }
                     "집중력 테스트" -> {
                         val dialog = AlertDialog.Builder(parent.context)
                         val EDialog = LayoutInflater.from(parent.context)
