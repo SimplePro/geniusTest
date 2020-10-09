@@ -63,7 +63,7 @@ class MainActivity : AppCompatActivity(),  NavigationView.OnNavigationItemSelect
     lateinit var retrofit: Retrofit
     lateinit var getAboutHeart : RetrofitAboutHeart
     lateinit var okHttpClient: OkHttpClient
-    val baseUrl = "http://220.72.174.101:8080"
+    val baseUrl = "http://220.117.41.156:8080"
 
     lateinit var heartAlertDialog : AlertDialog.Builder
     lateinit var heartEDialog: LayoutInflater

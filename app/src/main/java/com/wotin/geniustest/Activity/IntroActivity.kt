@@ -49,7 +49,7 @@ class IntroActivity : AppCompatActivity() {
     lateinit var signInAndSignUpApiService: RetrofitSignInAndSignUp
     lateinit var getGeniusDataApiService : RetrofitUserDataAndGeniusData
     lateinit var okHttpClient: OkHttpClient
-    val baseUrl = "http://220.72.174.101:8080"
+    val baseUrl = "http://220.117.41.156:8080"
 
     var UID : String? = ""
     var id : String?  = ""
