@@ -70,8 +70,8 @@ class SignUpActivity : AppCompatActivity() {
             if (agreeTerms) {
                 val connectivityManager = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
                 if(networkState(connectivityManager)) {
-                    if(signup_name_edittext.text.isNotEmpty() && signup_id_edittext.text.isNotEmpty() && signup_password_edittext.text.isNotEmpty()
-                        && signup_id_edittext.text.length >= 7 && signup_password_edittext.text.length >= 8) {
+                    if(signup_name_edittext.text!!.isNotEmpty() && signup_id_edittext.text!!.isNotEmpty() && signup_password_edittext.text!!.isNotEmpty()
+                        && signup_id_edittext.text!!.length >= 7 && signup_password_edittext.text!!.length >= 8) {
                         val UniqueId = UUID.randomUUID().toString().replace("-", "")
                         Log.d("TAG", "UniqueId is $UniqueId")
                         apiService.signUp(
@@ -109,8 +109,8 @@ class SignUpActivity : AppCompatActivity() {
                                 }
 
                             })
-                    } else if(signup_id_edittext.text.isEmpty() || signup_password_edittext.text.isEmpty()) Toast.makeText(applicationContext, "user 과 id, password 를 입력해주세요", Toast.LENGTH_LONG).show()
-                    else if(signup_id_edittext.text.trim().length < 7 || signup_password_edittext.text.length < 8) Toast.makeText(applicationContext, "id 와 password 를 각각 7, 8 자 이상 입력해주세요", Toast.LENGTH_LONG).show()
+                    } else if(signup_id_edittext.text!!.isEmpty() || signup_password_edittext.text!!.isEmpty()) Toast.makeText(applicationContext, "user 과 id, password 를 입력해주세요", Toast.LENGTH_LONG).show()
+                    else if(signup_id_edittext.text!!.trim().length < 7 || signup_password_edittext.text!!.length < 8) Toast.makeText(applicationContext, "id 와 password 를 각각 7, 8 자 이상 입력해주세요", Toast.LENGTH_LONG).show()
                 } else {
                     Toast.makeText(applicationContext, "네트워크 연결상태가 좋지 못합니다.", Toast.LENGTH_LONG).show()
                 }

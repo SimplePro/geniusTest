@@ -68,7 +68,7 @@ class DeleteUserActivity : AppCompatActivity() {
         }
 
         delete_account_confirm_button.setOnClickListener {
-            if(check_password_before_delete_account.text.toString() == EncryptionAndDetoxification().encryptionAndDetoxification(userData.password)) {
+            if(check_password_before_delete_account_edittext.text.toString() == EncryptionAndDetoxification().encryptionAndDetoxification(userData.password)) {
                 apiService.deleteAccountAndData(userData.UniqueId).enqueue(object : Callback<HttpResponseCache> {
                     override fun onFailure(call: Call<HttpResponseCache>, t: Throwable) {
                         Toast.makeText(applicationContext, "계정이 삭제되지 않았습니다.", Toast.LENGTH_LONG).show()

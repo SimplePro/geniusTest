@@ -57,7 +57,7 @@ class LoginActivity : AppCompatActivity() {
             val connectivityManager = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
             if(networkState(connectivityManager)) {
 
-                if (login_id_edittext.text.isNotEmpty() && login_password_edittext.text.isNotEmpty() && login_id_edittext.text.trim().length >= 7 && login_password_edittext.text.length >= 8) {
+                if (login_id_edittext.text!!.isNotEmpty() && login_password_edittext.text!!.isNotEmpty() && login_id_edittext!!.text!!.trim().length >= 7 && login_password_edittext!!.text!!.length >= 8) {
                     signInAndSignUpApiService.signIn(
                         id = EncryptionAndDetoxification()
                             .encryptionAndDetoxification(login_id_edittext.text.toString()),
@@ -158,8 +158,8 @@ class LoginActivity : AppCompatActivity() {
                         }
 
                     })
-                } else if(login_id_edittext.text.isEmpty() || login_password_edittext.text.isEmpty()) Toast.makeText(applicationContext, "id 와 password 를 입력해주세요", Toast.LENGTH_LONG).show()
-                else if(login_id_edittext.text.trim().length < 7 || login_password_edittext.text.length < 8) Toast.makeText(applicationContext, "id 와 password 를 각각 7, 8 자 이상 입력해주세요", Toast.LENGTH_LONG).show()
+                } else if(login_id_edittext!!.text!!.isEmpty() || login_password_edittext.text!!.isEmpty()) Toast.makeText(applicationContext, "id 와 password 를 입력해주세요", Toast.LENGTH_LONG).show()
+                else if(login_id_edittext!!.text!!.trim().length < 7 || login_password_edittext.text!!.length < 8) Toast.makeText(applicationContext, "id 와 password 를 각각 7, 8 자 이상 입력해주세요", Toast.LENGTH_LONG).show()
             } else Toast.makeText(applicationContext, "네트워크 연결상태가 좋지 못합니다.", Toast.LENGTH_LONG).show()
         }
 
