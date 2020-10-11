@@ -37,6 +37,7 @@
             />
 
         <LinearLayout
+            android:id="@+id/login_and_signup_layout"
             android:layout_marginTop="100dp"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -100,52 +101,82 @@
             </com.google.android.material.textfield.TextInputLayout>
 
 
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
                 <Button
-                    android:layout_gravity="center_horizontal"
-                    android:layout_weight="1"
                     android:id="@+id/login_button"
-                    android:background="@drawable/rounded_corner_button"
-                    android:text="로그인"
-                    android:fontFamily="@font/mapo"
-                    android:textColor="#777"
                     android:layout_width="200dp"
                     android:layout_height="35dp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_weight="1"
+                    android:background="@drawable/rounded_corner_button"
+                    android:fontFamily="@font/mapo"
                     android:foreground="?attr/selectableItemBackground"
-                    />
+                    android:text="로그인"
+                    android:textColor="#777" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="or"
-                    android:textColor="#000000"
-                    android:fontFamily="@font/nanum"
-                    android:textSize="17dp"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginVertical="10dp"
-                    />
+                    android:fontFamily="@font/nanum"
+                    android:text="or"
+                    android:textColor="#000000"
+                    android:textSize="17dp" />
 
                 <Button
-                    android:layout_weight="1"
                     android:id="@+id/go_to_signup_activity_button"
-                    android:background="@drawable/rounded_corner_button"
-                    android:text="회원가입하러 가기"
-                    android:fontFamily="@font/nanum"
-                    android:textColor="#777"
                     android:layout_width="200dp"
                     android:layout_height="35dp"
-                    android:foreground="?attr/selectableItemBackground"
                     android:layout_gravity="center_horizontal"
-                    />
+                    android:layout_weight="1"
+                    android:background="@drawable/rounded_corner_button"
+                    android:fontFamily="@font/nanum"
+                    android:foreground="?attr/selectableItemBackground"
+                    android:text="회원가입하러 가기"
+                    android:textColor="#777" />
 
             </LinearLayout>
 
         </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/login_and_signup_layout"
+            android:layout_marginTop="20dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="아이디 찾기"
+                android:id="@+id/forgot_id_textview"
+                android:fontFamily="@font/nanum"
+                android:textColor="@android:color/black"
+                android:layout_marginRight="10dp"
+                />
+
+
+            <TextView
+                android:layout_marginLeft="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="비밀번호 찾기"
+                android:id="@+id/forgot_pw_textview"
+                android:fontFamily="@font/nanum"
+                android:textColor="@android:color/black"
+                />
+
+        </LinearLayout>
+
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

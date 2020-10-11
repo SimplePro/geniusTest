@@ -1,4 +1,4 @@
-package com.wotin.geniustest.RetrofitInterface
+package com.wotin.geniustest.RetrofitInterface.UserManagement
 
 import android.net.http.HttpResponseCache
 import com.google.gson.JsonObject

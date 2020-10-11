@@ -6,13 +6,10 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.os.Handler
-import android.provider.Settings
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
-import android.view.WindowManager
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
@@ -20,9 +17,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.google.android.material.navigation.NavigationView
-import com.google.android.material.tabs.TabLayout
 import com.google.gson.JsonArray
-import com.google.gson.JsonObject
 import com.wotin.geniustest.*
 import com.wotin.geniustest.Activity.LoginAndSignUp.LoginActivity
 import com.wotin.geniustest.Activity.UserManagement.DeleteUserActivity
@@ -31,13 +26,8 @@ import com.wotin.geniustest.Adapter.TabLayoutFragmentPagerAdapter
 import com.wotin.geniustest.Adapter.UserInformationRecyclerViewAdapter
 import com.wotin.geniustest.Converters.MapJsonConverter
 import com.wotin.geniustest.CustomClass.UserInformationCustomClass
-import com.wotin.geniustest.Fragment.PracticeFragment
 import com.wotin.geniustest.Receiver.TestHeartManagementReceiver
-import com.wotin.geniustest.RetrofitInterface.Genius.RetrofitAboutGeniusData
 import com.wotin.geniustest.RetrofitInterface.RetrofitAboutHeart
-import com.wotin.geniustest.RetrofitInterface.RetrofitServerCheck
-import com.wotin.geniustest.RetrofitInterface.RetrofitUserDataAndGeniusData
-import com.wotin.geniustest.RetrofitInterface.User.RetrofitSignInAndSignUp
 import com.wotin.geniustest.RoomMethod.DeleteRoomMethod
 import com.wotin.geniustest.RoomMethod.GetRoomMethod
 import com.wotin.geniustest.RoomMethod.UserRoomMethod
