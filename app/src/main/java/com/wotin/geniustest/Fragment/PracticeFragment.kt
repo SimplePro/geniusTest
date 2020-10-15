@@ -34,7 +34,8 @@ class PracticeFragment : Fragment() {
     lateinit var retrofit: Retrofit
     lateinit var getGeniusDataDifferenceApiService: RetrofitAboutGeniusData
     lateinit var okHttpClient: OkHttpClient
-    val baseUrl = "http://220.117.41.156:8080"
+    val baseUrl = "http://118.32.174.85:8080"
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
