@@ -109,17 +109,26 @@ class IntroActivity : AppCompatActivity() {
             }
 
             override fun onResponse(call: Call<JsonObject>, response: Response<JsonObject>) {
-                Log.d("TAG", "geniusTestServerCheck onResponse ${response.body()!!}")
-                if(response.body()!!.get("from_time").asString.isNotEmpty()) {
-                    serverCheckFromTime = response.body()!!["from_time"].asString
-                    serverCheckToTime = response.body()!!["to_time"].asString
-                    Log.d("TAG", "onResponse: serverCheckFromTime is $serverCheckFromTime serverCheckToTime is $serverCheckToTime")
-                    server_check_from_time_textview.text = serverCheckFromTime
-                    server_check_to_time_textview.text = serverCheckToTime
-                    server_check_layout.visibility = View.VISIBLE
-                    returnValue = true
-                    handler?.removeCallbacks(runnable)
-                } else returnValue = false
+                try {
+                    Log.d("TAG", "geniusTestServerCheck onResponse ${response.body()!!}")
+                    if(response.body()!!.get("from_time").asString.isNotEmpty()) {
+                        serverCheckFromTime = response.body()!!["from_time"].asString
+                        serverCheckToTime = response.body()!!["to_time"].asString
+                        Log.d("TAG", "onResponse: serverCheckFromTime is $serverCheckFromTime serverCheckToTime is $serverCheckToTime")
+                        server_check_from_time_textview.text = serverCheckFromTime
+                        server_check_to_time_textview.text = serverCheckToTime
+                        server_check_layout.visibility = View.VISIBLE
+                        returnValue = true
+                        handler?.removeCallbacks(runnable)
+                    } else returnValue = false
+                } catch (e: Exception) {
+                    Log.d("TAG", "IntroActivity big Try Catch error is $e")
+                    runOnUiThread {
+                        Toast.makeText(applicationContext, "에러\n잠시후에 다시 시도해주세요.", Toast.LENGTH_SHORT).show()
+                        handler?.removeCallbacks(runnable)
+                        Log.d("TAG", "onResume: serverCheck is null")
+                    }
+                }
             }
         })
         delay(1000L)
@@ -143,7 +152,7 @@ class IntroActivity : AppCompatActivity() {
                     handler?.removeCallbacks(runnable)
                     Log.d("TAG", "onResume: serverCheck is null")
                 }
-        }
+            }
             false -> {
                 runOnUiThread {
                     Log.d("TAG", "onResume: serverCheck is false")
