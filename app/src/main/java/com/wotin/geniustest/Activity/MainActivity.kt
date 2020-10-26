@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.google.android.material.navigation.NavigationView
 import com.google.gson.JsonArray
+import com.google.gson.JsonObject
 import com.wotin.geniustest.*
 import com.wotin.geniustest.Activity.LoginAndSignUp.LoginActivity
 import com.wotin.geniustest.Activity.UserManagement.DeleteUserActivity
@@ -27,14 +28,17 @@ import com.wotin.geniustest.Adapter.UserInformationRecyclerViewAdapter
 import com.wotin.geniustest.Converters.MapJsonConverter
 import com.wotin.geniustest.CustomClass.UserInformationCustomClass
 import com.wotin.geniustest.Receiver.TestHeartManagementReceiver
+import com.wotin.geniustest.RetrofitInterface.Genius.RetrofitAboutGeniusData
 import com.wotin.geniustest.RetrofitInterface.RetrofitAboutHeart
 import com.wotin.geniustest.RoomMethod.DeleteRoomMethod
 import com.wotin.geniustest.RoomMethod.GetRoomMethod
+import com.wotin.geniustest.RoomMethod.UpdateRoomMethod
 import com.wotin.geniustest.RoomMethod.UserRoomMethod
 import com.wotin.geniustest.Service.ConcentractionTestHeartManagementService
 import com.wotin.geniustest.Service.MemoryTestHeartManagementService
 import com.wotin.geniustest.Service.QuicknessTestHeartManagementService
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.fragment_genius_test.*
 import okhttp3.OkHttpClient
 import retrofit2.Call
 import retrofit2.Callback
@@ -64,6 +68,8 @@ class MainActivity : AppCompatActivity(),  NavigationView.OnNavigationItemSelect
     lateinit var heartUserTextView : TextView
     lateinit var heartUserRefreshLayout : SwipeRefreshLayout
 
+    lateinit var geniusDataDifferenceApiService: RetrofitAboutGeniusData
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -81,6 +87,9 @@ class MainActivity : AppCompatActivity(),  NavigationView.OnNavigationItemSelect
             .build()
 
         getAboutHeart = retrofit.create(RetrofitAboutHeart::class.java)
+        geniusDataDifferenceApiService = retrofit.create(RetrofitAboutGeniusData::class.java)
+
+        setGeniusTestLevelData()
 
         // 3초마다 윈도우 조정해주는 메소드 실행.
         controlWindowOnTimer()
@@ -90,8 +99,6 @@ class MainActivity : AppCompatActivity(),  NavigationView.OnNavigationItemSelect
         }
 
         navigation_view.setNavigationItemSelectedListener(this)
-        setNavigationHeaderLayout()
-
         fragment_view_pager.adapter =
             TabLayoutFragmentPagerAdapter(
                 supportFragmentManager
@@ -335,6 +342,49 @@ class MainActivity : AppCompatActivity(),  NavigationView.OnNavigationItemSelect
         } catch (e : Exception) {
             Log.d("TAG", "onDestroy: heartBuilder.dismiss() error is $e")
         }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        setGeniusTestLevelData()
+        setNavigationHeaderLayout()
+    }
+
+    private fun setGeniusTestLevelData() {
+        val userData = UserRoomMethod().getUserData(applicationContext)
+        geniusDataDifferenceApiService.getGeniusTestSumDifference(pk = userData.UniqueId).enqueue(object : Callback<JsonObject> {
+            override fun onFailure(call: Call<JsonObject>, t: Throwable) {
+                Log.d("TAG", "onFailure: getTestSumDifference error is $t")
+                Toast.makeText(applicationContext, "에러", Toast.LENGTH_SHORT).show()
+            }
+
+            override fun onResponse(call: Call<JsonObject>, response: Response<JsonObject>) {
+                val testSumDifference = response.body()!!.get("test_sum_difference").asString
+                when {
+                    testSumDifference.toFloat() < 0.3 -> {
+                        val geniusTestData = GetRoomMethod().getGeniusTestData(applicationContext)
+                        geniusTestData.level = "천재"
+                        UpdateRoomMethod().updateGeniusTestData(applicationContext, geniusTestData)
+                    }
+                    testSumDifference.toFloat() < 10 -> {
+                        val geniusTestData = GetRoomMethod().getGeniusTestData(applicationContext)
+                        geniusTestData.level = "고수"
+                        UpdateRoomMethod().updateGeniusTestData(applicationContext, geniusTestData)
+
+                    }
+                    testSumDifference.toFloat() < 50 -> {
+                        val geniusTestData = GetRoomMethod().getGeniusTestData(applicationContext)
+                        geniusTestData.level = "중수"
+                        UpdateRoomMethod().updateGeniusTestData(applicationContext, geniusTestData)
+                    }
+                    else -> {
+                        val geniusTestData = GetRoomMethod().getGeniusTestData(applicationContext)
+                        geniusTestData.level = "초보"
+                        UpdateRoomMethod().updateGeniusTestData(applicationContext, geniusTestData)
+                    }
+                }
+            }
+        })
     }
 
 }

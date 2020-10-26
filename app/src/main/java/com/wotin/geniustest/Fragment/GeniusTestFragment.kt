@@ -81,7 +81,14 @@ class GeniusTestFragment : Fragment() {
 
             override fun onResponse(call: Call<JsonObject>, response: Response<JsonObject>) {
                 testSumDifference = response.body()!!.get("test_sum_difference").asString
-                genius_test_all_difference_textview.text = testSumDifference
+                Log.d("TAG", "GeniustestFragment : getTestSumDifference - testSumDifference is ${testSumDifference.toFloat()}")
+                genius_test_all_difference_textview.text = testSumDifference    
+                when {
+                    testSumDifference.toFloat() < 0.3 -> genius_test_level_textview.text = "천재"
+                    testSumDifference.toFloat() < 10 -> genius_test_level_textview.text = "고수"
+                    testSumDifference.toFloat() < 50 -> genius_test_level_textview.text = "중수"
+                    else -> genius_test_level_textview.text = "초보"
+                }
             }
         })
     }
