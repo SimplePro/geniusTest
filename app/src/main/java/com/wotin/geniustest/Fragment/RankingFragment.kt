@@ -109,4 +109,8 @@ class RankingFragment : Fragment() {
         }
     }
 
+    override fun onPause() {
+        super.onPause()
+        rankingList.removeAll(rankingList)
+    }
 }
