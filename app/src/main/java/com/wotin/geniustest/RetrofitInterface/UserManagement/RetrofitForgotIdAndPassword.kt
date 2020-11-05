@@ -7,9 +7,11 @@ import retrofit2.http.FormUrlEncoded
 import retrofit2.http.POST
 
 interface RetrofitForgotIdAndPassword {
+
     @FormUrlEncoded
     @POST("genius_test/get_id_for_name")
     fun getIdForName(
         @Field("name") name : String
     ): Call<JsonArray>
+
 }

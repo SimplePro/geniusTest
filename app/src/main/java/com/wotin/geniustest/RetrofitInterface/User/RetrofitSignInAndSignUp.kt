@@ -15,7 +15,6 @@ interface RetrofitSignInAndSignUp {
         @Field("password") password : String
     ): Call<SignInAndSignUpCustomClass>
 
-
     @FormUrlEncoded
     @POST("genius_test/sign_up/")
     fun signUp(

@@ -1,6 +1,5 @@
 package com.wotin.geniustest.RetrofitInterface.Genius
 
-import android.net.http.HttpResponseCache
 import com.google.gson.JsonObject
 import retrofit2.Call
 import retrofit2.http.Field
@@ -11,21 +10,21 @@ interface RetrofitAboutGeniusData {
 
     @FormUrlEncoded
     @POST("genius_test/update_practice_memory_data/")
-    fun getGeniusPracticeMemoryDifference(
+    suspend fun getGeniusPracticeMemoryDifference(
         @Field("memory_score") memory_score : String,
         @Field("pk") pk : String
     ): Call<JsonObject>
 
     @FormUrlEncoded
     @POST("genius_test/update_practice_concentraction_data/")
-    fun getGeniusPracticeConcentractionDifference(
+    suspend fun getGeniusPracticeConcentractionDifference(
         @Field("concentraction_score") concentraction_score : String,
         @Field("pk") pk : String
     ): Call<JsonObject>
 
     @FormUrlEncoded
     @POST("genius_test/update_practice_quickness_data/")
-    fun getGeniusPracticeQuicknessDifference(
+    suspend fun getGeniusPracticeQuicknessDifference(
         @Field("quickness_score") quickness_score : String,
         @Field("pk") pk : String
     ): Call<JsonObject>
@@ -33,28 +32,28 @@ interface RetrofitAboutGeniusData {
 
     @FormUrlEncoded
     @POST("genius_test/update_test_memory_data/")
-    fun getGeniusTestMemoryDifference(
+    suspend fun getGeniusTestMemoryDifference(
         @Field("memory_score") memory_score : String,
         @Field("pk") pk : String
     ): Call<JsonObject>
 
     @FormUrlEncoded
     @POST("genius_test/update_test_concentraction_data/")
-    fun getGeniusTestConcentractionDifference(
+    suspend fun getGeniusTestConcentractionDifference(
         @Field("concentraction_score") concentraction_score : String,
         @Field("pk") pk : String
     ): Call<JsonObject>
 
     @FormUrlEncoded
     @POST("genius_test/update_test_quickness_data/")
-    fun getGeniusTestQuicknessDifference(
+    suspend fun getGeniusTestQuicknessDifference(
         @Field("quickness_score") quickness_score : String,
         @Field("pk") pk : String
     ): Call<JsonObject>
 
     @FormUrlEncoded
     @POST("genius_test/test_sum_difference/")
-    fun getGeniusTestSumDifference(
+    suspend fun getGeniusTestSumDifference(
         @Field("pk") pk : String
     ): Call<JsonObject>
 

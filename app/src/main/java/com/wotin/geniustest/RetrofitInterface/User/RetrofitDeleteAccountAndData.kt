@@ -8,9 +8,11 @@ import retrofit2.http.FormUrlEncoded
 import retrofit2.http.POST
 
 interface RetrofitDeleteAccountAndData {
+
     @FormUrlEncoded
     @POST("genius_test/delete_all_data/")
     fun deleteAccountAndData(
         @Field("pk") pk : String
     ): Call<HttpResponseCache>
+
 }
