@@ -1,7 +1,7 @@
-package com.wotin.geniustest.Repositories.RetrofitRepositories
+package com.wotin.geniustest.Repositories.RetrofitRepositories.User
 
 import androidx.lifecycle.LiveData
-import com.google.gson.JsonArray
+import com.wotin.geniustest.CustomClass.SignInAndSignUpCustomClass
 import com.wotin.geniustest.Repositories.RetrofitRepositories.Genius.GeniusDataRepository
 import com.wotin.geniustest.RetrofitBuilder.GeniusRetrofitBuilder
 import kotlinx.coroutines.*
@@ -9,26 +9,26 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-object HeartRepository {
+object SignInAndSignUpRepository {
     var job : CompletableJob? = null
 
-    fun getHeartToMePeople(pk : String): LiveData<JsonArray?> {
+    fun signIn(id : String, password : String): LiveData<SignInAndSignUpCustomClass?> {
         job = Job()
-        return object : LiveData<JsonArray?>() {
+        return object : LiveData<SignInAndSignUpCustomClass?>() {
             override fun onActive() {
                 super.onActive()
                 GeniusDataRepository.job?.let { theJob ->
                     CoroutineScope(Dispatchers.IO + theJob).launch {
-                        var data : JsonArray? = null
-                        GeniusRetrofitBuilder.getAboutHeartApiService.getHeartToMePeople(pk).enqueue(object :
-                            Callback<JsonArray> {
-                            override fun onFailure(call: Call<JsonArray>, t: Throwable) {
+                        var data : SignInAndSignUpCustomClass? = null
+                        GeniusRetrofitBuilder.signInAndSignUpApiService.signIn(id, password).enqueue(object :
+                            Callback<SignInAndSignUpCustomClass> {
+                            override fun onFailure(call: Call<SignInAndSignUpCustomClass>, t: Throwable) {
                                 data = null
                             }
 
                             override fun onResponse(
-                                call: Call<JsonArray>,
-                                response: Response<JsonArray>
+                                call: Call<SignInAndSignUpCustomClass>,
+                                response: Response<SignInAndSignUpCustomClass>
                             ) {
                                 data = response.body()
                             }
@@ -44,23 +44,23 @@ object HeartRepository {
         }
     }
 
-    fun getHeartToPeople(pk : String): LiveData<JsonArray?> {
+    fun signUp(name : String, id : String, password : String, UniqueId : String): LiveData<SignInAndSignUpCustomClass?> {
         job = Job()
-        return object : LiveData<JsonArray?>() {
+        return object : LiveData<SignInAndSignUpCustomClass?>() {
             override fun onActive() {
                 super.onActive()
                 GeniusDataRepository.job?.let { theJob ->
                     CoroutineScope(Dispatchers.IO + theJob).launch {
-                        var data : JsonArray? = null
-                        GeniusRetrofitBuilder.getAboutHeartApiService.getHeartToPeople(pk).enqueue(object :
-                            Callback<JsonArray> {
-                            override fun onFailure(call: Call<JsonArray>, t: Throwable) {
+                        var data : SignInAndSignUpCustomClass? = null
+                        GeniusRetrofitBuilder.signInAndSignUpApiService.signUp(name, id, password, UniqueId).enqueue(object :
+                            Callback<SignInAndSignUpCustomClass> {
+                            override fun onFailure(call: Call<SignInAndSignUpCustomClass>, t: Throwable) {
                                 data = null
                             }
 
                             override fun onResponse(
-                                call: Call<JsonArray>,
-                                response: Response<JsonArray>
+                                call: Call<SignInAndSignUpCustomClass>,
+                                response: Response<SignInAndSignUpCustomClass>
                             ) {
                                 data = response.body()
                             }

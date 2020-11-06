@@ -8,7 +8,7 @@ import retrofit2.http.POST
 interface RetrofitRanking {
 
     @POST("genius_test/get_genius_test_rank_data")
-    fun getGeniusTestRankData(
+    suspend fun getGeniusTestRankData(
     ): Call<JsonArray>
 
 }

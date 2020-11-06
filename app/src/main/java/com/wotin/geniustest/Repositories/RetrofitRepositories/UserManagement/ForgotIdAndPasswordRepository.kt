@@ -1,34 +1,34 @@
-package com.wotin.geniustest.Repositories.RetrofitRepositories
+package com.wotin.geniustest.Repositories.RetrofitRepositories.UserManagement
 
-import android.net.http.HttpResponseCache
 import androidx.lifecycle.LiveData
-import com.google.gson.JsonObject
+import com.google.gson.JsonArray
+import com.wotin.geniustest.Repositories.RetrofitRepositories.Genius.GeniusDataRepository
 import com.wotin.geniustest.RetrofitBuilder.GeniusRetrofitBuilder
 import kotlinx.coroutines.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-object SearchUserDataRepository {
+object ForgotIdAndPasswordRepository {
     var job : CompletableJob? = null
 
-    fun getUserData(id : String): LiveData<JsonObject?> {
+    fun getUserData(name : String): LiveData<JsonArray?> {
         job = Job()
-        return object : LiveData<JsonObject?>() {
+        return object : LiveData<JsonArray?>() {
             override fun onActive() {
                 super.onActive()
                 GeniusDataRepository.job?.let { theJob ->
                     CoroutineScope(Dispatchers.IO + theJob).launch {
-                        var data : JsonObject? = null
-                        GeniusRetrofitBuilder.searchUserDataApiService.getUserData(id).enqueue(object :
-                            Callback<JsonObject> {
-                            override fun onFailure(call: Call<JsonObject>, t: Throwable) {
+                        var data : JsonArray? = null
+                        GeniusRetrofitBuilder.forgotIdAndPasswordApiService.getIdForName(name).enqueue(object :
+                            Callback<JsonArray> {
+                            override fun onFailure(call: Call<JsonArray>, t: Throwable) {
                                 data = null
                             }
 
                             override fun onResponse(
-                                call: Call<JsonObject>,
-                                response: Response<JsonObject>
+                                call: Call<JsonArray>,
+                                response: Response<JsonArray>
                             ) {
                                 data = response.body()
                             }

@@ -1,8 +1,8 @@
-package com.wotin.geniustest.Repositories.RetrofitRepositories
+package com.wotin.geniustest.Repositories.RetrofitRepositories.UserManagement
 
 import androidx.lifecycle.LiveData
-import com.google.gson.JsonObject
 import com.wotin.geniustest.CustomClass.RetrofitGetGeniusPracticeAndTestDataCustomClass
+import com.wotin.geniustest.Repositories.RetrofitRepositories.Genius.GeniusDataRepository
 import com.wotin.geniustest.RetrofitBuilder.GeniusRetrofitBuilder
 import kotlinx.coroutines.*
 import retrofit2.Call

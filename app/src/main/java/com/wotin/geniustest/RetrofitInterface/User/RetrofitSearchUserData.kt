@@ -10,7 +10,7 @@ interface RetrofitSearchUserData {
 
     @JvmSuppressWildcards
     @GET("genius_test/get_user_and_genius_test_data/{id}/")
-    fun getUserData(
+    suspend fun getUserData(
         @Path("id") id : String
     ): Call<JsonObject>
 

@@ -10,14 +10,14 @@ interface RetrofitSignInAndSignUp {
 
     @FormUrlEncoded
     @POST("genius_test/sign_in/")
-    fun signIn(
+    suspend fun signIn(
         @Field("id") id : String,
         @Field("password") password : String
     ): Call<SignInAndSignUpCustomClass>
 
     @FormUrlEncoded
     @POST("genius_test/sign_up/")
-    fun signUp(
+    suspend fun signUp(
         @Field("name") name : String,
         @Field("id") id : String,
         @Field("password") password : String,

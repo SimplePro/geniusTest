@@ -13,7 +13,7 @@ interface RetrofitUserDataAndGeniusData {
 
     @FormUrlEncoded
     @POST("genius_test/get_genius_test_data/")
-    fun getGeniusData(
+    suspend fun getGeniusData(
         @Field("pk") pk : String
     ): Call<RetrofitGetGeniusPracticeAndTestDataCustomClass>
 

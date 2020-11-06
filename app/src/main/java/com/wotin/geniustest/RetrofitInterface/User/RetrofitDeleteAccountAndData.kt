@@ -11,7 +11,7 @@ interface RetrofitDeleteAccountAndData {
 
     @FormUrlEncoded
     @POST("genius_test/delete_all_data/")
-    fun deleteAccountAndData(
+    suspend fun deleteAccountAndData(
         @Field("pk") pk : String
     ): Call<HttpResponseCache>
 

@@ -10,7 +10,7 @@ interface RetrofitForgotIdAndPassword {
 
     @FormUrlEncoded
     @POST("genius_test/get_id_for_name")
-    fun getIdForName(
+    suspend fun getIdForName(
         @Field("name") name : String
     ): Call<JsonArray>
 

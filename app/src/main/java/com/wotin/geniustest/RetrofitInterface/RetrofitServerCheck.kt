@@ -7,6 +7,6 @@ import retrofit2.http.POST
 interface RetrofitServerCheck {
 
     @POST("genius_test/server-check")
-    fun serverCheck(): Call<JsonObject>
+    suspend fun serverCheck(): Call<JsonObject>
 
 }

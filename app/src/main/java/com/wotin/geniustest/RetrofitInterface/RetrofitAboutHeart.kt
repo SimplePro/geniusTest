@@ -10,13 +10,13 @@ interface RetrofitAboutHeart {
 
     @FormUrlEncoded
     @POST("genius_test/get_heart_to_me_people")
-    fun getHeartToMePeople(
+    suspend fun getHeartToMePeople(
         @Field("pk") pk : String
     ): Call<JsonArray>
 
     @FormUrlEncoded
     @POST("genius_test/get_heart_to_people")
-    fun getHeartToPeople(
+    suspend fun getHeartToPeople(
         @Field("pk") pk : String
     ): Call<JsonArray>
 

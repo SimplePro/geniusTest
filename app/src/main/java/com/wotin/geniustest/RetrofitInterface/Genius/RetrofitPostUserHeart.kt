@@ -9,14 +9,14 @@ import retrofit2.http.POST
 interface RetrofitPostUserHeart {
     @FormUrlEncoded
     @POST("genius_test/plus_heart/")
-    fun plusHeart(
+    suspend fun plusHeart(
         @Field("current_uniqueId") currentUniqueId : String,
         @Field("heart_to_uniqueId") heartToUniqueId : String
     ): Call<HttpResponseCache>
 
     @FormUrlEncoded
     @POST("genius_test/minus_heart/")
-    fun minusHeart(
+    suspend fun minusHeart(
         @Field("current_uniqueId") currentUniqueId : String,
         @Field("heart_to_uniqueId") heartToUniqueId : String
     ): Call<HttpResponseCache>
