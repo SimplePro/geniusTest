@@ -5,7 +5,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".Activity.Test.TestActivity"
+    tools:context=".activity.test.TestActivity"
     android:background="@android:color/white"
     android:gravity="bottom"
     app:umanoDragView="@id/test_drag_layout"

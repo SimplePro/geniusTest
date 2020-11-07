@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Activity.Practice.PracticeActivity"
+    tools:context=".activity.practice.PracticeActivity"
     android:background="@android:color/white"
     android:gravity="bottom"
     app:umanoDragView="@id/practice_drag_layout"

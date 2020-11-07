@@ -16,50 +16,50 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Design.Light.NoActionBar"
         android:usesCleartextTraffic="true">
-        <activity android:name=".Activity.Test.TestMemoryActivity"></activity>
-        <activity android:name=".Activity.Practice.PracticeMemoryActivity" />
+        <activity android:name=".activity.test.TestMemoryActivity"></activity>
+        <activity android:name=".activity.practice.PracticeMemoryActivity" />
         <activity
-            android:name=".Activity.Test.TestQuicknessActivity"
+            android:name=".activity.test.TestQuicknessActivity"
             android:launchMode="singleTask" />
         <activity
-            android:name=".Activity.Test.TestConcentractionActivity"
+            android:name=".activity.test.TestConcentractionActivity"
             android:launchMode="singleTask" />
         <activity
-            android:name=".Activity.Test.TestActivity"
+            android:name=".activity.test.TestActivity"
             android:launchMode="singleTask" />
         <activity
-            android:name=".Activity.UserManagement.UserInformationActivity"
+            android:name=".activity.userManagement.UserInformationActivity"
             android:launchMode="singleTask" />
         <activity
-            android:name=".Activity.Practice.PracticeQuicknessActivity"
+            android:name=".activity.practice.PracticeQuicknessActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".Activity.Practice.PracticeConcentractionActivity"
+            android:name=".activity.practice.PracticeConcentractionActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".Activity.UserManagement.DeleteUserActivity"
+            android:name=".activity.userManagement.DeleteUserActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".Activity.LoginAndSignUp.SignUpActivity"
+            android:name=".activity.loginAndSignUp.SignUpActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".Activity.LoginAndSignUp.LoginActivity"
+            android:name=".activity.loginAndSignUp.LoginActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".Activity.Practice.PracticeActivity"
+            android:name=".activity.practice.PracticeActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".Activity.MainActivity"
+            android:name=".activity.MainActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".Activity.IntroActivity"
+            android:name=".activity.IntroActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait">
             <intent-filter>
@@ -70,21 +70,21 @@
         </activity>
 
         <service
-            android:name=".Service.MemoryTestHeartManagementService"
+            android:name=".service.MemoryTestHeartManagementService"
             android:enabled="true"
             android:exported="true" />
         <service
-            android:name=".Service.ConcentractionTestHeartManagementService"
+            android:name=".service.ConcentractionTestHeartManagementService"
             android:enabled="true"
             android:exported="true" />
         <service
-            android:name=".Service.QuicknessTestHeartManagementService"
+            android:name=".service.QuicknessTestHeartManagementService"
             android:enabled="true"
             android:exported="true" />
-        <service android:name=".Service.RebootTestHeartManagementService" />
+        <service android:name=".service.RebootTestHeartManagementService" />
 
-        <receiver android:name=".Receiver.TestHeartManagementReceiver" />
-        <receiver android:name=".Receiver.RebootReceiver">
+        <receiver android:name=".receiver.TestHeartManagementReceiver" />
+        <receiver android:name=".receiver.RebootReceiver">
             <intent-filter>
                 <category android:name="android.intent.category.DEFAULT" />
 
