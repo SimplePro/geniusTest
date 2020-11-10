@@ -14,8 +14,8 @@ import com.google.gson.JsonObject
 import com.wotin.geniustest.*
 import com.wotin.geniustest.activity.loginAndSignUp.LoginActivity
 import com.wotin.geniustest.converters.MapJsonConverter
-import com.wotin.geniustest.customClass.GeniusPractice.GeniusPracticeDataCustomClass
-import com.wotin.geniustest.customClass.GeniusTest.GeniusTestDataCustomClass
+import com.wotin.geniustest.customClass.geniusPractice.GeniusPracticeDataCustomClass
+import com.wotin.geniustest.customClass.geniusTest.GeniusTestDataCustomClass
 import com.wotin.geniustest.customClass.RetrofitGetGeniusPracticeAndTestDataCustomClass
 import com.wotin.geniustest.customClass.SignInAndSignUpCustomClass
 import com.wotin.geniustest.customClass.UserCustomClass

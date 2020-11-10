@@ -12,7 +12,7 @@ import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.gson.JsonObject
 import com.wotin.geniustest.*
-import com.wotin.geniustest.adapter.Test.TestQuicknessRecyclerViewAdapter
+import com.wotin.geniustest.adapter.test.TestQuicknessRecyclerViewAdapter
 import com.wotin.geniustest.retrofitBuilder.GeniusRetrofitBuilder.geniusDataDifferenceApiService
 import com.wotin.geniustest.roomMethod.GetRoomMethod
 import com.wotin.geniustest.roomMethod.UpdateRoomMethod

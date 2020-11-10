@@ -7,10 +7,10 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.sothree.slidinguppanel.SlidingUpPanelLayout
 import com.wotin.geniustest.activity.MainActivity
-import com.wotin.geniustest.adapter.Practice.PracticeModeRecyclerViewAdapter
-import com.wotin.geniustest.adapter.Practice.PracticeQuicknessSlidingUpPanelRecyclerViewAdapter
-import com.wotin.geniustest.customClass.GeniusPractice.GeniusPracticeDataCustomClass
-import com.wotin.geniustest.customClass.GeniusPractice.PracticeModeCustomClass
+import com.wotin.geniustest.adapter.practice.PracticeModeRecyclerViewAdapter
+import com.wotin.geniustest.adapter.practice.PracticeQuicknessSlidingUpPanelRecyclerViewAdapter
+import com.wotin.geniustest.customClass.geniusPractice.GeniusPracticeDataCustomClass
+import com.wotin.geniustest.customClass.geniusPractice.PracticeModeCustomClass
 import com.wotin.geniustest.R
 import com.wotin.geniustest.roomMethod.GetRoomMethod
 import kotlinx.android.synthetic.main.activity_practice.*

@@ -11,7 +11,7 @@ import android.view.View
 import android.widget.Toast
 import androidx.recyclerview.widget.GridLayoutManager
 import com.google.gson.JsonObject
-import com.wotin.geniustest.adapter.Practice.PracticeConcentractionRecyclerViewAdapter
+import com.wotin.geniustest.adapter.practice.PracticeConcentractionRecyclerViewAdapter
 import com.wotin.geniustest.R
 import com.wotin.geniustest.retrofitBuilder.GeniusRetrofitBuilder.geniusDataDifferenceApiService
 import com.wotin.geniustest.roomMethod.GetRoomMethod

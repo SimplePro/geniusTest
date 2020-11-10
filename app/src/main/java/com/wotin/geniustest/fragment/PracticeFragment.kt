@@ -12,7 +12,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.google.gson.JsonObject
 import com.wotin.geniustest.activity.practice.PracticeActivity
-import com.wotin.geniustest.customClass.GeniusPractice.GeniusPracticeDataCustomClass
+import com.wotin.geniustest.customClass.geniusPractice.GeniusPracticeDataCustomClass
 import com.wotin.geniustest.R
 import com.wotin.geniustest.retrofitInterface.genius.RetrofitAboutGeniusData
 import com.wotin.geniustest.roomMethod.GetRoomMethod

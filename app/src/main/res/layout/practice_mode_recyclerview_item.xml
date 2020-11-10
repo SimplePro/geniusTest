@@ -1,77 +1,128 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_margin="16dp"
-    android:id="@+id/practice_mode_item_layout"
-    android:foreground="?attr/selectableItemBackground"
-    >
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <ImageView
-        android:layout_gravity="right|bottom"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:src="@drawable/confused"
-        android:padding="2dp"
-        android:layout_margin="3dp"
-        android:id="@+id/practice_mode_question_mark_imageview"
-        />
+    <data>
 
-    <LinearLayout
-        android:layout_margin="4dp"
+        <variable
+            name="practiceModeData"
+            type="com.wotin.geniustest.customClass.geniusPractice.PracticeModeCustomClass" />
+
+    </data>
+
+    <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="horizontal">
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:id="@+id/practice_mode_item_layout"
+        android:foreground="?attr/selectableItemBackground"
+        >
 
         <ImageView
-            android:layout_width="64dp"
-            android:layout_height="64dp"
-            android:id="@+id/practice_mode_item_imageview"
-            android:layout_marginVertical="10dp"
+            android:layout_gravity="right|bottom"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@drawable/confused"
+            android:padding="2dp"
+            android:layout_margin="3dp"
+            android:id="@+id/practice_mode_question_mark_imageview"
             />
 
         <LinearLayout
-            android:layout_gravity="center|center_vertical"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_marginLeft="20dp"
-            >
+            android:layout_margin="4dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
 
-            <TextView
-                android:layout_weight="1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:id="@+id/practice_mode_item_textview"
-                android:fontFamily="@font/mapo"
-                android:textColor="@android:color/black"
-                android:textStyle="bold"
-                android:textSize="20dp"
+            <ImageView
+                android:layout_width="64dp"
+                android:layout_height="64dp"
+                android:id="@+id/practice_mode_item_imageview"
+                tools:src="@drawable/memory"
+                android:layout_marginVertical="10dp"
+                app:practice_mode_src="@{practiceModeData.mode}"
                 />
 
             <LinearLayout
-                android:layout_weight="1"
+                android:layout_gravity="center|center_vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginLeft="20dp"
+                >
+
+                <TextView
+                    android:layout_weight="1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:id="@+id/practice_mode_item_textview"
+                    android:fontFamily="@font/mapo"
+                    android:textColor="@android:color/black"
+                    android:textStyle="bold"
+                    android:textSize="20dp"
+                    tools:text="기억력 테스트"
+                    android:text="@{practiceModeData.mode}"
+                    />
+
+                <LinearLayout
+                    android:layout_weight="1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_gravity="center"
+                    >
+
+                    <TextView
+                        android:id="@+id/practice_mode_item_score_textview"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:fontFamily="@font/mapo"
+                        android:textColor="@android:color/black"
+                        android:textStyle="bold"
+                        android:textSize="20dp"
+                        tools:text="1"
+                        android:text="@{Integer.toString(practiceModeData.score)}"
+                        />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="단계"
+                        android:fontFamily="@font/mapo"
+                        android:textColor="@android:color/black"
+                        android:textStyle="bold"
+                        android:textSize="20dp"/>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
+                android:layout_marginLeft="20dp"
                 android:layout_gravity="center"
                 >
 
                 <TextView
-                    android:id="@+id/practice_mode_item_score_textview"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
+                    android:text="상위 : "
                     android:fontFamily="@font/mapo"
                     android:textColor="@android:color/black"
                     android:textStyle="bold"
                     android:textSize="20dp"/>
 
                 <TextView
+                    android:id="@+id/practice_mode_item_difference_textview"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="단계"
+                    tools:text="50%"
+                    android:text="@{practiceModeData.difference}"
                     android:fontFamily="@font/mapo"
                     android:textColor="@android:color/black"
                     android:textStyle="bold"
@@ -79,39 +130,9 @@
 
             </LinearLayout>
 
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginLeft="20dp"
-            android:layout_gravity="center"
-            >
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="상위 : "
-                android:fontFamily="@font/mapo"
-                android:textColor="@android:color/black"
-                android:textStyle="bold"
-                android:textSize="20dp"/>
-
-            <TextView
-                android:id="@+id/practice_mode_item_difference_textview"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text=""
-                android:fontFamily="@font/mapo"
-                android:textColor="@android:color/black"
-                android:textStyle="bold"
-                android:textSize="20dp"/>
 
         </LinearLayout>
 
 
-    </LinearLayout>
-
-
-</androidx.cardview.widget.CardView>
+    </androidx.cardview.widget.CardView>
+</layout>

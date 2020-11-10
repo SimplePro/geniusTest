@@ -2,8 +2,8 @@ package com.wotin.geniustest.roomMethod
 
 import android.content.Context
 import androidx.room.Room
-import com.wotin.geniustest.database.Genius.GeniusPracticeDataDB
-import com.wotin.geniustest.database.Genius.GeniusTestDataDB
+import com.wotin.geniustest.database.genius.GeniusPracticeDataDB
+import com.wotin.geniustest.database.genius.GeniusTestDataDB
 import com.wotin.geniustest.database.TestModeDB
 
 class DeleteRoomMethod {

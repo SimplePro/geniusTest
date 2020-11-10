@@ -9,7 +9,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.gson.JsonArray
 import com.wotin.geniustest.adapter.RankRecyclerViewAdapter
-import com.wotin.geniustest.customClass.GeniusPractice.GeniusPracticeDataCustomClass
+import com.wotin.geniustest.customClass.geniusPractice.GeniusPracticeDataCustomClass
 import com.wotin.geniustest.customClass.RankCustomClass
 import com.wotin.geniustest.R
 import com.wotin.geniustest.retrofitBuilder.GeniusRetrofitBuilder

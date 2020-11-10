@@ -10,7 +10,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import com.google.gson.JsonObject
 import com.wotin.geniustest.activity.test.TestActivity
-import com.wotin.geniustest.customClass.GeniusTest.GeniusTestDataCustomClass
+import com.wotin.geniustest.customClass.geniusTest.GeniusTestDataCustomClass
 import com.wotin.geniustest.R
 import com.wotin.geniustest.retrofitInterface.genius.RetrofitAboutGeniusData
 import com.wotin.geniustest.roomMethod.GetRoomMethod

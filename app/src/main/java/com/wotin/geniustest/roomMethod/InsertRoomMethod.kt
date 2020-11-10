@@ -3,11 +3,11 @@ package com.wotin.geniustest.roomMethod
 import android.content.Context
 import android.util.Log
 import androidx.room.Room
-import com.wotin.geniustest.customClass.GeniusPractice.GeniusPracticeDataCustomClass
-import com.wotin.geniustest.customClass.GeniusTest.GeniusTestDataCustomClass
-import com.wotin.geniustest.customClass.GeniusTest.TestModeCustomClass
-import com.wotin.geniustest.database.Genius.GeniusPracticeDataDB
-import com.wotin.geniustest.database.Genius.GeniusTestDataDB
+import com.wotin.geniustest.customClass.geniusPractice.GeniusPracticeDataCustomClass
+import com.wotin.geniustest.customClass.geniusTest.GeniusTestDataCustomClass
+import com.wotin.geniustest.customClass.geniusTest.TestModeCustomClass
+import com.wotin.geniustest.database.genius.GeniusPracticeDataDB
+import com.wotin.geniustest.database.genius.GeniusTestDataDB
 import com.wotin.geniustest.database.TestModeDB
 
 class InsertRoomMethod {

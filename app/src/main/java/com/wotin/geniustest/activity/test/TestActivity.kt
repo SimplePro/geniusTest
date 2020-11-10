@@ -9,10 +9,10 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.sothree.slidinguppanel.SlidingUpPanelLayout
 import com.wotin.geniustest.activity.MainActivity
-import com.wotin.geniustest.adapter.Test.TestModeRecyclerViewAdapter
-import com.wotin.geniustest.adapter.Test.TestQuicknessSlidingUpPanelRecyclerViewAdapter
-import com.wotin.geniustest.customClass.GeniusTest.GeniusTestDataCustomClass
-import com.wotin.geniustest.customClass.GeniusTest.TestModeCustomClass
+import com.wotin.geniustest.adapter.test.TestModeRecyclerViewAdapter
+import com.wotin.geniustest.adapter.test.TestQuicknessSlidingUpPanelRecyclerViewAdapter
+import com.wotin.geniustest.customClass.geniusTest.GeniusTestDataCustomClass
+import com.wotin.geniustest.customClass.geniusTest.TestModeCustomClass
 import com.wotin.geniustest.R
 import com.wotin.geniustest.roomMethod.GetRoomMethod
 import com.wotin.geniustest.roomMethod.UpdateRoomMethod
