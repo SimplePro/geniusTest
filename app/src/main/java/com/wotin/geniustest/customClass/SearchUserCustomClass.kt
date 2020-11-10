@@ -70,7 +70,7 @@ class SearchUserCustomClass (
     @Expose
     var level : String = "",
 
-    var isHearted : Boolean = false
+    var isHearted : Boolean = true
 ) {
     override fun toString(): String {
         return "currentSeeUserUID: $currentSeeUserUID, name: $name, id: $id, heart: $heart,\n practiceMemoryScore: $practiceMemoryScore, practiceConcentractionScore: $practiceConcentractionScore, practiceQuicknessScore: $practiceQuicknessScore, practiceMemoryDifference: $practiceMemoryDifference, practiceConcentractionDifference: $practiceConcentractionDifference, practiceQuicknessDifference: $practiceQuicknessDifference,\ntestMemoryScore: $testMemoryScore, testConcentractionScore: $testConcentractionScore, testQuicknessScore: $testQuicknessScore, testMemoryDifference: $testMemoryDifference, testConcentractionDifference: $testConcentractionDifference, testQuicknessDifference: $testQuicknessDifference,\nlevel: $level, isHearted: $isHearted"

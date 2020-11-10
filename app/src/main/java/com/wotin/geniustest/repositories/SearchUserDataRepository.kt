@@ -47,6 +47,7 @@ object SearchUserDataRepository {
                             }
                         }
                     } else {
+                        Log.d("TAG", "getData['uniqueId'].asString == UserRoomMethod().getUserData(application.applicationContext).UniqueId")
                         isHearted = true
                     }
                     data.value = SearchUserCustomClass(

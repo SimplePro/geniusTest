@@ -2,48 +2,58 @@ package com.wotin.geniustest.activity.userManagement
 
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.wotin.geniustest.EncryptionAndDetoxification
 import com.wotin.geniustest.R
 import com.wotin.geniustest.activity.MainActivity
+import com.wotin.geniustest.customClass.SearchUserCustomClass
 import com.wotin.geniustest.databinding.ActivityUserInformationBinding
 import com.wotin.geniustest.roomMethod.UserRoomMethod
 import com.wotin.geniustest.viewModel.retrofitViewModel.SearchUserDataViewModel
 import java.lang.Exception
+import kotlin.concurrent.timer
 
 
 class UserInformationActivity : AppCompatActivity() {
 
     lateinit var mBinding : ActivityUserInformationBinding
     lateinit var searchViewModel : SearchUserDataViewModel
+    lateinit var modelData : SearchUserCustomClass
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         mBinding = DataBindingUtil.setContentView(this@UserInformationActivity, R.layout.activity_user_information)
         mBinding.activity = this@UserInformationActivity
-
         searchViewModel = ViewModelProvider.AndroidViewModelFactory.getInstance(application).create(SearchUserDataViewModel::class.java)
-        if(intent.hasExtra("userId")) {
-            searchViewModel.setSearchId(intent.getStringExtra("userId")!!)
-            mBinding.searchInformation = searchViewModel.modelData.value
-        }
-
-        mBinding.searchInformation = searchViewModel.modelData.value
-
+        mBinding.searchData = searchViewModel.modelData.value
 
         searchViewModel.modelData.observe(this, Observer {data ->
+            modelData = data
+            mBinding.searchData = modelData
             Log.d("TAG", "modelData is $data")
-            mBinding.searchInformation = data
         })
+
+        if(intent.hasExtra("userId")) {
+            searchViewModel.setSearchId(intent.getStringExtra("userId")!!)
+            Handler().postDelayed({
+                mBinding.searchData = searchViewModel.modelData.value
+            }, 500)
+
+            Log.d("TAG", "UserInformationActivity hasExtra userId")
+        }
+
 
         mBinding.refreshLayoutAmongUserInformation.setOnRefreshListener {
             searchViewModel.setSearchId(searchViewModel._userId)
+            mBinding.searchData = searchViewModel.modelData.value
             mBinding.refreshLayoutAmongUserInformation.isRefreshing = false
         }
 
@@ -52,7 +62,6 @@ class UserInformationActivity : AppCompatActivity() {
             startActivity(intent)
             finish()
         }
-
     }
 
     fun onClickHeartButton() {
@@ -64,12 +73,12 @@ class UserInformationActivity : AppCompatActivity() {
             if(searchViewModel.modelData.value!!.isHearted) {
                 Log.d("TAG", "minusHeart")
                 searchViewModel.minusHeart()
-                mBinding.searchInformation = searchViewModel.modelData.value
+                mBinding.searchData = searchViewModel.modelData.value
             }
             else if(!searchViewModel.modelData.value!!.isHearted){
                 Log.d("TAG", "plusHeart")
                 searchViewModel.plusHeart()
-                mBinding.searchInformation = searchViewModel.modelData.value
+                mBinding.searchData = searchViewModel.modelData.value
             }
         }
     }

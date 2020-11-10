@@ -14,17 +14,17 @@ import retrofit2.Response
 
 class SearchUserDataViewModel(application: Application) : AndroidViewModel(application) {
     var _userId : String = ""
-    var modelData : LiveData<SearchUserCustomClass>
+    var modelData : MutableLiveData<SearchUserCustomClass> = MutableLiveData()
 
     init {
         _userId = UserRoomMethod().getUserData(application.applicationContext).id
-        modelData = SearchUserDataRepository.getUserData(_userId, getApplication())
+        Log.d("TAG", "SearchUserDataViewModel init - userId")
     }
 
     fun setSearchId(id : String) {
         _userId = id
+        Log.d("TAG", "_userId is $_userId")
         modelData = SearchUserDataRepository.getUserData(_userId, getApplication())
-        Log.d("TAg", "modelData is ${modelData.value}")
     }
 
     fun setIsHearted(isHearted : Boolean) {
