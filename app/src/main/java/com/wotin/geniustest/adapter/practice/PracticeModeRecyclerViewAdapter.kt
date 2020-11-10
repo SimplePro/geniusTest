@@ -35,7 +35,6 @@ class PracticeModeRecyclerViewAdapter(val modeList : ArrayList<PracticeModeCusto
         val view = PracticeModeRecyclerviewItemBinding.inflate(
             LayoutInflater.from(parent.context), parent, false
         )
-//        val view = LayoutInflater.from(parent.context).inflate(R.layout.practice_mode_recyclerview_item, parent, false)
         return CustomViewHolder(
             view
         ).apply {
@@ -107,27 +106,9 @@ class PracticeModeRecyclerViewAdapter(val modeList : ArrayList<PracticeModeCusto
 
     override fun onBindViewHolder(holder: CustomViewHolder, position: Int) {
         holder.onBind(modeList[position])
-//        holder.modeText.text = modeList[position].mode
-//        holder.modeScoreText.text = modeList[position].score.toString()
-//        holder.modeDifferenceText.text = modeList[position].difference
-//        when(modeList[position].mode){
-//            "기억력 테스트" -> {
-//                holder.modeImage.setImageResource(R.drawable.memory)
-//            }
-//            "집중력 테스트" -> {
-//                holder.modeImage.setImageResource(R.drawable.concentration)
-//            }
-//            "순발력 테스트" -> {
-//                holder.modeImage.setImageResource(R.drawable.quickness)
-//            }
-//        }
     }
 
     class CustomViewHolder(val binding : PracticeModeRecyclerviewItemBinding) : RecyclerView.ViewHolder(binding.root) {
-//        val modeText = itemView.findViewById<TextView>(R.id.practice_mode_item_textview)
-//        val modeImage = itemView.findViewById<ImageView>(R.id.practice_mode_item_imageview)
-//        val modeScoreText = itemView.findViewById<TextView>(R.id.practice_mode_item_score_textview)
-//        val modeDifferenceText = itemView.findViewById<TextView>(R.id.practice_mode_item_difference_textview)
         val modeLayout = itemView.findViewById<CardView>(R.id.practice_mode_item_layout)
         val modeQuestionMark = itemView.findViewById<ImageView>(R.id.practice_mode_question_mark_imageview)
         fun onBind(data:  PracticeModeCustomClass?) {
