@@ -12,6 +12,7 @@ import com.wotin.geniustest.activity.userManagement.UserInformationActivity
 import com.wotin.geniustest.customClass.RankCustomClass
 import com.wotin.geniustest.EncryptionAndDetoxification
 import com.wotin.geniustest.R
+import com.wotin.geniustest.databinding.RankItemViewBinding
 import org.json.JSONObject
 
 class RankRecyclerViewAdapter(val rankList : ArrayList<RankCustomClass>) : RecyclerView.Adapter<RankRecyclerViewAdapter.CustomViewHolder>() {
@@ -19,7 +20,9 @@ class RankRecyclerViewAdapter(val rankList : ArrayList<RankCustomClass>) : Recyc
         parent: ViewGroup,
         viewType: Int
     ): RankRecyclerViewAdapter.CustomViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.rank_item_view, parent, false)
+        val view = RankItemViewBinding.inflate(
+            LayoutInflater.from(parent.context), parent, false
+        )
         return CustomViewHolder(view).apply {
             itemView.setOnClickListener {
                 val intent = Intent(parent.context, UserInformationActivity::class.java)
@@ -33,26 +36,13 @@ class RankRecyclerViewAdapter(val rankList : ArrayList<RankCustomClass>) : Recyc
     override fun getItemCount(): Int = rankList.size
 
     override fun onBindViewHolder(holder: RankRecyclerViewAdapter.CustomViewHolder, position: Int) {
-        holder.idTextView.text = EncryptionAndDetoxification().encryptionAndDetoxification(rankList[position].id)
-        holder.rankTextView.text = rankList[position].ranking
-        holder.levelTextView.text = rankList[position].level
-        when(rankList[position].level) {
-            "천재" -> holder.levelImageView.setImageResource(R.drawable.genius)
-            "고수" -> holder.levelImageView.setImageResource(R.drawable.good_brain)
-            "중수" -> holder.levelImageView.setImageResource(R.drawable.normal_brain)
-            else -> holder.levelImageView.setImageResource(R.drawable.bad_brain)
-        }
-        holder.heartTextView.text = rankList[position].heart
-        holder.rankTestSumDifferenceTextVIew.text = JSONObject(rankList[position].bestScore).get("test_sum_difference").toString()
+        holder.onBind(rankList[position])
     }
 
-    class CustomViewHolder(itemView : View) : RecyclerView.ViewHolder(itemView) {
-        val levelImageView : ImageView = itemView.findViewById(R.id.rank_level_imageview)
-        val rankTextView : TextView = itemView.findViewById(R.id.rank_textview)
-        val idTextView: TextView = itemView.findViewById(R.id.rank_id_textview)
-        val levelTextView : TextView = itemView.findViewById(R.id.rank_level_textview)
-        val heartTextView : TextView = itemView.findViewById(R.id.rank_heart_textview)
-        val rankTestSumDifferenceTextVIew : TextView = itemView.findViewById(R.id.rank_test_sum_difference_textview)
+    class CustomViewHolder(val binding : RankItemViewBinding) : RecyclerView.ViewHolder(binding.root) {
+        fun onBind(data : RankCustomClass) {
+            binding.rankData = data
+        }
     }
 
 }
