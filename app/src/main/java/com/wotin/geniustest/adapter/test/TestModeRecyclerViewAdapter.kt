@@ -21,6 +21,7 @@ import com.wotin.geniustest.activity.test.TestConcentractionActivity
 import com.wotin.geniustest.activity.test.TestMemoryActivity
 import com.wotin.geniustest.customClass.geniusTest.TestModeCustomClass
 import com.wotin.geniustest.R
+import com.wotin.geniustest.databinding.TestModeRecyclerviewItemBinding
 import com.wotin.geniustest.roomMethod.UpdateRoomMethod
 import com.wotin.geniustest.networkState
 import kotlin.collections.ArrayList
@@ -35,7 +36,10 @@ class TestModeRecyclerViewAdapter(val modeList : ArrayList<TestModeCustomClass>,
         parent: ViewGroup,
         viewType: Int
     ): CustomViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.test_mode_recyclerview_item, parent, false)
+        val view = TestModeRecyclerviewItemBinding.inflate(
+            LayoutInflater.from(parent.context), parent, false
+        )
+//        val view = LayoutInflater.from(parent.context).inflate(R.layout.test_mode_recyclerview_item, parent, false)
         return CustomViewHolder(
             view
         ).apply {
@@ -111,34 +115,38 @@ class TestModeRecyclerViewAdapter(val modeList : ArrayList<TestModeCustomClass>,
     override fun getItemCount(): Int = modeList.size
 
     override fun onBindViewHolder(holder: CustomViewHolder, position: Int) {
-        holder.modeText.text = modeList[position].mode
-        holder.modeScoreText.text = modeList[position].score.toString()
-        holder.modeDifferenceText.text = modeList[position].difference
-        if(modeList[position].start) {
-            holder.modeStartImageView.setImageResource(R.drawable.start_circle)
-        } else {
-            holder.modeStartImageView.setImageResource(R.drawable.no_start_circle)
-        }
-        when(modeList[position].mode){
-            "기억력 테스트" -> {
-                holder.modeImage.setImageResource(R.drawable.memory)
-            }
-            "집중력 테스트" -> {
-                holder.modeImage.setImageResource(R.drawable.concentration)
-            }
-            "순발력 테스트" -> {
-                holder.modeImage.setImageResource(R.drawable.quickness)
-            }
-        }
+        holder.onBind(modeList[position])
+//        holder.modeText.text = modeList[position].mode
+//        holder.modeScoreText.text = modeList[position].score.toString()
+//        holder.modeDifferenceText.text = modeList[position].difference
+//        if(modeList[position].start) {
+//            holder.modeStartImageView.setImageResource(R.drawable.start_circle)
+//        } else {
+//            holder.modeStartImageView.setImageResource(R.drawable.no_start_circle)
+//        }
+//        when(modeList[position].mode){
+//            "기억력 테스트" -> {
+//                holder.modeImage.setImageResource(R.drawable.memory)
+//            }
+//            "집중력 테스트" -> {
+//                holder.modeImage.setImageResource(R.drawable.concentration)
+//            }
+//            "순발력 테스트" -> {
+//                holder.modeImage.setImageResource(R.drawable.quickness)
+//            }
+//        }
     }
 
-    class CustomViewHolder(itemView : View) : RecyclerView.ViewHolder(itemView) {
+    class CustomViewHolder(val binding : TestModeRecyclerviewItemBinding) : RecyclerView.ViewHolder(binding.root) {
         val modeText = itemView.findViewById<TextView>(R.id.test_mode_item_textview)
         val modeImage = itemView.findViewById<ImageView>(R.id.test_mode_item_imageview)
         val modeScoreText = itemView.findViewById<TextView>(R.id.test_mode_item_score_textview)
         val modeDifferenceText = itemView.findViewById<TextView>(R.id.test_mode_item_difference_textview)
-        val modeLayout = itemView.findViewById<CardView>(R.id.test_mode_item_layout)
         val modeStartImageView = itemView.findViewById<ImageView>(R.id.test_mode_item_start_imageview)
+        val modeLayout = itemView.findViewById<CardView>(R.id.test_mode_item_layout)
         val modeQuestionMark = itemView.findViewById<ImageView>(R.id.test_mode_question_mark_imageview)
+        fun onBind(data: TestModeCustomClass) {
+            binding.modeData = data
+        }
     }
 }
