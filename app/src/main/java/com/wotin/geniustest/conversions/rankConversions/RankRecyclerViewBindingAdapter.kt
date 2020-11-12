@@ -15,6 +15,7 @@ object RankRecyclerViewBindingAdapter {
             "천재" -> imageView.setImageResource(R.drawable.genius)
             "고수" -> imageView.setImageResource(R.drawable.good_brain)
             "중수" -> imageView.setImageResource(R.drawable.normal_brain)
+            "초보" -> imageView.setImageResource(R.drawable.bad_brain)
             else -> imageView.setImageResource(R.drawable.bad_brain)
         }
     }

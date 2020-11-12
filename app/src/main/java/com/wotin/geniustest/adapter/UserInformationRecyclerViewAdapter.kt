@@ -12,13 +12,16 @@ import com.wotin.geniustest.activity.userManagement.UserInformationActivity
 import com.wotin.geniustest.customClass.UserInformationCustomClass
 import com.wotin.geniustest.EncryptionAndDetoxification
 import com.wotin.geniustest.R
+import com.wotin.geniustest.databinding.UserInformationItemViewBinding
 
 class UserInformationRecyclerViewAdapter(val userData : ArrayList<UserInformationCustomClass>) : RecyclerView.Adapter<UserInformationRecyclerViewAdapter.CustomViewHolder>() {
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
     ): UserInformationRecyclerViewAdapter.CustomViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.user_information_item_view, parent, false)
+        val view = UserInformationItemViewBinding.inflate(
+            LayoutInflater.from(parent.context), parent, false
+        )
         return CustomViewHolder(view).apply {
             itemView.setOnClickListener {
                 val intent = Intent(parent.context, UserInformationActivity::class.java)
@@ -35,21 +38,12 @@ class UserInformationRecyclerViewAdapter(val userData : ArrayList<UserInformatio
         holder: UserInformationRecyclerViewAdapter.CustomViewHolder,
         position: Int
     ) {
-        when(userData[position].level) {
-            "천재" -> holder.levelImageView.setImageResource(R.drawable.genius)
-            "고수" -> holder.levelImageView.setImageResource(R.drawable.good_brain)
-            "중수" -> holder.levelImageView.setImageResource(R.drawable.normal_brain)
-            "초보" -> holder.levelImageView.setImageResource(R.drawable.bad_brain)
-        }
-        holder.idTextView.text = EncryptionAndDetoxification().encryptionAndDetoxification(userData[position].id)
-        holder.heartNumTextView.text = userData[position].heartNum
-        holder.testSumDifferenceTextView.text = userData[position].testSumDifference
+        holder.onBind(userData[position])
     }
 
-    class CustomViewHolder(itemView : View) : RecyclerView.ViewHolder(itemView) {
-        val levelImageView = itemView.findViewById<ImageView>(R.id.user_information_level_imageview)
-        val idTextView = itemView.findViewById<TextView>(R.id.user_information_id_textview)
-        val heartNumTextView = itemView.findViewById<TextView>(R.id.user_information_heart_num_textview)
-        val testSumDifferenceTextView = itemView.findViewById<TextView>(R.id.user_information_test_sum_difference_textview)
+    class CustomViewHolder(val binding : UserInformationItemViewBinding) : RecyclerView.ViewHolder(binding.root) {
+        fun onBind(data : UserInformationCustomClass) {
+            binding.userData = data
+        }
     }
 }
