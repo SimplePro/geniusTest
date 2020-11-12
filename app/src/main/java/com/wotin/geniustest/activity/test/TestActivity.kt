@@ -6,6 +6,7 @@ import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.sothree.slidinguppanel.SlidingUpPanelLayout
 import com.wotin.geniustest.activity.MainActivity
@@ -14,6 +15,7 @@ import com.wotin.geniustest.adapter.test.TestQuicknessSlidingUpPanelRecyclerView
 import com.wotin.geniustest.customClass.geniusTest.GeniusTestDataCustomClass
 import com.wotin.geniustest.customClass.geniusTest.TestModeCustomClass
 import com.wotin.geniustest.R
+import com.wotin.geniustest.databinding.ActivityTestBinding
 import com.wotin.geniustest.roomMethod.GetRoomMethod
 import com.wotin.geniustest.roomMethod.UpdateRoomMethod
 import com.wotin.geniustest.service.ConcentractionTestHeartManagementService
@@ -35,24 +37,26 @@ class TestActivity : AppCompatActivity(), TestModeRecyclerViewAdapter.ModeClicke
 
     lateinit var geniusTestData: GeniusTestDataCustomClass
 
+    lateinit var mBinding : ActivityTestBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_test)
+        mBinding = DataBindingUtil.setContentView(this, R.layout.activity_test)
 
         setModeList()
 
         setBottomDragView()
 
-        close_test_drag_layout_button.setOnClickListener {
-            test_sliding_up_panel_layout.panelState = SlidingUpPanelLayout.PanelState.HIDDEN
+        mBinding.closeTestDragLayoutButton.setOnClickListener {
+            mBinding.testSlidingUpPanelLayout.panelState = SlidingUpPanelLayout.PanelState.HIDDEN
         }
 
         // 3초마다 윈도우를 조정해주는 메소드 실행.
         controlWindowOnTimer()
 
-        test_refresh_layout.setOnRefreshListener {
+        mBinding.testRefreshLayout.setOnRefreshListener {
             setModeList()
-            test_refresh_layout.isRefreshing = false
+            mBinding.testRefreshLayout.isRefreshing = false
         }
 
 
@@ -61,16 +65,12 @@ class TestActivity : AppCompatActivity(), TestModeRecyclerViewAdapter.ModeClicke
             modeList,
             this
         )
-        test_mode_recyclerview.apply {
+        mBinding.testModeRecyclerview.apply {
             adapter = recyclerViewAdapter
             layoutManager =
                 LinearLayoutManager(this@TestActivity, LinearLayoutManager.VERTICAL, false)
             setHasFixedSize(true)
         }
-
-//        timer(period = 300) {
-//            setModeList()
-//        }
 
         test_back_btn.setOnClickListener {
             val intent = Intent(this, MainActivity::class.java)
@@ -114,7 +114,7 @@ class TestActivity : AppCompatActivity(), TestModeRecyclerViewAdapter.ModeClicke
             val service = ConcentractionTestHeartManagementService()
             service.setConcentractionInterface(this)
         } else if (mode == "순발력 테스트") {
-            test_sliding_up_panel_layout.panelState = SlidingUpPanelLayout.PanelState.EXPANDED
+            mBinding.testSlidingUpPanelLayout.panelState = SlidingUpPanelLayout.PanelState.EXPANDED
             recyclerViewAdapter.notifyDataSetChanged()
         }
     }
@@ -166,7 +166,7 @@ class TestActivity : AppCompatActivity(), TestModeRecyclerViewAdapter.ModeClicke
         modeList = GetRoomMethod().getTestModeData(applicationContext)
         Log.d("TAG", "testModeList is $modeList")
         recyclerViewAdapter = TestModeRecyclerViewAdapter(modeList, this@TestActivity)
-        test_mode_recyclerview.adapter = recyclerViewAdapter
+        mBinding.testModeRecyclerview.adapter = recyclerViewAdapter
 
     }
 
@@ -182,7 +182,7 @@ class TestActivity : AppCompatActivity(), TestModeRecyclerViewAdapter.ModeClicke
         modeList = GetRoomMethod().getTestModeData(this.applicationContext)
         Log.d("TAG", "testHeartManagement: modeList is $modeList")
         recyclerViewAdapter = TestModeRecyclerViewAdapter(modeList, this)
-        test_mode_recyclerview.apply {
+        mBinding.testModeRecyclerview.apply {
             adapter = recyclerViewAdapter
         }
         recyclerViewAdapter.notifyDataSetChanged()
@@ -193,7 +193,7 @@ class TestActivity : AppCompatActivity(), TestModeRecyclerViewAdapter.ModeClicke
         modeList = GetRoomMethod().getTestModeData(this.applicationContext)
         Log.d("TAG", "testHeartManagement: modeList is $modeList")
         recyclerViewAdapter = TestModeRecyclerViewAdapter(modeList, this)
-        test_mode_recyclerview.apply {
+        mBinding.testModeRecyclerview.apply {
             adapter = recyclerViewAdapter
         }
         recyclerViewAdapter.notifyDataSetChanged()
@@ -204,7 +204,7 @@ class TestActivity : AppCompatActivity(), TestModeRecyclerViewAdapter.ModeClicke
         modeList = GetRoomMethod().getTestModeData(this.applicationContext)
         Log.d("TAG", "testHeartManagement: modeList is $modeList")
         recyclerViewAdapter = TestModeRecyclerViewAdapter(modeList, this)
-        test_mode_recyclerview.apply {
+        mBinding.testModeRecyclerview.apply {
             adapter = recyclerViewAdapter
         }
         recyclerViewAdapter.notifyDataSetChanged()
@@ -213,7 +213,7 @@ class TestActivity : AppCompatActivity(), TestModeRecyclerViewAdapter.ModeClicke
     private fun setBottomDragView() {
         val brainModeList = arrayListOf<String>("우뇌형", "좌뇌형")
         val dragRecyclerViewAdapter = TestQuicknessSlidingUpPanelRecyclerViewAdapter(brainModeList)
-        test_drag_recycler_view.apply {
+        mBinding.testDragRecyclerView.apply {
             adapter = dragRecyclerViewAdapter
             layoutManager = LinearLayoutManager(this@TestActivity, LinearLayoutManager.VERTICAL, false)
             setHasFixedSize(true)
