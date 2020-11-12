@@ -9,13 +9,17 @@ import android.os.Vibrator
 import android.util.Log
 import android.view.View
 import android.widget.Toast
+import androidx.activity.viewModels
+import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.GridLayoutManager
 import com.google.gson.JsonObject
 import com.wotin.geniustest.*
 import com.wotin.geniustest.adapter.test.TestConcentractionRecycelrViewAdapter
+import com.wotin.geniustest.databinding.ActivityTestConcentractionBinding
 import com.wotin.geniustest.retrofitBuilder.GeniusRetrofitBuilder.geniusDataDifferenceApiService
 import com.wotin.geniustest.roomMethod.GetRoomMethod
 import com.wotin.geniustest.roomMethod.UpdateRoomMethod
+import com.wotin.geniustest.viewModel.GeniusTestViewModel
 import kotlinx.android.synthetic.main.activity_test_concentraction.*
 import retrofit2.Call
 import retrofit2.Callback
@@ -25,19 +29,23 @@ import java.util.*
 
 class TestConcentractionActivity : AppCompatActivity(), TestConcentractionRecycelrViewAdapter.ItemClickListener {
 
-    var score = 1
     var counter = 5000
     var itemCount = 49
     var concentractionList : ArrayList<String> = arrayListOf()
     lateinit var concentractionRecyclerViewAdapter : TestConcentractionRecycelrViewAdapter
     lateinit var t : Timer
     lateinit var tt : TimerTask
+    
+    lateinit var mBinding : ActivityTestConcentractionBinding
+    val geniusTestViewModel : GeniusTestViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_test_concentraction)
+        mBinding = DataBindingUtil.setContentView(this, R.layout.activity_test_concentraction)
+        mBinding.lifecycleOwner = this
+        mBinding.viewModel = geniusTestViewModel
 
-        test_concentraction_timer_progressbar.min = 0
+        mBinding.testConcentractionTimerProgressbar.min = 0
 
         setConcentractionList()
 
@@ -66,10 +74,8 @@ class TestConcentractionActivity : AppCompatActivity(), TestConcentractionRecyce
 
 
     private fun restart() {
-        score += 1
-        test_concentraction_score_textview.text = score.toString()
-        test_concentraction_result_textview.text = score.toString()
-        if(score % 5 == 0) {
+        geniusTestViewModel.plusScore()
+        if(geniusTestViewModel.score.value!! % 5 == 0) {
             resetRecyclerViewGridLayout()
         }
         setConcentractionList()
@@ -81,20 +87,20 @@ class TestConcentractionActivity : AppCompatActivity(), TestConcentractionRecyce
 
     private fun prog() {
         t = Timer()
-        test_concentraction_timer_progressbar.max = counter
+        mBinding.testConcentractionTimerProgressbar.max = counter
         tt = object : TimerTask() {
             override fun run() {
                 counter -= 1
-                test_concentraction_timer_progressbar.progress = counter
+                mBinding.testConcentractionTimerProgressbar.progress = counter
                 if((counter / 100) == 0) {
                     t.cancel()
                     tt.cancel()
                     runOnUiThread {
-                        test_concentraction_game_layout.visibility = View.GONE
-                        test_concentraction_result_layout.visibility = View.VISIBLE
+                        mBinding.testConcentractionGameLayout.visibility = View.GONE
+                        mBinding.testConcentractionResultLayout.visibility = View.VISIBLE
                         val connectivityManager : ConnectivityManager = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
                         if(networkState(connectivityManager)) {
-                            postDataToServer(score = score)
+                            postDataToServer(score = geniusTestViewModel.score.value!!)
                         }
                     }
                 }
@@ -177,17 +183,17 @@ class TestConcentractionActivity : AppCompatActivity(), TestConcentractionRecyce
 
     private fun resetRecyclerViewGridLayout() {
         when {
-            score >= 20 -> {
+            geniusTestViewModel.score.value!! >= 20 -> {
                 itemCount = 74
                 val recyclerViewLayoutManager = GridLayoutManager(applicationContext, 15)
                 test_concentraction_recyclerview.layoutManager = recyclerViewLayoutManager
             }
-            score >= 15 -> {
+            geniusTestViewModel.score.value!! >= 15 -> {
                 itemCount = 64
                 val recyclerViewLayoutManager = GridLayoutManager(applicationContext, 13)
                 test_concentraction_recyclerview.layoutManager = recyclerViewLayoutManager
             }
-            score >= 10 -> {
+            geniusTestViewModel.score.value!! >= 10 -> {
                 itemCount = 59
                 val recyclerViewLayoutManager = GridLayoutManager(applicationContext, 12)
                 test_concentraction_recyclerview.layoutManager = recyclerViewLayoutManager
@@ -205,8 +211,8 @@ class TestConcentractionActivity : AppCompatActivity(), TestConcentractionRecyce
     private fun postDataToServer(score : Int) {
         val geniusTestData = GetRoomMethod().getGeniusTestData(applicationContext)
         val uId = geniusTestData.UniqueId
-        Log.d("TAG", "score is $score, uId is $uId")
-        geniusDataDifferenceApiService.getGeniusTestConcentractionDifference(score.toString(), uId).enqueue(object :
+        Log.d("TAG", "geniusTestViewModel.score.value!! is $geniusTestViewModel.score.value!!, uId is $uId")
+        geniusDataDifferenceApiService.getGeniusTestConcentractionDifference(geniusTestViewModel.score.value!!.toString(), uId).enqueue(object :
             Callback<JsonObject> {
             override fun onFailure(call: Call<JsonObject>, t: Throwable) {
                 Toast.makeText(applicationContext, "에러", Toast.LENGTH_LONG).show()
@@ -217,9 +223,9 @@ class TestConcentractionActivity : AppCompatActivity(), TestConcentractionRecyce
                 try {
                     Log.d("TAG", "postDataToServer testDifference data is ${response.body()}")
                     val testConcentractionDifference = response.body()!!.get("test_concentraction_difference")
-                    Log.d("TAG", "postDataToServer testConcentractionDifference is $testConcentractionDifference, score is $score")
+                    Log.d("TAG", "postDataToServer testConcentractionDifference is $testConcentractionDifference, geniusTestViewModel.score.value!! is $geniusTestViewModel.score.value!!")
                     if(testConcentractionDifference.asString.isNotEmpty()) {
-                        geniusTestData.concentractionScore = score.toString()
+                        geniusTestData.concentractionScore = geniusTestViewModel.score.value!!.toString()
                         geniusTestData.concentractionDifference = testConcentractionDifference.asString
                         UpdateRoomMethod().updateGeniusTestData(context = applicationContext, geniusTestData = geniusTestData)
                         Log.d("TAG", "postDataToServer testConcentractionDifference is Not Empty, getGeniusTestData is ${GetRoomMethod().getGeniusTestData(applicationContext)}")

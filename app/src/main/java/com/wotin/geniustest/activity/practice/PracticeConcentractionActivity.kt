@@ -9,14 +9,19 @@ import android.os.Vibrator
 import android.util.Log
 import android.view.View
 import android.widget.Toast
+import androidx.activity.viewModels
+import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import com.google.gson.JsonObject
 import com.wotin.geniustest.adapter.practice.PracticeConcentractionRecyclerViewAdapter
 import com.wotin.geniustest.R
+import com.wotin.geniustest.databinding.ActivityPracticeConcentractionBinding
 import com.wotin.geniustest.retrofitBuilder.GeniusRetrofitBuilder.geniusDataDifferenceApiService
 import com.wotin.geniustest.roomMethod.GetRoomMethod
 import com.wotin.geniustest.roomMethod.UpdateRoomMethod
 import com.wotin.geniustest.networkState
+import com.wotin.geniustest.viewModel.GeniusTestViewModel
 import kotlinx.android.synthetic.main.activity_practice_concentraction.*
 import retrofit2.Call
 import retrofit2.Callback
@@ -27,7 +32,6 @@ import kotlin.collections.ArrayList
 
 class PracticeConcentractionActivity : AppCompatActivity(), PracticeConcentractionRecyclerViewAdapter.ItemClickListener {
 
-    var score = 1
     var counter = 5000
     var itemCount = 49
     var concentractionList : ArrayList<String> = arrayListOf()
@@ -35,17 +39,22 @@ class PracticeConcentractionActivity : AppCompatActivity(), PracticeConcentracti
     lateinit var t : Timer
     lateinit var tt : TimerTask
 
+    lateinit var mBinding : ActivityPracticeConcentractionBinding
+    val geniusTestViewModel: GeniusTestViewModel by viewModels()
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_practice_concentraction)
+        mBinding = DataBindingUtil.setContentView(this, R.layout.activity_practice_concentraction)
+        mBinding.lifecycleOwner = this
+        mBinding.viewModel = geniusTestViewModel
 
-        practice_concentraction_timer_progressbar.min = 0
+        mBinding.practiceConcentractionTimerProgressbar.min = 0
 
         setConcentractionList()
 
         val recyclerViewLayoutManager = GridLayoutManager(applicationContext, 10)
-        practice_concentraction_recyclerview.apply {
+        mBinding.practiceConcentractionRecyclerview.apply {
             layoutManager = recyclerViewLayoutManager
             adapter = concentractionRecyclerViewAdapter
             setHasFixedSize(true)
@@ -68,10 +77,8 @@ class PracticeConcentractionActivity : AppCompatActivity(), PracticeConcentracti
     }
 
     private fun restart() {
-        score += 1
-        practice_concentraction_score_textview.text = score.toString()
-        practice_concentraction_result_textview.text = score.toString()
-        if(score % 5 == 0) {
+        geniusTestViewModel.plusScore()
+        if(geniusTestViewModel.score.value!! % 5 == 0) {
             resetRecyclerViewGridLayout()
         }
         setConcentractionList()
@@ -83,11 +90,11 @@ class PracticeConcentractionActivity : AppCompatActivity(), PracticeConcentracti
 
     private fun prog() {
         t = Timer()
-        practice_concentraction_timer_progressbar.max = counter
+        mBinding.practiceConcentractionTimerProgressbar.max = counter
         tt = object : TimerTask() {
             override fun run() {
                 counter -= 1
-                practice_concentraction_timer_progressbar.progress = counter
+                mBinding.practiceConcentractionTimerProgressbar.progress = counter
                 if((counter / 100) == 0) {
                     t.cancel()
                     tt.cancel()
@@ -96,7 +103,7 @@ class PracticeConcentractionActivity : AppCompatActivity(), PracticeConcentracti
                         practice_concentraction_result_layout.visibility = View.VISIBLE
                         val connectivityManager : ConnectivityManager = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
                         if(networkState(connectivityManager)) {
-                            postDataToServer(score = score)
+                            postDataToServer(score = geniusTestViewModel.score.value!!)
                         }
                     }
                 }
@@ -170,7 +177,7 @@ class PracticeConcentractionActivity : AppCompatActivity(), PracticeConcentracti
                 concentractionList,
                 this
             )
-        practice_concentraction_recyclerview.apply {
+        mBinding.practiceConcentractionRecyclerview.apply {
             adapter = concentractionRecyclerViewAdapter
             setHasFixedSize(true)
         }
@@ -178,26 +185,26 @@ class PracticeConcentractionActivity : AppCompatActivity(), PracticeConcentracti
 
     private fun resetRecyclerViewGridLayout() {
         when {
-            score >= 20 -> {
+            geniusTestViewModel.score.value!! >= 20 -> {
                 itemCount = 74
                 val recyclerViewLayoutManager = GridLayoutManager(applicationContext, 15)
-                practice_concentraction_recyclerview.layoutManager = recyclerViewLayoutManager
+                mBinding.practiceConcentractionRecyclerview.layoutManager = recyclerViewLayoutManager
             }
-            score >= 15 -> {
+            geniusTestViewModel.score.value!! >= 15 -> {
                 itemCount = 64
                 val recyclerViewLayoutManager = GridLayoutManager(applicationContext, 13)
-                practice_concentraction_recyclerview.layoutManager = recyclerViewLayoutManager
+                mBinding.practiceConcentractionRecyclerview.layoutManager = recyclerViewLayoutManager
             }
-            score >= 10 -> {
+            geniusTestViewModel.score.value!! >= 10 -> {
                 itemCount = 59
                 val recyclerViewLayoutManager = GridLayoutManager(applicationContext, 12)
-                practice_concentraction_recyclerview.layoutManager = recyclerViewLayoutManager
+                mBinding.practiceConcentractionRecyclerview.layoutManager = recyclerViewLayoutManager
             } else -> {
             itemCount = 49
         }
         }
         concentractionRecyclerViewAdapter.notifyDataSetChanged()
-        practice_concentraction_recyclerview.apply {
+        mBinding.practiceConcentractionRecyclerview.apply {
             adapter = concentractionRecyclerViewAdapter
             setHasFixedSize(true)
         }
@@ -206,7 +213,7 @@ class PracticeConcentractionActivity : AppCompatActivity(), PracticeConcentracti
     private fun postDataToServer(score : Int) {
         val geniusPracticeData = GetRoomMethod().getGeniusPracticeData(applicationContext)
         val uId = geniusPracticeData.UniqueId
-        Log.d("TAG", "score is $score, uId is $uId")
+        Log.d("TAG", "geniusTestViewModel.score.value!! is $geniusTestViewModel.score.value!!, uId is $uId")
         geniusDataDifferenceApiService.getGeniusPracticeConcentractionDifference(score.toString(), uId).enqueue(object : Callback<JsonObject> {
             override fun onFailure(call: Call<JsonObject>, t: Throwable) {
                 Toast.makeText(applicationContext, "에러", Toast.LENGTH_LONG).show()
@@ -218,7 +225,7 @@ class PracticeConcentractionActivity : AppCompatActivity(), PracticeConcentracti
                     Log.d("TAG", "postDataToServer PracticeDifference data is ${response.body()}")
                     val practiceConcentractionDifference = response.body()!!.get("practice_concentraction_difference")
                     if(practiceConcentractionDifference.asString.isNotEmpty()) {
-                        geniusPracticeData.concentractionScore = score.toString()
+                        geniusPracticeData.concentractionScore = geniusTestViewModel.score.value!!.toString()
                         geniusPracticeData.concentractionDifference = practiceConcentractionDifference.asString
                         UpdateRoomMethod().updateGeniusPracticeData(context = applicationContext, geniusPracticeData = geniusPracticeData)
                     }
