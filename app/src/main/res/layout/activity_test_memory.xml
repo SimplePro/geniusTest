@@ -1,382 +1,395 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
     tools:context=".activity.test.TestMemoryActivity">
 
+    <data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/test_memory_game_layout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        <variable
+            name="viewModel"
+            type="com.wotin.geniustest.viewModel.GeniusTestViewModel" />
 
-        <ProgressBar
-            android:id="@+id/test_memory_timer_progressbar"
-            style="@android:style/Widget.Material.ProgressBar.Horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="20dp"
-            android:layout_marginHorizontal="30dp"
-            android:layout_marginTop="20dp"
-            android:background="#999999"
-            android:progressDrawable="@drawable/progress_bar_background"
-            app:layout_constraintTop_toBottomOf="@id/test_memory_score_layout"
-            />
+    </data>
 
-        <LinearLayout
-            android:id="@+id/test_memory_score_layout"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            android:layout_marginTop="50dp"
-            android:gravity="center"
-            >
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="점수 : "
-                android:fontFamily="@font/mapo"
-                android:textColor="@android:color/black"
-                android:textSize="30dp"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="1"
-                android:fontFamily="@font/mapo"
-                android:textColor="@android:color/black"
-                android:textSize="40dp"
-                android:id="@+id/test_memory_score_textview"/>
-
-        </LinearLayout>
-
-        <TextView
-            android:maxLength="15"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:textColor="@android:color/black"
-            android:fontFamily="@font/nanum"
-            android:textSize="40dp"
-            android:layout_marginBottom="150dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="1010"
-            android:id="@+id/test_memory_answer_and_problem_textview"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="건너뛰기"
-            android:textStyle="italic"
-            android:textColor="@android:color/black"
-            android:fontFamily="@font/nanum"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/test_memory_answer_and_problem_textview"
-            app:layout_constraintBottom_toTopOf="@id/test_num_button_layout"
-            android:textSize="15dp"
-            android:id="@+id/test_memory_skip_button"/>
-
-        <LinearLayout
-            android:id="@+id/test_num_button_layout"
-            android:layout_marginBottom="20dp"
-            android:layout_width="match_parent"
-            android:layout_height="250dp"
-            android:orientation="vertical"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:weightSum="3"
-            >
-
-            <LinearLayout
-                android:layout_weight="1"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:orientation="horizontal"
-                android:weightSum="4"
-                >
-
-                <info.hoang8f.widget.FButton
-                    android:id="@+id/test_num_one_button"
-                    android:layout_weight="1"
-                    android:layout_margin="5dp"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:text="1"
-                    android:fontFamily="@font/nanum"
-                    android:textSize="30dp"
-                    android:textColor="@android:color/white"
-                    app:fButtonColor="#364F6B"
-                    app:cornerRadius="10dp"/>
-
-
-                <info.hoang8f.widget.FButton
-                    android:id="@+id/test_num_two_button"
-                    android:layout_margin="5dp"
-                    android:layout_weight="1"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-
-                    android:text="2"
-                    android:fontFamily="@font/nanum"
-                    android:textColor="@android:color/white"
-                    android:textSize="30dp"
-                    app:fButtonColor="#3FC1C9"
-                    app:cornerRadius="10dp"/>
-
-                <info.hoang8f.widget.FButton
-                    android:id="@+id/test_num_three_button"
-                    android:layout_margin="5dp"
-                    android:layout_weight="1"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-
-                    android:text="3"
-                    android:fontFamily="@font/nanum"
-                    android:textColor="@android:color/black"
-                    android:textSize="30dp"
-                    app:fButtonColor="#F5F5F5"
-                    app:cornerRadius="10dp"/>
-
-                <info.hoang8f.widget.FButton
-                    android:id="@+id/test_num_four_button"
-                    android:layout_margin="5dp"
-                    android:layout_weight="1"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:text="4"
-                    android:fontFamily="@font/nanum"
-                    android:textColor="@android:color/white"
-                    android:textSize="30dp"
-                    app:fButtonColor="#FC5185"
-                    app:cornerRadius="10dp"/>
-
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_weight="1"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:orientation="horizontal"
-                android:weightSum="4"
-                >
-
-                <info.hoang8f.widget.FButton
-                    android:id="@+id/test_num_five_button"
-                    android:layout_weight="1"
-                    android:layout_margin="5dp"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-
-                    android:text="5"
-                    android:fontFamily="@font/nanum"
-                    android:textSize="30dp"
-                    android:textColor="@android:color/white"
-                    app:fButtonColor="#F9A828"
-                    app:cornerRadius="10dp"/>
-
-
-                <info.hoang8f.widget.FButton
-                    android:id="@+id/test_num_six_button"
-                    android:layout_margin="5dp"
-                    android:layout_weight="1"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-
-                    android:text="6"
-                    android:fontFamily="@font/nanum"
-                    android:textColor="@android:color/black"
-                    android:textSize="30dp"
-                    app:fButtonColor="#ECECEB"
-                    app:cornerRadius="10dp"/>
-
-                <info.hoang8f.widget.FButton
-                    android:id="@+id/test_num_seven_button"
-                    android:layout_margin="5dp"
-                    android:layout_weight="1"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-
-                    android:text="7"
-                    android:fontFamily="@font/nanum"
-                    android:textColor="@android:color/white"
-                    android:textSize="30dp"
-                    app:fButtonColor="#07617D"
-                    app:cornerRadius="10dp"/>
-
-                <info.hoang8f.widget.FButton
-                    android:id="@+id/test_num_eight_button"
-                    android:layout_margin="5dp"
-                    android:layout_weight="1"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-
-                    android:text="8"
-                    android:fontFamily="@font/nanum"
-                    android:textColor="@android:color/white"
-                    android:textSize="30dp"
-                    app:fButtonColor="#2E383F"
-                    app:cornerRadius="10dp"/>
-
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_weight="1"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:orientation="horizontal"
-                android:weightSum="4"
-                >
-
-                <info.hoang8f.widget.FButton
-                    android:id="@+id/test_num_nine_button"
-                    android:layout_weight="1"
-                    android:layout_margin="5dp"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:text="9"
-                    android:fontFamily="@font/nanum"
-                    android:textSize="30dp"
-                    android:textColor="@android:color/white"
-                    app:fButtonColor="#3398DB"
-                    app:cornerRadius="10dp"/>
-
-
-                <info.hoang8f.widget.FButton
-                    android:id="@+id/test_num_zero_button"
-                    android:layout_margin="5dp"
-                    android:layout_weight="1"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:text="0"
-                    android:fontFamily="@font/nanum"
-                    android:textColor="@android:color/black"
-                    android:textSize="30dp"
-                    app:fButtonColor="#ECF0F1"
-                    app:cornerRadius="10dp"/>
-
-
-                <info.hoang8f.widget.FButton
-                    android:id="@+id/test_backspace_button"
-                    android:layout_margin="5dp"
-                    android:layout_weight="1"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    app:fButtonColor="#34495E"
-                    android:text="지우기"
-                    android:fontFamily="@font/nanum"
-                    android:textColor="@android:color/white"
-                    android:textSize="25dp"
-                    app:cornerRadius="10dp"/>
-
-                <info.hoang8f.widget.FButton
-                    android:id="@+id/test_all_delete_button"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_margin="5dp"
-                    android:layout_weight="1"
-                    android:fontFamily="@font/nanum"
-                    android:text="X"
-                    android:textColor="@android:color/white"
-                    android:textSize="30dp"
-                    app:cornerRadius="10dp"
-                    app:fButtonColor="#F1C40E" />
-
-
-            </LinearLayout>
-
-        </LinearLayout>
-
-
-
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:visibility="gone"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/test_memory_result_layout">
+        >
 
-        <ImageView
-            android:layout_width="250dp"
-            android:layout_height="250dp"
-            android:src="@drawable/scoreboard"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginTop="50dp"
-            android:tint="#60ffffff"
-            tools:ignore="UseAppTint" />
-
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/test_memory_game_layout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/test_memory_result_confirm_button"
-            android:layout_marginBottom="300dp"
-            >
+            android:layout_height="match_parent">
 
-            <TextView
-                android:textStyle="bold"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="점수 :"
-                android:fontFamily="@font/mapo"
-                android:textColor="@android:color/black"
-                android:textSize="40dp"
+            <ProgressBar
+                android:id="@+id/test_memory_timer_progressbar"
+                style="@android:style/Widget.Material.ProgressBar.Horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                android:layout_marginHorizontal="30dp"
+                android:layout_marginTop="20dp"
+                android:background="#999999"
+                android:progressDrawable="@drawable/progress_bar_background"
+                app:layout_constraintTop_toBottomOf="@id/test_memory_score_layout"
                 />
 
-            <TextView
-                android:textStyle="bold"
+            <LinearLayout
+                android:id="@+id/test_memory_score_layout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="1"
+                android:orientation="horizontal"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                android:layout_marginTop="50dp"
+                android:gravity="center"
+                >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="점수 : "
+                    android:fontFamily="@font/mapo"
+                    android:textColor="@android:color/black"
+                    android:textSize="30dp"/>
+
+                <TextView
+                    tools:text="1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@{Integer.toString(viewModel.score)}"
+                    android:fontFamily="@font/mapo"
+                    android:textColor="@android:color/black"
+                    android:textSize="40dp"
+                    android:id="@+id/test_memory_score_textview"/>
+
+            </LinearLayout>
+
+            <TextView
+                android:maxLength="15"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
                 android:textColor="@android:color/black"
-                android:textSize="70dp"
+                android:fontFamily="@font/nanum"
+                android:textSize="40dp"
+                android:layout_marginBottom="150dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="1010"
+                android:id="@+id/test_memory_answer_and_problem_textview"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="건너뛰기"
+                android:textStyle="italic"
+                android:textColor="@android:color/black"
+                android:fontFamily="@font/nanum"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/test_memory_answer_and_problem_textview"
+                app:layout_constraintBottom_toTopOf="@id/test_num_button_layout"
+                android:textSize="15dp"
+                android:id="@+id/test_memory_skip_button"/>
+
+            <LinearLayout
+                android:id="@+id/test_num_button_layout"
+                android:layout_marginBottom="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="250dp"
+                android:orientation="vertical"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:weightSum="3"
+                >
+
+                <LinearLayout
+                    android:layout_weight="1"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:orientation="horizontal"
+                    android:weightSum="4"
+                    >
+
+                    <info.hoang8f.widget.FButton
+                        android:id="@+id/test_num_one_button"
+                        android:layout_weight="1"
+                        android:layout_margin="5dp"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:text="1"
+                        android:fontFamily="@font/nanum"
+                        android:textSize="30dp"
+                        android:textColor="@android:color/white"
+                        app:fButtonColor="#364F6B"
+                        app:cornerRadius="10dp"/>
+
+
+                    <info.hoang8f.widget.FButton
+                        android:id="@+id/test_num_two_button"
+                        android:layout_margin="5dp"
+                        android:layout_weight="1"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+
+                        android:text="2"
+                        android:fontFamily="@font/nanum"
+                        android:textColor="@android:color/white"
+                        android:textSize="30dp"
+                        app:fButtonColor="#3FC1C9"
+                        app:cornerRadius="10dp"/>
+
+                    <info.hoang8f.widget.FButton
+                        android:id="@+id/test_num_three_button"
+                        android:layout_margin="5dp"
+                        android:layout_weight="1"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+
+                        android:text="3"
+                        android:fontFamily="@font/nanum"
+                        android:textColor="@android:color/black"
+                        android:textSize="30dp"
+                        app:fButtonColor="#F5F5F5"
+                        app:cornerRadius="10dp"/>
+
+                    <info.hoang8f.widget.FButton
+                        android:id="@+id/test_num_four_button"
+                        android:layout_margin="5dp"
+                        android:layout_weight="1"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:text="4"
+                        android:fontFamily="@font/nanum"
+                        android:textColor="@android:color/white"
+                        android:textSize="30dp"
+                        app:fButtonColor="#FC5185"
+                        app:cornerRadius="10dp"/>
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_weight="1"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:orientation="horizontal"
+                    android:weightSum="4"
+                    >
+
+                    <info.hoang8f.widget.FButton
+                        android:id="@+id/test_num_five_button"
+                        android:layout_weight="1"
+                        android:layout_margin="5dp"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+
+                        android:text="5"
+                        android:fontFamily="@font/nanum"
+                        android:textSize="30dp"
+                        android:textColor="@android:color/white"
+                        app:fButtonColor="#F9A828"
+                        app:cornerRadius="10dp"/>
+
+
+                    <info.hoang8f.widget.FButton
+                        android:id="@+id/test_num_six_button"
+                        android:layout_margin="5dp"
+                        android:layout_weight="1"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+
+                        android:text="6"
+                        android:fontFamily="@font/nanum"
+                        android:textColor="@android:color/black"
+                        android:textSize="30dp"
+                        app:fButtonColor="#ECECEB"
+                        app:cornerRadius="10dp"/>
+
+                    <info.hoang8f.widget.FButton
+                        android:id="@+id/test_num_seven_button"
+                        android:layout_margin="5dp"
+                        android:layout_weight="1"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+
+                        android:text="7"
+                        android:fontFamily="@font/nanum"
+                        android:textColor="@android:color/white"
+                        android:textSize="30dp"
+                        app:fButtonColor="#07617D"
+                        app:cornerRadius="10dp"/>
+
+                    <info.hoang8f.widget.FButton
+                        android:id="@+id/test_num_eight_button"
+                        android:layout_margin="5dp"
+                        android:layout_weight="1"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+
+                        android:text="8"
+                        android:fontFamily="@font/nanum"
+                        android:textColor="@android:color/white"
+                        android:textSize="30dp"
+                        app:fButtonColor="#2E383F"
+                        app:cornerRadius="10dp"/>
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_weight="1"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:orientation="horizontal"
+                    android:weightSum="4"
+                    >
+
+                    <info.hoang8f.widget.FButton
+                        android:id="@+id/test_num_nine_button"
+                        android:layout_weight="1"
+                        android:layout_margin="5dp"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:text="9"
+                        android:fontFamily="@font/nanum"
+                        android:textSize="30dp"
+                        android:textColor="@android:color/white"
+                        app:fButtonColor="#3398DB"
+                        app:cornerRadius="10dp"/>
+
+
+                    <info.hoang8f.widget.FButton
+                        android:id="@+id/test_num_zero_button"
+                        android:layout_margin="5dp"
+                        android:layout_weight="1"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:text="0"
+                        android:fontFamily="@font/nanum"
+                        android:textColor="@android:color/black"
+                        android:textSize="30dp"
+                        app:fButtonColor="#ECF0F1"
+                        app:cornerRadius="10dp"/>
+
+
+                    <info.hoang8f.widget.FButton
+                        android:id="@+id/test_backspace_button"
+                        android:layout_margin="5dp"
+                        android:layout_weight="1"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        app:fButtonColor="#34495E"
+                        android:text="지우기"
+                        android:fontFamily="@font/nanum"
+                        android:textColor="@android:color/white"
+                        android:textSize="25dp"
+                        app:cornerRadius="10dp"/>
+
+                    <info.hoang8f.widget.FButton
+                        android:id="@+id/test_all_delete_button"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_margin="5dp"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/nanum"
+                        android:text="X"
+                        android:textColor="@android:color/white"
+                        android:textSize="30dp"
+                        app:cornerRadius="10dp"
+                        app:fButtonColor="#F1C40E" />
+
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/test_memory_result_layout">
+
+            <ImageView
+                android:layout_width="250dp"
+                android:layout_height="250dp"
+                android:src="@drawable/scoreboard"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginTop="50dp"
+                android:tint="#60ffffff"
+                tools:ignore="UseAppTint" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintBottom_toTopOf="@id/test_memory_result_confirm_button"
+                android:layout_marginBottom="300dp"
+                >
+
+                <TextView
+                    android:textStyle="bold"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="점수 :"
+                    android:fontFamily="@font/mapo"
+                    android:textColor="@android:color/black"
+                    android:textSize="40dp"
+                    />
+
+                <TextView
+                    tools:text="1"
+                    android:textStyle="bold"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@{Integer.toString(viewModel.score)}"
+                    android:textColor="@android:color/black"
+                    android:textSize="70dp"
+                    android:fontFamily="@font/mapo"
+                    android:id="@+id/test_memory_result_textview"/>
+
+
+            </LinearLayout>
+
+            <Button
+                android:layout_width="120dp"
+                android:layout_height="60dp"
+                android:id="@+id/test_memory_result_confirm_button"
+                android:text="확인"
+                android:background="@drawable/rounded_corner_button"
                 android:fontFamily="@font/mapo"
-                android:id="@+id/test_memory_result_textview"/>
+                android:textSize="25dp"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_marginBottom="100dp"/>
 
 
-        </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <Button
-            android:layout_width="120dp"
-            android:layout_height="60dp"
-            android:id="@+id/test_memory_result_confirm_button"
-            android:text="확인"
-            android:background="@drawable/rounded_corner_button"
-            android:fontFamily="@font/mapo"
-            android:textSize="25dp"
-            app:layout_constraintRight_toRightOf="parent"
+
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/left_arrow"
+            android:layout_margin="10dp"
+            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:layout_marginBottom="100dp"/>
+            android:id="@+id/go_to_mainactivity_from_test_memory_activity_imageview"/>
 
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-    <ImageView
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:src="@drawable/left_arrow"
-        android:layout_margin="10dp"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        android:id="@+id/go_to_mainactivity_from_test_memory_activity_imageview"/>
-
-
-</RelativeLayout>
+    </RelativeLayout>
+</layout>
 

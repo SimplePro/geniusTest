@@ -13,12 +13,16 @@ import android.view.animation.AlphaAnimation
 import android.view.animation.AnimationSet
 import android.view.animation.DecelerateInterpolator
 import android.widget.Toast
+import androidx.activity.viewModels
+import androidx.databinding.DataBindingUtil
 import com.google.gson.JsonObject
 import com.wotin.geniustest.R
+import com.wotin.geniustest.databinding.ActivityTestMemoryBinding
 import com.wotin.geniustest.retrofitBuilder.GeniusRetrofitBuilder.geniusDataDifferenceApiService
 import com.wotin.geniustest.roomMethod.GetRoomMethod
 import com.wotin.geniustest.roomMethod.UpdateRoomMethod
 import com.wotin.geniustest.networkState
+import com.wotin.geniustest.viewModel.GeniusTestViewModel
 import kotlinx.android.synthetic.main.activity_test_memory.*
 import retrofit2.Call
 import retrofit2.Callback
@@ -36,118 +40,123 @@ class TestMemoryActivity : AppCompatActivity() {
     lateinit var t : Timer
     lateinit var tt : TimerTask
 
-    var score = 0
     var problemNum = ""
     var answerNum = ""
+    
+    lateinit var mBinding : ActivityTestMemoryBinding
+    val geniusTestViewModel : GeniusTestViewModel by viewModels()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_test_memory)
+        mBinding = DataBindingUtil.setContentView(this, R.layout.activity_test_memory)
+        geniusTestViewModel.score.value = 0
+        mBinding.viewModel = geniusTestViewModel
+        mBinding.lifecycleOwner = this
 
         window.addFlags(WindowManager.LayoutParams.FLAG_SECURE)
 
         runnable = Runnable {
             setButtonEnabledTrue()
             prog()
-            test_memory_answer_and_problem_textview.text = "???"
-            test_memory_skip_button.visibility = View.GONE
-            test_memory_timer_progressbar.visibility = View.VISIBLE
-            test_memory_answer_and_problem_textview.visibility = View.VISIBLE
+            mBinding.testMemoryAnswerAndProblemTextview.text = "???"
+            mBinding.testMemorySkipButton.visibility = View.GONE
+            mBinding.testMemoryTimerProgressbar.visibility = View.VISIBLE
+            mBinding.testMemoryAnswerAndProblemTextview.visibility = View.VISIBLE
             answerNum = ""
-            test_memory_answer_and_problem_textview.animation = (null)
+            mBinding.testMemoryAnswerAndProblemTextview.animation = (null)
         }
 
         start()
 
-        go_to_mainactivity_from_test_memory_activity_imageview.setOnClickListener {
+        mBinding.goToMainactivityFromTestMemoryActivityImageview.setOnClickListener {
             val intent = Intent(this, TestActivity::class.java)
             startActivity(intent)
             finish()
         }
 
-        test_memory_result_confirm_button.setOnClickListener {
+        mBinding.testMemoryResultConfirmButton.setOnClickListener {
             startActivity(Intent(this, TestActivity::class.java))
             finish()
         }
 
-        test_num_one_button.setOnClickListener {
+        mBinding.testNumOneButton.setOnClickListener {
             answerNum += "1"
-            test_memory_answer_and_problem_textview.text = answerNum
+            mBinding.testMemoryAnswerAndProblemTextview.text = answerNum
             if(answerNum == problemNum) start()
         }
 
-        test_num_two_button.setOnClickListener {
+        mBinding.testNumTwoButton.setOnClickListener {
             answerNum += "2"
-            test_memory_answer_and_problem_textview.text = answerNum
+            mBinding.testMemoryAnswerAndProblemTextview.text = answerNum
             if(answerNum == problemNum) start()
         }
-        test_num_three_button.setOnClickListener {
+        mBinding.testNumThreeButton.setOnClickListener {
             answerNum += "3"
-            test_memory_answer_and_problem_textview.text = answerNum
+            mBinding.testMemoryAnswerAndProblemTextview.text = answerNum
             if(answerNum == problemNum) start()
         }
-        test_num_four_button.setOnClickListener {
+        mBinding.testNumFourButton.setOnClickListener {
             answerNum += "4"
-            test_memory_answer_and_problem_textview.text = answerNum
+            mBinding.testMemoryAnswerAndProblemTextview.text = answerNum
             if(answerNum == problemNum) start()
         }
-        test_num_five_button.setOnClickListener {
+        mBinding.testNumFiveButton.setOnClickListener {
             answerNum += "5"
-            test_memory_answer_and_problem_textview.text = answerNum
+            mBinding.testMemoryAnswerAndProblemTextview.text = answerNum
             if(answerNum == problemNum) start()
         }
-        test_num_six_button.setOnClickListener {
+        mBinding.testNumSixButton.setOnClickListener {
             answerNum += "6"
-            test_memory_answer_and_problem_textview.text = answerNum
+            mBinding.testMemoryAnswerAndProblemTextview.text = answerNum
             if(answerNum == problemNum) start()
         }
-        test_num_seven_button.setOnClickListener {
+        mBinding.testNumSevenButton.setOnClickListener {
             answerNum += "7"
-            test_memory_answer_and_problem_textview.text = answerNum
+            mBinding.testMemoryAnswerAndProblemTextview.text = answerNum
             if(answerNum == problemNum) start()
         }
-        test_num_eight_button.setOnClickListener {
+        mBinding.testNumEightButton.setOnClickListener {
             answerNum += "8"
-            test_memory_answer_and_problem_textview.text = answerNum
+            mBinding.testMemoryAnswerAndProblemTextview.text = answerNum
             if(answerNum == problemNum) start()
         }
-        test_num_nine_button.setOnClickListener {
+        mBinding.testNumNineButton.setOnClickListener {
             answerNum += "9"
-            test_memory_answer_and_problem_textview.text = answerNum
+            mBinding.testMemoryAnswerAndProblemTextview.text = answerNum
             if(answerNum == problemNum) start()
         }
-        test_num_zero_button.setOnClickListener {
+        mBinding.testNumZeroButton.setOnClickListener {
             answerNum += "0"
-            test_memory_answer_and_problem_textview.text = answerNum
+            mBinding.testMemoryAnswerAndProblemTextview.text = answerNum
             if(answerNum == problemNum) start()
         }
 
-        test_backspace_button.setOnClickListener {
+        mBinding.testBackspaceButton.setOnClickListener {
             if (answerNum.isEmpty() || answerNum.length == 1) {
                 answerNum = ""
-                test_memory_answer_and_problem_textview.text = "???"
+                mBinding.testMemoryAnswerAndProblemTextview.text = "???"
             } else {
                 answerNum = answerNum.substring(0, answerNum.length - 1)
-                test_memory_answer_and_problem_textview.text = answerNum
+                mBinding.testMemoryAnswerAndProblemTextview.text = answerNum
             }
         }
 
-        test_all_delete_button.setOnClickListener {
+        mBinding.testAllDeleteButton.setOnClickListener {
             answerNum = ""
-            test_memory_answer_and_problem_textview.text = "???"
+            mBinding.testMemoryAnswerAndProblemTextview.text = "???"
         }
 
-        test_memory_skip_button.setOnClickListener {
+        mBinding.testMemorySkipButton.setOnClickListener {
             handler.removeCallbacks(runnable)
             setButtonEnabledTrue()
             prog()
             answerNum = ""
-            test_memory_skip_button.visibility = View.GONE
-            test_memory_timer_progressbar.visibility = View.VISIBLE
-            test_memory_answer_and_problem_textview.text = "???"
-            test_memory_answer_and_problem_textview.visibility = View.VISIBLE
-            test_memory_answer_and_problem_textview.animation = (null)
+            mBinding.testMemorySkipButton.visibility = View.GONE
+            mBinding.testMemoryTimerProgressbar.visibility = View.VISIBLE
+            mBinding.testMemoryAnswerAndProblemTextview.text = "???"
+            mBinding.testMemoryAnswerAndProblemTextview.visibility = View.VISIBLE
+            mBinding.testMemoryAnswerAndProblemTextview.animation = (null)
         }
 
 
@@ -160,24 +169,24 @@ class TestMemoryActivity : AppCompatActivity() {
 
         val animation = AnimationSet(false)
         animation.addAnimation(fadeOut)
-        test_memory_answer_and_problem_textview.animation = animation
+        mBinding.testMemoryAnswerAndProblemTextview.animation = animation
     }
 
     private fun start() {
-        score += 1
+        geniusTestViewModel.plusScore()
         problemNum = ""
         DURATION = if(DURATION >= 3000) (DURATION * 0.95).toInt() else 3000
         COUNTER = 10000
         setButtonEnabledFalse()
-        test_memory_skip_button.visibility = View.VISIBLE
-        test_memory_timer_progressbar.visibility = View.GONE
+        mBinding.testMemorySkipButton.visibility = View.VISIBLE
+        mBinding.testMemoryTimerProgressbar.visibility = View.GONE
         when {
-            score >= 20 -> {
+            geniusTestViewModel.score.value!! >= 20 -> {
                 for(i in 0 .. 12) {
                     problemNum += Random().nextInt(9).toString()
                 }
             }
-            score >= 10 -> {
+            geniusTestViewModel.score.value!! >= 10 -> {
                 for(i in 0 .. 7) {
                     problemNum += Random().nextInt(9).toString()
                 }
@@ -188,9 +197,9 @@ class TestMemoryActivity : AppCompatActivity() {
                 }
             }
         }
-        test_memory_answer_and_problem_textview.text = problemNum
-        test_memory_score_textview.text = score.toString()
-        test_memory_result_textview.text = score.toString()
+        mBinding.testMemoryAnswerAndProblemTextview.text = problemNum
+        test_memory_score_textview.text = geniusTestViewModel.score.value!!.toString()
+        test_memory_result_textview.text = geniusTestViewModel.score.value!!.toString()
         startAlphaAnimation()
         try {
             t.cancel()
@@ -211,11 +220,11 @@ class TestMemoryActivity : AppCompatActivity() {
 
     private fun prog() {
         t = Timer()
-        test_memory_timer_progressbar.max = COUNTER
+        mBinding.testMemoryTimerProgressbar.max = COUNTER
         tt = object : TimerTask() {
             override fun run() {
                 COUNTER -= 1
-                test_memory_timer_progressbar.progress = COUNTER
+                mBinding.testMemoryTimerProgressbar.progress = COUNTER
                 if((COUNTER / 100) == 0) {
                     t.cancel()
                     tt.cancel()
@@ -224,8 +233,8 @@ class TestMemoryActivity : AppCompatActivity() {
                         test_memory_result_layout.visibility = View.VISIBLE
                         val connectivityManager : ConnectivityManager = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
                         if(networkState(connectivityManager)) {
-                            Log.d("TAG  ", "run: score is $score")
-                            postDataToServer(score)
+                            Log.d("TAG  ", "run: score is $geniusTestViewModel.score.value!!")
+                            postDataToServer(geniusTestViewModel.score.value!!)
                         }
                     }
                 }
@@ -265,32 +274,32 @@ class TestMemoryActivity : AppCompatActivity() {
     }
 
     private fun setButtonEnabledFalse() {
-        test_num_one_button.isEnabled = false
-        test_num_two_button.isEnabled = false
-        test_num_three_button.isEnabled = false
-        test_num_four_button.isEnabled = false
-        test_num_five_button.isEnabled = false
-        test_num_six_button.isEnabled = false
-        test_num_seven_button.isEnabled = false
-        test_num_eight_button.isEnabled = false
-        test_num_nine_button.isEnabled = false
-        test_num_zero_button.isEnabled = false
-        test_backspace_button.isEnabled = false
-        test_all_delete_button.isEnabled = false
+        mBinding.testNumOneButton.isEnabled = false
+        mBinding.testNumTwoButton.isEnabled = false
+        mBinding.testNumThreeButton.isEnabled = false
+        mBinding.testNumFourButton.isEnabled = false
+        mBinding.testNumFiveButton.isEnabled = false
+        mBinding.testNumSixButton.isEnabled = false
+        mBinding.testNumSevenButton.isEnabled = false
+        mBinding.testNumEightButton.isEnabled = false
+        mBinding.testNumNineButton.isEnabled = false
+        mBinding.testNumZeroButton.isEnabled = false
+        mBinding.testBackspaceButton.isEnabled = false
+        mBinding.testAllDeleteButton.isEnabled = false
     }
 
     private fun setButtonEnabledTrue() {
-        test_num_one_button.isEnabled = true
-        test_num_two_button.isEnabled = true
-        test_num_three_button.isEnabled = true
-        test_num_four_button.isEnabled = true
-        test_num_five_button.isEnabled = true
-        test_num_six_button.isEnabled = true
-        test_num_seven_button.isEnabled = true
-        test_num_eight_button.isEnabled = true
-        test_num_nine_button.isEnabled = true
-        test_num_zero_button.isEnabled = true
-        test_backspace_button.isEnabled = true
-        test_all_delete_button.isEnabled = true
+        mBinding.testNumOneButton.isEnabled = true
+        mBinding.testNumTwoButton.isEnabled = true
+        mBinding.testNumThreeButton.isEnabled = true
+        mBinding.testNumFourButton.isEnabled = true
+        mBinding.testNumFiveButton.isEnabled = true
+        mBinding.testNumSixButton.isEnabled = true
+        mBinding.testNumSevenButton.isEnabled = true
+        mBinding.testNumEightButton.isEnabled = true
+        mBinding.testNumNineButton.isEnabled = true
+        mBinding.testNumZeroButton.isEnabled = true
+        mBinding.testBackspaceButton.isEnabled = true
+        mBinding.testAllDeleteButton.isEnabled = true
     }
 }

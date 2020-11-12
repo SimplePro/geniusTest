@@ -13,12 +13,16 @@ import android.view.animation.AlphaAnimation
 import android.view.animation.AnimationSet
 import android.view.animation.DecelerateInterpolator
 import android.widget.Toast
+import androidx.activity.viewModels
+import androidx.databinding.DataBindingUtil
 import com.google.gson.JsonObject
 import com.wotin.geniustest.R
+import com.wotin.geniustest.databinding.ActivityPracticeMemoryBinding
 import com.wotin.geniustest.retrofitBuilder.GeniusRetrofitBuilder.geniusDataDifferenceApiService
 import com.wotin.geniustest.roomMethod.GetRoomMethod
 import com.wotin.geniustest.roomMethod.UpdateRoomMethod
 import com.wotin.geniustest.networkState
+import com.wotin.geniustest.viewModel.GeniusTestViewModel
 import kotlinx.android.synthetic.main.activity_practice_memory.*
 import retrofit2.Call
 import retrofit2.Callback
@@ -37,118 +41,122 @@ class PracticeMemoryActivity : AppCompatActivity() {
     lateinit var t : Timer
     lateinit var tt : TimerTask
 
-    var score = 0
     var problemNum = ""
     var answerNum = ""
-
+    
+    lateinit var mBinding : ActivityPracticeMemoryBinding
+    val geniusTestViewModel : GeniusTestViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_practice_memory)
+        mBinding = DataBindingUtil.setContentView(this, R.layout.activity_practice_memory)
+        geniusTestViewModel.score.value = 0
+        mBinding.viewModel = geniusTestViewModel
+        mBinding.lifecycleOwner = this
 
         window.addFlags(WindowManager.LayoutParams.FLAG_SECURE)
 
         runnable = Runnable {
             setButtonEnabledTrue()
             prog()
-            practice_memory_answer_and_problem_textview.text = "???"
-            practice_memory_skip_button.visibility = View.GONE
-            practice_memory_timer_progressbar.visibility = View.VISIBLE
-            practice_memory_answer_and_problem_textview.visibility = View.VISIBLE
+            mBinding.practiceMemoryAnswerAndProblemTextview.text = "???"
+            mBinding.practiceMemorySkipButton.visibility = View.GONE
+            mBinding.practiceMemoryTimerProgressbar.visibility = View.VISIBLE
+            mBinding.practiceMemoryAnswerAndProblemTextview.visibility = View.VISIBLE
             answerNum = ""
-            practice_memory_answer_and_problem_textview.animation = (null)
+            mBinding.practiceMemoryAnswerAndProblemTextview.animation = (null)
         }
 
         start()
 
-        go_to_mainactivity_from_practice_memory_activity_imageview.setOnClickListener {
+        mBinding.goToMainactivityFromPracticeMemoryActivityImageview.setOnClickListener {
             val intent = Intent(this, PracticeActivity::class.java)
             startActivity(intent)
             finish()
         }
 
-        practice_memory_result_confirm_button.setOnClickListener {
+        mBinding.practiceMemoryResultConfirmButton.setOnClickListener {
             startActivity(Intent(this, PracticeActivity::class.java))
             finish()
         }
 
-        practice_num_one_button.setOnClickListener {
+        mBinding.practiceNumOneButton.setOnClickListener {
             answerNum += "1"
-            practice_memory_answer_and_problem_textview.text = answerNum
+            mBinding.practiceMemoryAnswerAndProblemTextview.text = answerNum
             if(answerNum == problemNum) start()
         }
 
-        practice_num_two_button.setOnClickListener {
+        mBinding.practiceNumTwoButton.setOnClickListener {
             answerNum += "2"
-            practice_memory_answer_and_problem_textview.text = answerNum
+            mBinding.practiceMemoryAnswerAndProblemTextview.text = answerNum
             if(answerNum == problemNum) start()
         }
-        practice_num_three_button.setOnClickListener {
+        mBinding.practiceNumThreeButton.setOnClickListener {
             answerNum += "3"
-            practice_memory_answer_and_problem_textview.text = answerNum
+            mBinding.practiceMemoryAnswerAndProblemTextview.text = answerNum
             if(answerNum == problemNum) start()
         }
-        practice_num_four_button.setOnClickListener {
+        mBinding.practiceNumFourButton.setOnClickListener {
             answerNum += "4"
-            practice_memory_answer_and_problem_textview.text = answerNum
+            mBinding.practiceMemoryAnswerAndProblemTextview.text = answerNum
             if(answerNum == problemNum) start()
         }
-        practice_num_five_button.setOnClickListener {
+        mBinding.practiceNumFiveButton.setOnClickListener {
             answerNum += "5"
-            practice_memory_answer_and_problem_textview.text = answerNum
+            mBinding.practiceMemoryAnswerAndProblemTextview.text = answerNum
             if(answerNum == problemNum) start()
         }
-        practice_num_six_button.setOnClickListener {
+        mBinding.practiceNumSixButton.setOnClickListener {
             answerNum += "6"
-            practice_memory_answer_and_problem_textview.text = answerNum
+            mBinding.practiceMemoryAnswerAndProblemTextview.text = answerNum
             if(answerNum == problemNum) start()
         }
-        practice_num_seven_button.setOnClickListener {
+        mBinding.practiceNumSevenButton.setOnClickListener {
             answerNum += "7"
-            practice_memory_answer_and_problem_textview.text = answerNum
+            mBinding.practiceMemoryAnswerAndProblemTextview.text = answerNum
             if(answerNum == problemNum) start()
         }
-        practice_num_eight_button.setOnClickListener {
+        mBinding.practiceNumEightButton.setOnClickListener {
             answerNum += "8"
-            practice_memory_answer_and_problem_textview.text = answerNum
+            mBinding.practiceMemoryAnswerAndProblemTextview.text = answerNum
             if(answerNum == problemNum) start()
         }
-        practice_num_nine_button.setOnClickListener {
+        mBinding.practiceNumNineButton.setOnClickListener {
             answerNum += "9"
-            practice_memory_answer_and_problem_textview.text = answerNum
+            mBinding.practiceMemoryAnswerAndProblemTextview.text = answerNum
             if(answerNum == problemNum) start()
         }
-        practice_num_zero_button.setOnClickListener {
+        mBinding.practiceNumZeroButton.setOnClickListener {
             answerNum += "0"
-            practice_memory_answer_and_problem_textview.text = answerNum
+            mBinding.practiceMemoryAnswerAndProblemTextview.text = answerNum
             if(answerNum == problemNum) start()
         }
 
-        practice_backspace_button.setOnClickListener {
+        mBinding.practiceBackspaceButton.setOnClickListener {
             if (answerNum.isEmpty() || answerNum.length == 1) {
                 answerNum = ""
-                practice_memory_answer_and_problem_textview.text = "???"
+                mBinding.practiceMemoryAnswerAndProblemTextview.text = "???"
             } else {
                 answerNum = answerNum.substring(0, answerNum.length - 1)
-                practice_memory_answer_and_problem_textview.text = answerNum
+                mBinding.practiceMemoryAnswerAndProblemTextview.text = answerNum
             }
         }
 
-        practice_all_delete_button.setOnClickListener {
+        mBinding.practiceAllDeleteButton.setOnClickListener {
             answerNum = ""
-            practice_memory_answer_and_problem_textview.text = "???"
+            mBinding.practiceMemoryAnswerAndProblemTextview.text = "???"
         }
 
-        practice_memory_skip_button.setOnClickListener {
+        mBinding.practiceMemorySkipButton.setOnClickListener {
             handler.removeCallbacks(runnable)
             setButtonEnabledTrue()
             prog()
             answerNum = ""
-            practice_memory_skip_button.visibility = View.GONE
-            practice_memory_timer_progressbar.visibility = View.VISIBLE
-            practice_memory_answer_and_problem_textview.text = "???"
-            practice_memory_answer_and_problem_textview.visibility = View.VISIBLE
-            practice_memory_answer_and_problem_textview.animation = (null)
+            mBinding.practiceMemorySkipButton.visibility = View.GONE
+            mBinding.practiceMemoryTimerProgressbar.visibility = View.VISIBLE
+            mBinding.practiceMemoryAnswerAndProblemTextview.text = "???"
+            mBinding.practiceMemoryAnswerAndProblemTextview.visibility = View.VISIBLE
+            mBinding.practiceMemoryAnswerAndProblemTextview.animation = (null)
         }
 
 
@@ -161,24 +169,24 @@ class PracticeMemoryActivity : AppCompatActivity() {
 
         val animation = AnimationSet(false)
         animation.addAnimation(fadeOut)
-        practice_memory_answer_and_problem_textview.animation = animation
+        mBinding.practiceMemoryAnswerAndProblemTextview.animation = animation
     }
 
     private fun start() {
-        score += 1
+        geniusTestViewModel.plusScore()
         problemNum = ""
         DURATION = if(DURATION >= 3000) (DURATION * 0.95).toInt() else 3000
         COUNTER = 10000
         setButtonEnabledFalse()
-        practice_memory_skip_button.visibility = View.VISIBLE
-        practice_memory_timer_progressbar.visibility = View.GONE
+        mBinding.practiceMemorySkipButton.visibility = View.VISIBLE
+        mBinding.practiceMemoryTimerProgressbar.visibility = View.GONE
         when {
-            score >= 20 -> {
+            geniusTestViewModel.score.value!! >= 20 -> {
                 for(i in 0 .. 12) {
                     problemNum += Random().nextInt(9).toString()
                 }
             }
-            score >= 10 -> {
+            geniusTestViewModel.score.value!! >= 10 -> {
                 for(i in 0 .. 7) {
                     problemNum += Random().nextInt(9).toString()
                 }
@@ -189,9 +197,9 @@ class PracticeMemoryActivity : AppCompatActivity() {
                 }
             }
         }
-        practice_memory_answer_and_problem_textview.text = problemNum
-        practice_memory_score_textview.text = score.toString()
-        practice_memory_result_textview.text = score.toString()
+        mBinding.practiceMemoryAnswerAndProblemTextview.text = problemNum
+        practice_memory_score_textview.text = geniusTestViewModel.score.value!!.toString()
+        practice_memory_result_textview.text = geniusTestViewModel.score.value!!.toString()
         startAlphaAnimation()
         try {
             t.cancel()
@@ -212,11 +220,11 @@ class PracticeMemoryActivity : AppCompatActivity() {
 
     private fun prog() {
         t = Timer()
-        practice_memory_timer_progressbar.max = COUNTER
+        mBinding.practiceMemoryTimerProgressbar.max = COUNTER
         tt = object : TimerTask() {
             override fun run() {
                 COUNTER -= 1
-                practice_memory_timer_progressbar.progress = COUNTER
+                mBinding.practiceMemoryTimerProgressbar.progress = COUNTER
                 if((COUNTER / 100) == 0) {
                     t.cancel()
                     tt.cancel()
@@ -225,8 +233,8 @@ class PracticeMemoryActivity : AppCompatActivity() {
                         practice_memory_result_layout.visibility = View.VISIBLE
                         val connectivityManager : ConnectivityManager = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
                         if(networkState(connectivityManager)) {
-                            Log.d("TAG  ", "run: score is $score")
-                            postDataToServer(score)
+                            Log.d("TAG  ", "run: score is $geniusTestViewModel.score.value!!")
+                            postDataToServer(geniusTestViewModel.score.value!!)
                         }
                     }
                 }
@@ -266,33 +274,33 @@ class PracticeMemoryActivity : AppCompatActivity() {
     }
 
     private fun setButtonEnabledFalse() {
-        practice_num_one_button.isEnabled = false
-        practice_num_two_button.isEnabled = false
-        practice_num_three_button.isEnabled = false
-        practice_num_four_button.isEnabled = false
-        practice_num_five_button.isEnabled = false
-        practice_num_six_button.isEnabled = false
-        practice_num_seven_button.isEnabled = false
-        practice_num_eight_button.isEnabled = false
-        practice_num_nine_button.isEnabled = false
-        practice_num_zero_button.isEnabled = false
-        practice_backspace_button.isEnabled = false
-        practice_all_delete_button.isEnabled = false
+        mBinding.practiceNumOneButton.isEnabled = false
+        mBinding.practiceNumTwoButton.isEnabled = false
+        mBinding.practiceNumThreeButton.isEnabled = false
+        mBinding.practiceNumFourButton.isEnabled = false
+        mBinding.practiceNumFiveButton.isEnabled = false
+        mBinding.practiceNumSixButton.isEnabled = false
+        mBinding.practiceNumSevenButton.isEnabled = false
+        mBinding.practiceNumEightButton.isEnabled = false
+        mBinding.practiceNumNineButton.isEnabled = false
+        mBinding.practiceNumZeroButton.isEnabled = false
+        mBinding.practiceBackspaceButton.isEnabled = false
+        mBinding.practiceAllDeleteButton.isEnabled = false
     }
 
     private fun setButtonEnabledTrue() {
-        practice_num_one_button.isEnabled = true
-        practice_num_two_button.isEnabled = true
-        practice_num_three_button.isEnabled = true
-        practice_num_four_button.isEnabled = true
-        practice_num_five_button.isEnabled = true
-        practice_num_six_button.isEnabled = true
-        practice_num_seven_button.isEnabled = true
-        practice_num_eight_button.isEnabled = true
-        practice_num_nine_button.isEnabled = true
-        practice_num_zero_button.isEnabled = true
-        practice_backspace_button.isEnabled = true
-        practice_all_delete_button.isEnabled = true
+        mBinding.practiceNumOneButton.isEnabled = true
+        mBinding.practiceNumTwoButton.isEnabled = true
+        mBinding.practiceNumThreeButton.isEnabled = true
+        mBinding.practiceNumFourButton.isEnabled = true
+        mBinding.practiceNumFiveButton.isEnabled = true
+        mBinding.practiceNumSixButton.isEnabled = true
+        mBinding.practiceNumSevenButton.isEnabled = true
+        mBinding.practiceNumEightButton.isEnabled = true
+        mBinding.practiceNumNineButton.isEnabled = true
+        mBinding.practiceNumZeroButton.isEnabled = true
+        mBinding.practiceBackspaceButton.isEnabled = true
+        mBinding.practiceAllDeleteButton.isEnabled = true
     }
 
 }
