@@ -8,15 +8,20 @@ import android.os.Bundle
 import android.os.Vibrator
 import android.util.Log
 import android.view.View
+import android.view.accessibility.AccessibilityEvent
 import android.widget.Toast
+import androidx.activity.viewModels
+import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.gson.JsonObject
 import com.wotin.geniustest.adapter.practice.PracticeQuicknessRecyclerViewAdapter
 import com.wotin.geniustest.R
+import com.wotin.geniustest.databinding.ActivityPracticeQuicknessBinding
 import com.wotin.geniustest.retrofitBuilder.GeniusRetrofitBuilder.geniusDataDifferenceApiService
 import com.wotin.geniustest.roomMethod.GetRoomMethod
 import com.wotin.geniustest.roomMethod.UpdateRoomMethod
 import com.wotin.geniustest.networkState
+import com.wotin.geniustest.viewModel.GeniusTestViewModel
 import kotlinx.android.synthetic.main.activity_practice_quickness.*
 import retrofit2.Call
 import retrofit2.Callback
@@ -27,7 +32,6 @@ import kotlin.collections.ArrayList
 
 class PracticeQuicknessActivity : AppCompatActivity(), PracticeQuicknessRecyclerViewAdapter.ItemClickListener {
 
-    var score = 1
     var counter = 5000
     var quicknessList : ArrayList<String> = arrayListOf()
     var currentColor = ""
@@ -37,18 +41,21 @@ class PracticeQuicknessActivity : AppCompatActivity(), PracticeQuicknessRecycler
 
     var brain_mode = "right_brain"
 
+    lateinit var mBinding : ActivityPracticeQuicknessBinding
+    val geniusTestViewModel : GeniusTestViewModel by viewModels()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_practice_quickness)
+        mBinding = DataBindingUtil.setContentView(this, R.layout.activity_practice_quickness)
+        mBinding.viewModel = geniusTestViewModel
+        mBinding.lifecycleOwner = this
 
-        if(intent.hasExtra("brain_mode")) {
-            brain_mode = intent.getStringExtra("brain_mode")
-        }
+        if(intent.hasExtra("brain_mode")) brain_mode = intent.getStringExtra("brain_mode")!!
 
         setQuicknessList()
         quicknessRecyclerViewAdapter = PracticeQuicknessRecyclerViewAdapter(quicknessList, this)
 
-        practice_quickness_recyclerview.apply {
+        mBinding.practiceQuicknessRecyclerview.apply {
             layoutManager = LinearLayoutManager(this@PracticeQuicknessActivity, LinearLayoutManager.HORIZONTAL, false)
             adapter = quicknessRecyclerViewAdapter
             setHasFixedSize(true)
@@ -71,9 +78,7 @@ class PracticeQuicknessActivity : AppCompatActivity(), PracticeQuicknessRecycler
     }
 
     private fun restart() {
-        score += 1
-        practice_quickness_score_textview.text = score.toString()
-        practice_quickness_result_textview.text = score.toString()
+        geniusTestViewModel.plusScore()
         setQuicknessList()
         t.cancel()
         tt.cancel()
@@ -83,21 +88,21 @@ class PracticeQuicknessActivity : AppCompatActivity(), PracticeQuicknessRecycler
 
     private fun prog() {
         t = Timer()
-        practice_quickness_timer_progressbar.max = counter
+        mBinding.practiceQuicknessTimerProgressbar.max = counter
         tt = object : TimerTask() {
             override fun run() {
                 counter -= 1
-                practice_quickness_timer_progressbar.progress = counter
+                mBinding.practiceQuicknessTimerProgressbar.progress = counter
                 if((counter / 100) == 0) {
                     t.cancel()
                     tt.cancel()
                     runOnUiThread {
-                        practice_quickness_game_layout.visibility = View.GONE
-                        practice_quickness_result_layout.visibility = View.VISIBLE
+                        mBinding.practiceQuicknessGameLayout.visibility = View.GONE
+                        mBinding.practiceQuicknessResultLayout.visibility = View.VISIBLE
                         val connectivityManager : ConnectivityManager = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
                         if(networkState(connectivityManager)) {
-                            Log.d("TAG  ", "run: score is $score")
-                            postDataToServer(score)
+                            Log.d("TAG  ", "run: score is ${geniusTestViewModel.score.value}")
+                            postDataToServer(geniusTestViewModel.score.value!!)
                         }
                     }
                 }
@@ -149,34 +154,34 @@ class PracticeQuicknessActivity : AppCompatActivity(), PracticeQuicknessRecycler
         currentColor = arrayListOf<String>("빨강", "주황", "노랑", "연두", "초록", "하늘", "파랑", "보라").random()
         when(currentColor) {
             "빨강" -> {
-                practice_quickness_color_textview.setTextColor(resources.getColor(R.color.colorRed))
+                mBinding.practiceQuicknessColorTextview.setTextColor(resources.getColor(R.color.colorRed))
             }
             "주황" -> {
-                practice_quickness_color_textview.setTextColor(resources.getColor(R.color.colorOrange))
+                mBinding.practiceQuicknessColorTextview.setTextColor(resources.getColor(R.color.colorOrange))
             }
             "노랑" -> {
-                practice_quickness_color_textview.setTextColor(resources.getColor(R.color.colorYellow))
+                mBinding.practiceQuicknessColorTextview.setTextColor(resources.getColor(R.color.colorYellow))
             }
             "연두" -> {
-                practice_quickness_color_textview.setTextColor(resources.getColor(R.color.colorLightGreen))
+                mBinding.practiceQuicknessColorTextview.setTextColor(resources.getColor(R.color.colorLightGreen))
             }
             "초록" -> {
-                practice_quickness_color_textview.setTextColor(resources.getColor(R.color.colorGreen))
+                mBinding.practiceQuicknessColorTextview.setTextColor(resources.getColor(R.color.colorGreen))
             }
             "하늘" -> {
-                practice_quickness_color_textview.setTextColor(resources.getColor(R.color.colorSkyBlue))
+                mBinding.practiceQuicknessColorTextview.setTextColor(resources.getColor(R.color.colorSkyBlue))
             }
             "파랑" -> {
-                practice_quickness_color_textview.setTextColor(resources.getColor(R.color.colorBlue))
+                mBinding.practiceQuicknessColorTextview.setTextColor(resources.getColor(R.color.colorBlue))
             }
             "보라" -> {
-                practice_quickness_color_textview.setTextColor(resources.getColor(R.color.colorPurple))
+                mBinding.practiceQuicknessColorTextview.setTextColor(resources.getColor(R.color.colorPurple))
             }
         }
         val fakeColorList = mutableListOf<String>("빨강", "주황", "노랑", "연두", "초록", "하늘", "파랑", "보라")
         fakeColorList.remove(currentColor)
         val fakeColor = fakeColorList.random()
-        practice_quickness_color_textview.text = fakeColor
+        mBinding.practiceQuicknessColorTextview.text = fakeColor
         val randIndex = Random().nextInt(2) + 1
         Log.d("TAG", "setQuicknessList: currentColor is $currentColor randIndex is $randIndex")
         for(i in 0 .. 1) {
@@ -187,7 +192,7 @@ class PracticeQuicknessActivity : AppCompatActivity(), PracticeQuicknessRecycler
             }
         }
         quicknessRecyclerViewAdapter = PracticeQuicknessRecyclerViewAdapter(quicknessList, this)
-        practice_quickness_recyclerview.apply {
+        mBinding.practiceQuicknessRecyclerview.apply {
             adapter = quicknessRecyclerViewAdapter
             setHasFixedSize(true)
         }

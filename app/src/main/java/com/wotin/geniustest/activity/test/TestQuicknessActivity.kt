@@ -9,13 +9,17 @@ import android.os.Vibrator
 import android.util.Log
 import android.view.View
 import android.widget.Toast
+import androidx.activity.viewModels
+import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.gson.JsonObject
 import com.wotin.geniustest.*
 import com.wotin.geniustest.adapter.test.TestQuicknessRecyclerViewAdapter
+import com.wotin.geniustest.databinding.ActivityTestQuicknessBinding
 import com.wotin.geniustest.retrofitBuilder.GeniusRetrofitBuilder.geniusDataDifferenceApiService
 import com.wotin.geniustest.roomMethod.GetRoomMethod
 import com.wotin.geniustest.roomMethod.UpdateRoomMethod
+import com.wotin.geniustest.viewModel.GeniusTestViewModel
 import kotlinx.android.synthetic.main.activity_test_quickness.*
 import retrofit2.Call
 import retrofit2.Callback
@@ -26,7 +30,6 @@ import kotlin.collections.ArrayList
 
 class TestQuicknessActivity : AppCompatActivity(), TestQuicknessRecyclerViewAdapter.ItemClickListener {
 
-    var score = 1
     var counter = 5000
     var quicknessList : ArrayList<String> = arrayListOf()
     var currentColor = ""
@@ -36,18 +39,21 @@ class TestQuicknessActivity : AppCompatActivity(), TestQuicknessRecyclerViewAdap
 
     var brain_mode = "right_brain"
     
+    lateinit var mBinding : ActivityTestQuicknessBinding
+    val geniusTestViewModel : GeniusTestViewModel by viewModels()
+    
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_test_quickness)
+        mBinding = DataBindingUtil.setContentView(this, R.layout.activity_test_quickness)
+        mBinding.viewModel = geniusTestViewModel
+        mBinding.lifecycleOwner = this
 
-        if(intent.hasExtra("brain_mode")) {
-            brain_mode = intent.getStringExtra("brain_mode")
-        }
+        if(intent.hasExtra("brain_mode")) brain_mode = intent.getStringExtra("brain_mode")!!
 
         setQuicknessList()
         quicknessRecyclerViewAdapter = TestQuicknessRecyclerViewAdapter(quicknessList, this)
 
-        test_quickness_recyclerview.apply {
+        mBinding.testQuicknessRecyclerview.apply {
             layoutManager = LinearLayoutManager(this@TestQuicknessActivity, LinearLayoutManager.HORIZONTAL, false)
             adapter = quicknessRecyclerViewAdapter
             setHasFixedSize(true)
@@ -55,13 +61,13 @@ class TestQuicknessActivity : AppCompatActivity(), TestQuicknessRecyclerViewAdap
 
         prog()
 
-        go_to_mainactivity_from_test_quickness_activity_imageview.setOnClickListener {
+        mBinding.goToMainactivityFromTestQuicknessActivityImageview.setOnClickListener {
             val intent = Intent(this, TestActivity::class.java)
             startActivity(intent)
             finish()
         }
 
-        test_quickness_result_confirm_button.setOnClickListener {
+        mBinding.testQuicknessResultConfirmButton.setOnClickListener {
             val intent = Intent(this, TestActivity::class.java)
             startActivity(intent)
             finish()
@@ -72,9 +78,7 @@ class TestQuicknessActivity : AppCompatActivity(), TestQuicknessRecyclerViewAdap
 
 
     private fun restart() {
-        score += 1
-        test_quickness_score_textview.text = score.toString()
-        test_quickness_result_textview.text = score.toString()
+        geniusTestViewModel.plusScore()
         setQuicknessList()
         t.cancel()
         tt.cancel()
@@ -93,12 +97,12 @@ class TestQuicknessActivity : AppCompatActivity(), TestQuicknessRecyclerViewAdap
                     t.cancel()
                     tt.cancel()
                     runOnUiThread {
-                        test_quickness_game_layout.visibility = View.GONE
-                        test_quickness_result_layout.visibility = View.VISIBLE
+                        mBinding.testQuicknessGameLayout.visibility = View.GONE
+                        mBinding.testQuicknessResultLayout.visibility = View.VISIBLE
                         val connectivityManager : ConnectivityManager = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
                         if(networkState(connectivityManager)) {
-                            Log.d("TAG  ", "run: score is $score")
-                            postDataToServer(score)
+                            Log.d("TAG  ", "run: score is ${geniusTestViewModel.score.value!!}")
+                            postDataToServer(geniusTestViewModel.score.value!!)
                         }
                     }
                 }
@@ -150,34 +154,34 @@ class TestQuicknessActivity : AppCompatActivity(), TestQuicknessRecyclerViewAdap
         currentColor = arrayListOf<String>("빨강", "주황", "노랑", "연두", "초록", "하늘", "파랑", "보라").random()
         when(currentColor) {
             "빨강" -> {
-                test_quickness_color_textview.setTextColor(resources.getColor(R.color.colorRed))
+                mBinding.testQuicknessColorTextview.setTextColor(resources.getColor(R.color.colorRed))
             }
             "주황" -> {
-                test_quickness_color_textview.setTextColor(resources.getColor(R.color.colorOrange))
+                mBinding.testQuicknessColorTextview.setTextColor(resources.getColor(R.color.colorOrange))
             }
             "노랑" -> {
-                test_quickness_color_textview.setTextColor(resources.getColor(R.color.colorYellow))
+                mBinding.testQuicknessColorTextview.setTextColor(resources.getColor(R.color.colorYellow))
             }
             "연두" -> {
-                test_quickness_color_textview.setTextColor(resources.getColor(R.color.colorLightGreen))
+                mBinding.testQuicknessColorTextview.setTextColor(resources.getColor(R.color.colorLightGreen))
             }
             "초록" -> {
-                test_quickness_color_textview.setTextColor(resources.getColor(R.color.colorGreen))
+                mBinding.testQuicknessColorTextview.setTextColor(resources.getColor(R.color.colorGreen))
             }
             "하늘" -> {
-                test_quickness_color_textview.setTextColor(resources.getColor(R.color.colorSkyBlue))
+                mBinding.testQuicknessColorTextview.setTextColor(resources.getColor(R.color.colorSkyBlue))
             }
             "파랑" -> {
-                test_quickness_color_textview.setTextColor(resources.getColor(R.color.colorBlue))
+                mBinding.testQuicknessColorTextview.setTextColor(resources.getColor(R.color.colorBlue))
             }
             "보라" -> {
-                test_quickness_color_textview.setTextColor(resources.getColor(R.color.colorPurple))
+                mBinding.testQuicknessColorTextview.setTextColor(resources.getColor(R.color.colorPurple))
             }
         }
         val fakeColorList = mutableListOf<String>("빨강", "주황", "노랑", "연두", "초록", "하늘", "파랑", "보라")
         fakeColorList.remove(currentColor)
         val fakeColor = fakeColorList.random()
-        test_quickness_color_textview.text = fakeColor
+        mBinding.testQuicknessColorTextview.text = fakeColor
         val randIndex = Random().nextInt(2) + 1
         Log.d("TAG", "setQuicknessList: currentColor is $currentColor randIndex is $randIndex")
         for(i in 0 .. 1) {
@@ -188,7 +192,7 @@ class TestQuicknessActivity : AppCompatActivity(), TestQuicknessRecyclerViewAdap
             }
         }
         quicknessRecyclerViewAdapter = TestQuicknessRecyclerViewAdapter(quicknessList, this)
-        test_quickness_recyclerview.apply {
+        mBinding.testQuicknessRecyclerview.apply {
             adapter = quicknessRecyclerViewAdapter
             setHasFixedSize(true)
         }
