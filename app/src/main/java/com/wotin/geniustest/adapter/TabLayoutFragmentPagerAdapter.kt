@@ -9,11 +9,11 @@ import com.wotin.geniustest.fragment.RankingFragment
 
 class TabLayoutFragmentPagerAdapter(fm : FragmentManager) : FragmentPagerAdapter(fm) {
     override fun getItem(position: Int): Fragment {
-        when(position) {
-            0 -> return PracticeFragment()
-            1 -> return GeniusTestFragment()
-            2 -> return RankingFragment()
-            else -> return PracticeFragment()
+        return when(position) {
+            0 -> PracticeFragment()
+            1 -> GeniusTestFragment()
+            2 -> RankingFragment()
+            else -> PracticeFragment()
         }
     }
 
