@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.sothree.slidinguppanel.SlidingUpPanelLayout
 import com.wotin.geniustest.activity.MainActivity
@@ -12,6 +13,7 @@ import com.wotin.geniustest.adapter.practice.PracticeQuicknessSlidingUpPanelRecy
 import com.wotin.geniustest.customClass.geniusPractice.GeniusPracticeDataCustomClass
 import com.wotin.geniustest.customClass.geniusPractice.PracticeModeCustomClass
 import com.wotin.geniustest.R
+import com.wotin.geniustest.databinding.ActivityPracticeBinding
 import com.wotin.geniustest.roomMethod.GetRoomMethod
 import kotlinx.android.synthetic.main.activity_practice.*
 import kotlin.concurrent.timer
@@ -24,13 +26,15 @@ class PracticeActivity : AppCompatActivity(),
 
     lateinit var geniusPracticeData: GeniusPracticeDataCustomClass
 
+    lateinit var mBinding : ActivityPracticeBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_practice)
+        mBinding = DataBindingUtil.setContentView(this, R.layout.activity_practice)
 
         setBottomDragView()
 
-        close_practice_drag_layout_button.setOnClickListener {
+        mBinding.closePracticeDragLayoutButton.setOnClickListener {
             practice_sliding_up_panel_layout.panelState = SlidingUpPanelLayout.PanelState.HIDDEN
         }
 
@@ -65,14 +69,14 @@ class PracticeActivity : AppCompatActivity(),
                 modeList,
                 this
             )
-        practice_mode_recyclerview.apply {
+        mBinding.practiceModeRecyclerview.apply {
             adapter = recyclerViewAdapter
             layoutManager =
                 LinearLayoutManager(this@PracticeActivity, LinearLayoutManager.VERTICAL, false)
             setHasFixedSize(true)
         }
 
-        practice_back_btn.setOnClickListener {
+        mBinding.practiceBackBtn.setOnClickListener {
             val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
             finish()
@@ -103,7 +107,7 @@ class PracticeActivity : AppCompatActivity(),
     private fun setBottomDragView() {
         val brainModeList = arrayListOf<String>("우뇌형", "좌뇌형")
         val dragRecyclerViewAdapter = PracticeQuicknessSlidingUpPanelRecyclerViewAdapter(brainModeList)
-        practice_drag_recycler_view.apply {
+        mBinding.practiceDragRecyclerView.apply {
             adapter = dragRecyclerViewAdapter
             layoutManager = LinearLayoutManager(this@PracticeActivity, LinearLayoutManager.VERTICAL, false)
             setHasFixedSize(true)
@@ -111,7 +115,7 @@ class PracticeActivity : AppCompatActivity(),
     }
 
     override fun quicknessModeClicked() {
-        practice_sliding_up_panel_layout.panelState = SlidingUpPanelLayout.PanelState.EXPANDED
+        mBinding.practiceSlidingUpPanelLayout.panelState = SlidingUpPanelLayout.PanelState.EXPANDED
     }
 
 

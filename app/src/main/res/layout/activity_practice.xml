@@ -1,115 +1,122 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.sothree.slidinguppanel.SlidingUpPanelLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".activity.practice.PracticeActivity"
-    android:background="@android:color/white"
-    android:gravity="bottom"
-    app:umanoDragView="@id/practice_drag_layout"
-    app:umanoPanelHeight="0dp"
-    app:umanoOverlay="false"
-    android:id="@+id/practice_sliding_up_panel_layout"
-    >
+<layout>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <data>
+
+    </data>
+
+    <com.sothree.slidinguppanel.SlidingUpPanelLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        tools:context=".activity.practice.PracticeActivity"
+        android:background="@android:color/white"
+        android:gravity="bottom"
+        app:umanoDragView="@id/practice_drag_layout"
+        app:umanoPanelHeight="0dp"
+        app:umanoOverlay="false"
+        android:id="@+id/practice_sliding_up_panel_layout"
         >
 
-        <ImageView
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:src="@drawable/left_arrow"
-            android:id="@+id/practice_back_btn"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            android:layout_margin="5dp"
-            />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/mapo"
-            android:text="연습하기"
-            android:textColor="@android:color/black"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginTop="20dp"
-            android:textSize="30dp"
-            android:id="@+id/practice_title_textview"
-            android:textStyle="bold"
-            />
-
-        <View
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="1.5dp"
-            android:layout_marginHorizontal="30dp"
-            android:background="@android:color/black"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/practice_title_textview"
-            android:layout_marginTop="30dp"
-            android:id="@+id/practice_title_bottom_view"
-            />
+            android:layout_height="match_parent"
+            >
 
-        <ImageView
-            android:layout_width="250dp"
-            android:layout_height="250dp"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:src="@drawable/practice"
-            android:tint="#6DFFFFFF"
-            tools:ignore="UseAppTint" />
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/left_arrow"
+                android:id="@+id/practice_back_btn"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                android:layout_margin="5dp"
+                />
 
-        <androidx.recyclerview.widget.RecyclerView
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/mapo"
+                android:text="연습하기"
+                android:textColor="@android:color/black"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginTop="20dp"
+                android:textSize="30dp"
+                android:id="@+id/practice_title_textview"
+                android:textStyle="bold"
+                />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1.5dp"
+                android:layout_marginHorizontal="30dp"
+                android:background="@android:color/black"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/practice_title_textview"
+                android:layout_marginTop="30dp"
+                android:id="@+id/practice_title_bottom_view"
+                />
+
+            <ImageView
+                android:layout_width="250dp"
+                android:layout_height="250dp"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:src="@drawable/practice"
+                android:tint="#6DFFFFFF"
+                tools:ignore="UseAppTint" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:id="@+id/practice_mode_recyclerview"
+                app:layout_constraintTop_toBottomOf="@id/practice_title_bottom_view"
+                android:layout_marginTop="50dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <LinearLayout
+            android:id="@+id/practice_drag_layout"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:id="@+id/practice_mode_recyclerview"
-            app:layout_constraintTop_toBottomOf="@id/practice_title_bottom_view"
-            android:layout_marginTop="50dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            />
+            android:layout_height="170dp"
+            android:orientation="vertical"
+            >
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
-    
-    <LinearLayout
-        android:id="@+id/practice_drag_layout"
-        android:layout_width="match_parent"
-        android:layout_height="170dp"
-        android:orientation="vertical"
-        >
-        
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/practice_drag_recycler_view"
-            android:layout_width="match_parent"
-            android:layout_height="100dp"/>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/practice_drag_recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"/>
 
-        <View
-            android:layout_marginTop="20dp"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@android:color/black"
-            android:layout_marginHorizontal="20dp"/>
+            <View
+                android:layout_marginTop="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@android:color/black"
+                android:layout_marginHorizontal="20dp"/>
 
-        <Button
-            android:foreground="?attr/selectableItemBackground"
-            android:fontFamily="@font/batang"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="닫기"
-            android:textStyle="bold"
-            android:textColor="#2C89AC"
-            android:textSize="17dp"
-            android:id="@+id/close_practice_drag_layout_button"
-            android:background="@android:color/white"
-            />
-        
-    </LinearLayout>
-    
-</com.sothree.slidinguppanel.SlidingUpPanelLayout>
+            <Button
+                android:foreground="?attr/selectableItemBackground"
+                android:fontFamily="@font/batang"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="닫기"
+                android:textStyle="bold"
+                android:textColor="#2C89AC"
+                android:textSize="17dp"
+                android:id="@+id/close_practice_drag_layout_button"
+                android:background="@android:color/white"
+                />
+
+        </LinearLayout>
+
+    </com.sothree.slidinguppanel.SlidingUpPanelLayout>
+</layout>
