@@ -12,8 +12,10 @@ import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.GridLayoutManager
+import com.google.android.gms.ads.*
 import com.google.gson.JsonObject
 import com.wotin.geniustest.*
+import com.wotin.geniustest.R
 import com.wotin.geniustest.adapter.test.TestConcentractionRecycelrViewAdapter
 import com.wotin.geniustest.databinding.ActivityTestConcentractionBinding
 import com.wotin.geniustest.retrofitBuilder.GeniusRetrofitBuilder.geniusDataDifferenceApiService
@@ -39,8 +41,29 @@ class TestConcentractionActivity : AppCompatActivity(), TestConcentractionRecyce
     lateinit var mBinding : ActivityTestConcentractionBinding
     val geniusTestViewModel : GeniusTestViewModel by viewModels()
 
+    private lateinit var mInterstitialAd: InterstitialAd
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        MobileAds.initialize(this@TestConcentractionActivity)
+
+        mInterstitialAd = InterstitialAd(this)
+        mInterstitialAd.adUnitId = "ca-app-pub-4792205746234657/2556864080"
+        mInterstitialAd.loadAd(AdRequest.Builder().build())
+        mInterstitialAd.adListener = object : AdListener() {
+            override fun onAdFailedToLoad(p0: LoadAdError?) {
+                super.onAdFailedToLoad(p0)
+                Log.d("TAG", "loaded error is $p0")
+            }
+
+            override fun onAdClosed() {
+                super.onAdClosed()
+                startActivity(Intent(this@TestConcentractionActivity, TestActivity::class.java))
+                finish()
+            }
+        }
+
         mBinding = DataBindingUtil.setContentView(this, R.layout.activity_test_concentraction)
         mBinding.lifecycleOwner = this
         mBinding.viewModel = geniusTestViewModel
@@ -59,15 +82,23 @@ class TestConcentractionActivity : AppCompatActivity(), TestConcentractionRecyce
         prog()
 
         go_to_mainactivity_from_test_concentraction_activity_imageview.setOnClickListener {
-            val intent = Intent(this, TestActivity::class.java)
-            startActivity(intent)
-            finish()
+            if(mInterstitialAd.isLoaded) {
+                mInterstitialAd.show()
+                Log.d("TAG", "mInterstitialAd is Loaded")
+            } else {
+                startActivity(Intent(this@TestConcentractionActivity, TestActivity::class.java))
+                finish()
+            }
         }
 
         test_concentraction_result_confirm_button.setOnClickListener {
-            val intent = Intent(this, TestActivity::class.java)
-            startActivity(intent)
-            finish()
+            if(mInterstitialAd.isLoaded) {
+                mInterstitialAd.show()
+                Log.d("TAG", "mInterstitialAd is Loaded")
+            } else {
+                startActivity(Intent(this@TestConcentractionActivity, TestActivity::class.java))
+                finish()
+            }
         }
 
     }
@@ -238,5 +269,4 @@ class TestConcentractionActivity : AppCompatActivity(), TestConcentractionRecyce
 
         })
     }
-
 }

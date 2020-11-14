@@ -16,7 +16,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Design.Light.NoActionBar"
         android:usesCleartextTraffic="true">
-        <activity android:name=".activity.test.TestMemoryActivity"></activity>
+
+        <meta-data
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="ca-app-pub-4792205746234657~4572136415"/>
+
+        <activity android:name=".activity.test.TestMemoryActivity"/>
         <activity android:name=".activity.practice.PracticeMemoryActivity" />
         <activity
             android:name=".activity.test.TestQuicknessActivity"

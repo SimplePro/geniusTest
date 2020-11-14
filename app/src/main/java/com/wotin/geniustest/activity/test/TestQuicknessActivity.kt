@@ -12,8 +12,10 @@ import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.gms.ads.*
 import com.google.gson.JsonObject
 import com.wotin.geniustest.*
+import com.wotin.geniustest.R
 import com.wotin.geniustest.adapter.test.TestQuicknessRecyclerViewAdapter
 import com.wotin.geniustest.databinding.ActivityTestQuicknessBinding
 import com.wotin.geniustest.retrofitBuilder.GeniusRetrofitBuilder.geniusDataDifferenceApiService
@@ -37,18 +39,40 @@ class TestQuicknessActivity : AppCompatActivity(), TestQuicknessRecyclerViewAdap
     lateinit var t : Timer
     lateinit var tt : TimerTask
 
-    var brain_mode = "right_brain"
+    var brainMode = "right_brain"
     
     lateinit var mBinding : ActivityTestQuicknessBinding
     val geniusTestViewModel : GeniusTestViewModel by viewModels()
-    
+
+    private lateinit var mInterstitialAd: InterstitialAd
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         mBinding = DataBindingUtil.setContentView(this, R.layout.activity_test_quickness)
         mBinding.viewModel = geniusTestViewModel
         mBinding.lifecycleOwner = this
 
-        if(intent.hasExtra("brain_mode")) brain_mode = intent.getStringExtra("brain_mode")!!
+        MobileAds.initialize(this@TestQuicknessActivity)
+
+        mInterstitialAd = InterstitialAd(this)
+        mInterstitialAd.adUnitId = "ca-app-pub-4792205746234657/2556864080"
+        mInterstitialAd.loadAd(AdRequest.Builder().build())
+        mInterstitialAd.adListener = object : AdListener() {
+
+            override fun onAdFailedToLoad(p0: LoadAdError?) {
+                super.onAdFailedToLoad(p0)
+                Log.e("TAG", "loaded error is $p0")
+            }
+
+            override fun onAdClosed() {
+                super.onAdClosed()
+                startActivity(Intent(this@TestQuicknessActivity, TestActivity::class.java))
+                finish()
+            }
+        }
+
+        if(intent.hasExtra("brain_mode")) brainMode = intent.getStringExtra("brain_mode")!!
 
         setQuicknessList()
         quicknessRecyclerViewAdapter = TestQuicknessRecyclerViewAdapter(quicknessList, this)
@@ -62,15 +86,25 @@ class TestQuicknessActivity : AppCompatActivity(), TestQuicknessRecyclerViewAdap
         prog()
 
         mBinding.goToMainactivityFromTestQuicknessActivityImageview.setOnClickListener {
-            val intent = Intent(this, TestActivity::class.java)
-            startActivity(intent)
-            finish()
+            if(mInterstitialAd.isLoaded) {
+                mInterstitialAd.show()
+                Log.d("TAG", "mInterstitialAd is Loaded")
+            } else {
+                Log.d("TAG", "mInterstitialAd is not Loaded")
+                startActivity(Intent(this, TestActivity::class.java))
+                finish()
+            }
         }
 
         mBinding.testQuicknessResultConfirmButton.setOnClickListener {
-            val intent = Intent(this, TestActivity::class.java)
-            startActivity(intent)
-            finish()
+            if(mInterstitialAd.isLoaded) {
+                mInterstitialAd.show()
+                Log.d("TAG", "mInterstitialAd is Loaded")
+            } else {
+                Log.d("TAG", "mInterstitialAd is not Loaded")
+                startActivity(Intent(this, TestActivity::class.java))
+                finish()
+            }
         }
 
         
@@ -199,13 +233,12 @@ class TestQuicknessActivity : AppCompatActivity(), TestQuicknessRecyclerViewAdap
     }
 
     override fun itemClick(clickedColor: String) {
-        if(clickedColor == currentColor && brain_mode == "right_brain") restart()
-        else if (clickedColor != currentColor && brain_mode == "left_brain") restart()
+        if(clickedColor == currentColor && brainMode == "right_brain") restart()
+        else if (clickedColor != currentColor && brainMode == "left_brain") restart()
         else {
             val vib = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
             vib.vibrate(500)
             counter -= 100
         }
     }
-    
 }
