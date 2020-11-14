@@ -9,8 +9,8 @@
             type="com.wotin.geniustest.activity.userManagement.UserInformationActivity" />
 
         <variable
-            name="searchData"
-            type="com.wotin.geniustest.customClass.SearchUserCustomClass" />
+            name="searchViewModel"
+            type="com.wotin.geniustest.viewModel.retrofitViewModel.SearchUserDataViewModel" />
 
     </data>
     <RelativeLayout
@@ -184,7 +184,7 @@
                             android:fontFamily="@font/nanum"
                             android:textColor="@android:color/black"
                             android:id="@+id/user_name_text_view_among_user_information"
-                            android:text="@{searchData.name}"
+                            android:text="@{searchViewModel.modelData.name}"
                             tools:text="김동환"
                             android:textSize="25dp"
                             />
@@ -218,7 +218,7 @@
                             android:textColor="@android:color/black"
                             android:id="@+id/user_id_text_view_among_user_information"
                             tools:text="dlx5082"
-                            android:text="@{searchData.id}"
+                            android:text="@{searchViewModel.modelData.id}"
                             android:textSize="25dp" />
                     </LinearLayout>
 
@@ -241,7 +241,7 @@
                             app:lottie_loop="false"
                             app:lottie_fileName="heart_animation.json"
                             android:id="@+id/user_heart_lottieanimation_among_user_information"
-                            app:is_heart="@{Boolean.toString(searchData.hearted)}"
+                            app:is_heart="@{Boolean.toString(searchViewModel.modelData.hearted)}"
                             android:onClick="@{() -> activity.onClickHeartButton()}"
                             />
 
@@ -252,7 +252,7 @@
                             android:textColor="@android:color/black"
                             android:id="@+id/user_heart_text_view_among_user_information"
                             tools:text="12"
-                            android:text="@{Integer.toString(searchData.heart)}"
+                            android:text="@{Integer.toString(searchViewModel.modelData.heart)}"
                             android:textSize="17dp"
                             />
                     </LinearLayout>
@@ -381,7 +381,7 @@
                                     android:textColor="@android:color/black"
                                     android:id="@+id/user_practice_memory_score_text_view_among_user_information"
                                     tools:text="56"
-                                    android:text="@{searchData.practiceMemoryScore}"
+                                    android:text="@{searchViewModel.modelData.practiceMemoryScore}"
                                     android:textSize="25dp"
                                     />
 
@@ -411,7 +411,7 @@
                                     android:textColor="@android:color/black"
                                     android:id="@+id/user_practice_memory_difference_text_view_among_user_information"
                                     tools:text="34%"
-                                    android:text="@{searchData.practiceMemoryDifference}"
+                                    android:text="@{searchViewModel.modelData.practiceMemoryDifference}"
                                     android:textSize="25dp"
                                     />
 
@@ -444,7 +444,7 @@
                                     android:textColor="@android:color/black"
                                     android:id="@+id/user_practice_concentraction_score_text_view_among_user_information"
                                     tools:text="23"
-                                    android:text="@{searchData.practiceConcentractionScore}"
+                                    android:text="@{searchViewModel.modelData.practiceConcentractionScore}"
                                     android:textSize="25dp"
                                     />
 
@@ -474,7 +474,7 @@
                                     android:textColor="@android:color/black"
                                     android:id="@+id/user_practice_concentraction_difference_text_view_among_user_information"
                                     tools:text="40%"
-                                    android:text="@{searchData.practiceConcentractionDifference}"
+                                    android:text="@{searchViewModel.modelData.practiceConcentractionDifference}"
                                     android:textSize="25dp"
                                     />
 
@@ -507,7 +507,7 @@
                                     android:textColor="@android:color/black"
                                     android:id="@+id/user_practice_quickness_score_text_view_among_user_information"
                                     tools:text="88"
-                                    android:text="@{searchData.practiceQuicknessScore}"
+                                    android:text="@{searchViewModel.modelData.practiceQuicknessScore}"
                                     android:textSize="25dp"
                                     />
 
@@ -537,7 +537,7 @@
                                     android:textColor="@android:color/black"
                                     android:id="@+id/user_practice_quickness_difference_text_view_among_user_information"
                                     tools:text="8%"
-                                    android:text="@{searchData.practiceQuicknessDifference}"
+                                    android:text="@{searchViewModel.modelData.practiceQuicknessDifference}"
                                     android:textSize="25dp"
                                     />
 
@@ -606,7 +606,7 @@
                                     android:textColor="@android:color/black"
                                     android:id="@+id/user_test_level_text_view_among_user_information"
                                     tools:text="초보"
-                                    android:text="@{searchData.level}"
+                                    android:text="@{searchViewModel.modelData.level}"
                                     android:textSize="25dp"
                                     />
 
@@ -616,7 +616,7 @@
                                     android:layout_height="40dp"
                                     android:src="@drawable/bad_brain"
                                     android:id="@+id/user_test_level_image_view_among_user_information"
-                                    app:is_level="@{searchData.level}"
+                                    app:is_level="@{searchViewModel.modelData.level}"
                                     />
 
                             </LinearLayout>
@@ -648,7 +648,7 @@
                                     android:textColor="@android:color/black"
                                     android:id="@+id/user_test_memory_score_text_view_among_user_information"
                                     tools:text="32"
-                                    android:text="@{searchData.testMemoryScore}"
+                                    android:text="@{searchViewModel.modelData.testMemoryScore}"
                                     android:textSize="25dp"
                                     />
 
@@ -678,7 +678,7 @@
                                     android:textColor="@android:color/black"
                                     android:id="@+id/user_test_memory_difference_text_view_among_user_information"
                                     tools:text="24%"
-                                    android:text="@{searchData.testMemoryDifference}"
+                                    android:text="@{searchViewModel.modelData.testMemoryDifference}"
                                     android:textSize="25dp"
                                     />
 
@@ -711,7 +711,7 @@
                                     android:textColor="@android:color/black"
                                     android:id="@+id/user_test_concentraction_score_text_view_among_user_information"
                                     tools:text="47"
-                                    android:text="@{searchData.testConcentractionScore}"
+                                    android:text="@{searchViewModel.modelData.testConcentractionScore}"
                                     android:textSize="25dp"
                                     />
 
@@ -741,7 +741,7 @@
                                     android:textColor="@android:color/black"
                                     android:id="@+id/user_test_concentraction_difference_text_view_among_user_information"
                                     tools:text="6%"
-                                    android:text="@{searchData.testConcentractionDifference}"
+                                    android:text="@{searchViewModel.modelData.testConcentractionDifference}"
                                     android:textSize="25dp"
                                     />
 
@@ -777,7 +777,7 @@
                                     android:textColor="@android:color/black"
                                     android:id="@+id/user_test_quickness_score_text_view_among_user_information"
                                     tools:text="64"
-                                    android:text="@{searchData.testQuicknessScore}"
+                                    android:text="@{searchViewModel.modelData.testQuicknessScore}"
                                     android:textSize="25dp"
                                     />
 
@@ -806,7 +806,7 @@
                                     android:layout_height="wrap_content"
                                     android:fontFamily="@font/nanum"
                                     tools:text="0.7%"
-                                    android:text="@{searchData.testQuicknessDifference}"
+                                    android:text="@{searchViewModel.modelData.testQuicknessDifference}"
                                     android:textColor="@android:color/black"
                                     android:textSize="25dp" />
 

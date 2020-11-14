@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.os.Handler
 import android.util.Log
 import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.LiveData
@@ -24,36 +25,20 @@ import kotlin.concurrent.timer
 class UserInformationActivity : AppCompatActivity() {
 
     lateinit var mBinding : ActivityUserInformationBinding
-    lateinit var searchViewModel : SearchUserDataViewModel
-    lateinit var modelData : SearchUserCustomClass
+    val searchViewModel : SearchUserDataViewModel by viewModels()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         mBinding = DataBindingUtil.setContentView(this@UserInformationActivity, R.layout.activity_user_information)
         mBinding.activity = this@UserInformationActivity
-        searchViewModel = ViewModelProvider.AndroidViewModelFactory.getInstance(application).create(SearchUserDataViewModel::class.java)
-        mBinding.searchData = searchViewModel.modelData.value
+        mBinding.searchViewModel = searchViewModel
+        mBinding.lifecycleOwner = this
 
-        searchViewModel.modelData.observe(this, Observer {data ->
-            modelData = data
-            mBinding.searchData = modelData
-            Log.d("TAG", "modelData is $data")
-        })
-
-        if(intent.hasExtra("userId")) {
-            searchViewModel.setSearchId(intent.getStringExtra("userId")!!)
-            Handler().postDelayed({
-                mBinding.searchData = searchViewModel.modelData.value
-            }, 500)
-
-            Log.d("TAG", "UserInformationActivity hasExtra userId")
-        }
-
+        if(intent.hasExtra("userId")) searchViewModel.setSearchId(intent.getStringExtra("userId")!!)
 
         mBinding.refreshLayoutAmongUserInformation.setOnRefreshListener {
             searchViewModel.setSearchId(searchViewModel._userId)
-            mBinding.searchData = searchViewModel.modelData.value
             mBinding.refreshLayoutAmongUserInformation.isRefreshing = false
         }
 
@@ -73,13 +58,12 @@ class UserInformationActivity : AppCompatActivity() {
             if(searchViewModel.modelData.value!!.isHearted) {
                 Log.d("TAG", "minusHeart")
                 searchViewModel.minusHeart()
-                mBinding.searchData = searchViewModel.modelData.value
             }
             else if(!searchViewModel.modelData.value!!.isHearted){
                 Log.d("TAG", "plusHeart")
                 searchViewModel.plusHeart()
-                mBinding.searchData = searchViewModel.modelData.value
             }
+            mBinding.searchViewModel = searchViewModel
         }
     }
 
