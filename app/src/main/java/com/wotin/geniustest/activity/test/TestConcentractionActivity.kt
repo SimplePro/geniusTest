@@ -50,7 +50,9 @@ class TestConcentractionActivity : AppCompatActivity(), TestConcentractionRecyce
         MobileAds.initialize(this@TestConcentractionActivity)
 
         mInterstitialAd = InterstitialAd(this)
-        mInterstitialAd.adUnitId = "ca-app-pub-4792205746234657/3766923849"
+//        test ads id : ca-app-pub-3940256099942544/1033173712
+//        real ads id : ca-app-pub-4792205746234657/3766923849
+        mInterstitialAd.adUnitId = "ca-app-pub-3940256099942544/1033173712"
         mInterstitialAd.loadAd(AdRequest.Builder().build())
         mInterstitialAd.adListener = object : AdListener() {
             override fun onAdFailedToLoad(p0: LoadAdError?) {
@@ -63,6 +65,7 @@ class TestConcentractionActivity : AppCompatActivity(), TestConcentractionRecyce
                 startActivity(Intent(this@TestConcentractionActivity, TestActivity::class.java))
                 finish()
             }
+
         }
 
         mBinding = DataBindingUtil.setContentView(this, R.layout.activity_test_concentraction)
