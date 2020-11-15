@@ -5,6 +5,7 @@ import android.content.Intent
 import android.net.ConnectivityManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Handler
 import android.os.Vibrator
 import android.util.Log
 import android.view.View
@@ -49,12 +50,12 @@ class TestConcentractionActivity : AppCompatActivity(), TestConcentractionRecyce
         MobileAds.initialize(this@TestConcentractionActivity)
 
         mInterstitialAd = InterstitialAd(this)
-        mInterstitialAd.adUnitId = "ca-app-pub-4792205746234657/2556864080"
+        mInterstitialAd.adUnitId = "ca-app-pub-4792205746234657/3766923849"
         mInterstitialAd.loadAd(AdRequest.Builder().build())
         mInterstitialAd.adListener = object : AdListener() {
             override fun onAdFailedToLoad(p0: LoadAdError?) {
                 super.onAdFailedToLoad(p0)
-                Log.d("TAG", "loaded error is $p0")
+                Log.e("TAG", "loaded error is $p0")
             }
 
             override fun onAdClosed() {

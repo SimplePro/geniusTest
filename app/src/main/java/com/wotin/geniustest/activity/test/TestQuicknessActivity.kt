@@ -56,7 +56,7 @@ class TestQuicknessActivity : AppCompatActivity(), TestQuicknessRecyclerViewAdap
         MobileAds.initialize(this@TestQuicknessActivity)
 
         mInterstitialAd = InterstitialAd(this)
-        mInterstitialAd.adUnitId = "ca-app-pub-4792205746234657/2556864080"
+        mInterstitialAd.adUnitId = "ca-app-pub-4792205746234657/3766923849"
         mInterstitialAd.loadAd(AdRequest.Builder().build())
         mInterstitialAd.adListener = object : AdListener() {
 
