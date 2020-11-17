@@ -78,6 +78,10 @@ class TestActivity : AppCompatActivity(), TestModeRecyclerViewAdapter.ModeClicke
             finish()
         }
 
+        mBinding.testShop.setOnClickListener { 
+//            인앱 결제 구현하는 부분
+        }
+
     }
 
     //3초마다 윈도우를 조정해주는 메소드.
@@ -102,20 +106,23 @@ class TestActivity : AppCompatActivity(), TestModeRecyclerViewAdapter.ModeClicke
     }
 
     override fun modeClicked(mode: String) {
-        if (mode == "기억력 테스트") {
-            ContextCompat.startForegroundService(this, Intent(applicationContext, MemoryTestHeartManagementService::class.java))
-            recyclerViewAdapter.notifyDataSetChanged()
-            val service = MemoryTestHeartManagementService()
-            service.setMemoryInterface(this)
-        }
-        else if(mode == "집중력 테스트") {
-            ContextCompat.startForegroundService(this, Intent(applicationContext, ConcentractionTestHeartManagementService::class.java))
-            recyclerViewAdapter.notifyDataSetChanged()
-            val service = ConcentractionTestHeartManagementService()
-            service.setConcentractionInterface(this)
-        } else if (mode == "순발력 테스트") {
-            mBinding.testSlidingUpPanelLayout.panelState = SlidingUpPanelLayout.PanelState.EXPANDED
-            recyclerViewAdapter.notifyDataSetChanged()
+        when (mode) {
+            "기억력 테스트" -> {
+                ContextCompat.startForegroundService(this, Intent(applicationContext, MemoryTestHeartManagementService::class.java))
+                recyclerViewAdapter.notifyDataSetChanged()
+                val service = MemoryTestHeartManagementService()
+                service.setMemoryInterface(this)
+            }
+            "집중력 테스트" -> {
+                ContextCompat.startForegroundService(this, Intent(applicationContext, ConcentractionTestHeartManagementService::class.java))
+                recyclerViewAdapter.notifyDataSetChanged()
+                val service = ConcentractionTestHeartManagementService()
+                service.setConcentractionInterface(this)
+            }
+            "순발력 테스트" -> {
+                mBinding.testSlidingUpPanelLayout.panelState = SlidingUpPanelLayout.PanelState.EXPANDED
+                recyclerViewAdapter.notifyDataSetChanged()
+            }
         }
     }
 
