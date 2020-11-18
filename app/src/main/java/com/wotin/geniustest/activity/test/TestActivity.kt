@@ -3,8 +3,13 @@ package com.wotin.geniustest.activity.test
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
+import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.cardview.widget.CardView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -80,6 +85,24 @@ class TestActivity : AppCompatActivity(), TestModeRecyclerViewAdapter.ModeClicke
 
         mBinding.testShop.setOnClickListener { 
 //            인앱 결제 구현하는 부분
+            val dialog = AlertDialog.Builder(this)
+            val EDialog = LayoutInflater.from(this)
+            val MView = EDialog.inflate(R.layout.shop_dialog_layout, null)
+            val builder = dialog.create()
+            val noAdsLayout = MView.findViewById<CardView>(R.id.no_ads_layout)
+            val unlimitedLayout = MView.findViewById<CardView>(R.id.unlimited_try_layout)
+            val noAdsAndUnlimitedLayout = MView.findViewById<CardView>(R.id.no_ads_and_unlimited_try_layout)
+            noAdsLayout.setOnClickListener { // 광고 제거 버튼을 눌렀을 때
+                Toast.makeText(applicationContext, "광고 제거", Toast.LENGTH_SHORT).show()
+            }
+            unlimitedLayout.setOnClickListener { // 테스트 제한시간 없애기 버튼을 눌렀을 때
+                Toast.makeText(applicationContext, "테스트 제한시간 없애기", Toast.LENGTH_SHORT).show()
+            }
+            noAdsAndUnlimitedLayout.setOnClickListener { // 광고 제거 & 테스트 제한시간 없애기 버튼을 눌렀을 때
+                Toast.makeText(applicationContext, "광고 제거 & 테스트 제한시간 없애기", Toast.LENGTH_SHORT).show()
+            }
+            builder.setView(MView)
+            builder.show()
         }
 
     }

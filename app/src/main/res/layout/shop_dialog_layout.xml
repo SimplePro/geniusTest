@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@android:color/white">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <ImageView
+            android:layout_width="75dp"
+            android:layout_height="75dp"
+            android:padding="5dp"
+            android:src="@drawable/shop"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginVertical="8dp"
+            android:layout_marginLeft="30dp"
+            android:id="@+id/shop_dialog_title_imageview"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Shop"
+            android:textColor="@android:color/black"
+            android:fontFamily="@font/nanum"
+            android:textSize="30dp"
+            android:layout_marginLeft="30dp"
+            app:layout_constraintLeft_toRightOf="@+id/shop_dialog_title_imageview"
+            app:layout_constraintTop_toTopOf="@+id/shop_dialog_title_imageview"
+            app:layout_constraintBottom_toBottomOf="@+id/shop_dialog_title_imageview"
+            />
+
+        <androidx.cardview.widget.CardView
+            android:foreground="?attr/selectableItemBackground"
+            android:background="@android:color/white"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:orientation="horizontal"
+            android:id="@+id/no_ads_layout"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/shop_dialog_title_imageview"
+            android:layout_marginTop="30dp"
+            android:layout_marginHorizontal="12dp"
+            android:layout_marginBottom="15dp"
+            app:cardElevation="8dp"
+            app:cardCornerRadius="8dp"
+            >
+
+            <ImageView
+                android:layout_gravity="center_vertical"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:src="@drawable/no_ads"
+                android:layout_marginLeft="10dp"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="광고 제거"
+                android:fontFamily="@font/nanum"
+                android:textColor="@android:color/black"
+                android:textStyle="bold"
+                android:textSize="17dp"
+                android:layout_gravity="center"/>
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="7,900 원"
+                android:fontFamily="@font/nanum"
+                android:textColor="@android:color/black"
+                android:textStyle="bold"
+                android:layout_gravity="right|center_vertical"
+                android:layout_marginRight="10dp"/>
+
+        </androidx.cardview.widget.CardView>
+
+
+
+        <androidx.cardview.widget.CardView
+            android:foreground="?attr/selectableItemBackground"
+            android:background="@android:color/white"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:orientation="horizontal"
+            android:id="@+id/unlimited_try_layout"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/no_ads_layout"
+            android:layout_marginHorizontal="12dp"
+            android:layout_marginVertical="15dp"
+            app:cardElevation="8dp"
+            app:cardCornerRadius="8dp"
+            >
+
+            <ImageView
+                android:layout_gravity="center_vertical"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:src="@drawable/unlimited"
+                android:layout_marginLeft="10dp"
+                />
+
+            <TextView
+                android:textSize="15dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="테스트 제한시간 없애기"
+                android:fontFamily="@font/nanum"
+                android:textColor="@android:color/black"
+                android:textStyle="bold"
+                android:layout_gravity="center"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="7,900 원"
+                android:fontFamily="@font/nanum"
+                android:textColor="@android:color/black"
+                android:textStyle="bold"
+                android:layout_gravity="right|center_vertical"
+                android:layout_marginRight="10dp"/>
+
+        </androidx.cardview.widget.CardView>
+
+
+        <androidx.cardview.widget.CardView
+            android:foreground="?attr/selectableItemBackground"
+            android:background="@android:color/white"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:orientation="horizontal"
+            android:id="@+id/no_ads_and_unlimited_try_layout"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/unlimited_try_layout"
+            android:layout_marginHorizontal="12dp"
+            android:layout_marginVertical="15dp"
+            app:cardElevation="8dp"
+            app:cardCornerRadius="8dp"
+            >
+
+            <ImageView
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:src="@drawable/no_ads_and_unlimited"
+                android:layout_marginLeft="5dp"
+                android:layout_gravity="center_vertical"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="광고제거 &amp;\n테스트 제한시간 없애기"
+                android:fontFamily="@font/nanum"
+                android:textColor="@android:color/black"
+                android:textStyle="bold"
+                android:layout_gravity="center"
+                android:textSize="15dp"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="9,900 원"
+                android:fontFamily="@font/nanum"
+                android:textColor="@android:color/black"
+                android:textStyle="bold"
+                android:layout_gravity="right|center_vertical"
+                android:layout_marginRight="10dp"/>
+
+        </androidx.cardview.widget.CardView>
+
+        <TextView
+            app:layout_constraintTop_toBottomOf="@id/no_ads_and_unlimited_try_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="문의사항은 아래 \n이메일 주소로 연락바랍니다.\n(kdhsimplepro@gmail.com)"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginRight="8dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginTop="50dp"
+            android:textColor="@android:color/black"
+            android:fontFamily="@font/nanum"
+            android:textSize="16dp"
+            android:gravity="right"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
