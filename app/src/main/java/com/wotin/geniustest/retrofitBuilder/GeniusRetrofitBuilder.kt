@@ -9,6 +9,7 @@ import com.wotin.geniustest.retrofitInterface.user.RetrofitDeleteAccountAndData
 import com.wotin.geniustest.retrofitInterface.user.RetrofitSearchUserData
 import com.wotin.geniustest.retrofitInterface.user.RetrofitSignInAndSignUp
 import com.wotin.geniustest.retrofitInterface.userManagement.RetrofitForgotIdAndPassword
+import com.wotin.geniustest.retrofitInterface.userManagement.RetrofitShop
 import com.wotin.geniustest.retrofitInterface.userManagement.RetrofitUserDataAndGeniusData
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
@@ -91,6 +92,12 @@ object GeniusRetrofitBuilder {
         retrofitBuilder
             .build()
             .create(RetrofitServerCheck::class.java)
+    }
+
+    val geniusTestShopApiService : RetrofitShop by lazy {
+        retrofitBuilder
+            .build()
+            .create(RetrofitShop::class.java)
     }
 
 }
