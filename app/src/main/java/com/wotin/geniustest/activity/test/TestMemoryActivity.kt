@@ -17,6 +17,7 @@ import androidx.activity.viewModels
 import androidx.databinding.DataBindingUtil
 import com.google.android.gms.ads.*
 import com.google.gson.JsonObject
+import com.wotin.geniustest.AppStorage
 import com.wotin.geniustest.R
 import com.wotin.geniustest.databinding.ActivityTestMemoryBinding
 import com.wotin.geniustest.retrofitBuilder.GeniusRetrofitBuilder.geniusDataDifferenceApiService
@@ -51,8 +52,8 @@ class TestMemoryActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         MobileAds.initialize(this@TestMemoryActivity)
+        val storage = AppStorage(this)
 
         mInterstitialAd = InterstitialAd(this)
 //        test ads id : ca-app-pub-3940256099942544/1033173712
@@ -93,9 +94,14 @@ class TestMemoryActivity : AppCompatActivity() {
         start()
 
         mBinding.goToMainactivityFromTestMemoryActivityImageview.setOnClickListener {
-            if(mInterstitialAd.isLoaded) {
-                mInterstitialAd.show()
-                Log.d("TAG", "mInterstitialAd is Loaded")
+            if(!storage.purchasedNoAds()) {
+                if(mInterstitialAd.isLoaded) {
+                    mInterstitialAd.show()
+                    Log.d("TAG", "mInterstitialAd is Loaded")
+                } else {
+                    startActivity(Intent(this@TestMemoryActivity, TestActivity::class.java))
+                    finish()
+                }
             } else {
                 startActivity(Intent(this@TestMemoryActivity, TestActivity::class.java))
                 finish()
@@ -103,9 +109,14 @@ class TestMemoryActivity : AppCompatActivity() {
         }
 
         mBinding.testMemoryResultConfirmButton.setOnClickListener {
-            if(mInterstitialAd.isLoaded) {
-                mInterstitialAd.show()
-                Log.d("TAG", "mInterstitialAd is Loaded")
+            if(!storage.purchasedNoAds()) {
+                if(mInterstitialAd.isLoaded) {
+                    mInterstitialAd.show()
+                    Log.d("TAG", "mInterstitialAd is Loaded")
+                } else {
+                    startActivity(Intent(this@TestMemoryActivity, TestActivity::class.java))
+                    finish()
+                }
             } else {
                 startActivity(Intent(this@TestMemoryActivity, TestActivity::class.java))
                 finish()

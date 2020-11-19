@@ -1,6 +1,7 @@
 package com.wotin.geniustest.activity.test
 
 import android.content.Intent
+import android.graphics.Bitmap
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -9,17 +10,19 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.anjlab.android.iab.v3.BillingProcessor
+import com.anjlab.android.iab.v3.TransactionDetails
 import com.sothree.slidinguppanel.SlidingUpPanelLayout
+import com.wotin.geniustest.AppStorage
+import com.wotin.geniustest.R
 import com.wotin.geniustest.activity.MainActivity
 import com.wotin.geniustest.adapter.test.TestModeRecyclerViewAdapter
 import com.wotin.geniustest.adapter.test.TestQuicknessSlidingUpPanelRecyclerViewAdapter
 import com.wotin.geniustest.customClass.geniusTest.GeniusTestDataCustomClass
 import com.wotin.geniustest.customClass.geniusTest.TestModeCustomClass
-import com.wotin.geniustest.R
 import com.wotin.geniustest.databinding.ActivityTestBinding
 import com.wotin.geniustest.roomMethod.GetRoomMethod
 import com.wotin.geniustest.roomMethod.UpdateRoomMethod
@@ -35,7 +38,7 @@ import kotlin.concurrent.timer
 
 class TestActivity : AppCompatActivity(), TestModeRecyclerViewAdapter.ModeClickedInterface, QuicknessTestHeartManagementService.QuicknessTestHeartManagementIsSaved,
     ConcentractionTestHeartManagementService.ConcentractionTestHeartManagementIsSaved,
-    MemoryTestHeartManagementService.memoryTestHeartManagementIsSaved {
+    MemoryTestHeartManagementService.memoryTestHeartManagementIsSaved, BillingProcessor.IBillingHandler {
 
     lateinit var recyclerViewAdapter: TestModeRecyclerViewAdapter
     lateinit var modeList: ArrayList<TestModeCustomClass>
@@ -44,9 +47,17 @@ class TestActivity : AppCompatActivity(), TestModeRecyclerViewAdapter.ModeClicke
 
     lateinit var mBinding : ActivityTestBinding
 
+    var bp : BillingProcessor? = null
+    lateinit var storage : AppStorage
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         mBinding = DataBindingUtil.setContentView(this, R.layout.activity_test)
+
+
+        storage = AppStorage(this)
+        bp = BillingProcessor(this, getString(R.string.license_key), this)
+        bp!!.initialize()
 
         setModeList()
 
@@ -93,13 +104,34 @@ class TestActivity : AppCompatActivity(), TestModeRecyclerViewAdapter.ModeClicke
             val unlimitedLayout = MView.findViewById<CardView>(R.id.unlimited_try_layout)
             val noAdsAndUnlimitedLayout = MView.findViewById<CardView>(R.id.no_ads_and_unlimited_try_layout)
             noAdsLayout.setOnClickListener { // 광고 제거 버튼을 눌렀을 때
-                Toast.makeText(applicationContext, "광고 제거", Toast.LENGTH_SHORT).show()
+                if(storage.purchasedNoAds()) Toast.makeText(applicationContext, "이미 구매하셨습니다!", Toast.LENGTH_LONG).show()
+                else bp!!.purchase(this, "no_ads")
             }
             unlimitedLayout.setOnClickListener { // 테스트 제한시간 없애기 버튼을 눌렀을 때
-                Toast.makeText(applicationContext, "테스트 제한시간 없애기", Toast.LENGTH_SHORT).show()
+                if(storage.purchasedUnlimitedTry()) Toast.makeText(applicationContext, "이미 구매하셨습니다!", Toast.LENGTH_LONG).show()
+                else {
+                    bp!!.purchase(this, "unlimited_try")
+                    val modeList = GetRoomMethod().getTestModeData(applicationContext)
+                    modeList[0].start = true
+                    modeList[1].start = true
+                    modeList[2].start = true
+                    UpdateRoomMethod().updateTestModeData(applicationContext, modeList[0])
+                    UpdateRoomMethod().updateTestModeData(applicationContext, modeList[1])
+                    UpdateRoomMethod().updateTestModeData(applicationContext, modeList[2])
+                }
             }
             noAdsAndUnlimitedLayout.setOnClickListener { // 광고 제거 & 테스트 제한시간 없애기 버튼을 눌렀을 때
-                Toast.makeText(applicationContext, "광고 제거 & 테스트 제한시간 없애기", Toast.LENGTH_SHORT).show()
+                if(storage.purchasedUnlimitedTry() || storage.purchasedNoAds()) Toast.makeText(applicationContext, "이미 구매하셨습니다!", Toast.LENGTH_LONG).show()
+                else {
+                    bp!!.purchase(this, "no_ads_and_unlimited_try")
+                    val modeList = GetRoomMethod().getTestModeData(applicationContext)
+                    modeList[0].start = true
+                    modeList[1].start = true
+                    modeList[2].start = true
+                    UpdateRoomMethod().updateTestModeData(applicationContext, modeList[0])
+                    UpdateRoomMethod().updateTestModeData(applicationContext, modeList[1])
+                    UpdateRoomMethod().updateTestModeData(applicationContext, modeList[2])
+                }
             }
             builder.setView(MView)
             builder.show()
@@ -250,4 +282,37 @@ class TestActivity : AppCompatActivity(), TestModeRecyclerViewAdapter.ModeClicke
         }
     }
 
+    override fun onBillingInitialized() {
+        // * 처음에 초기화됬을때.
+    }
+
+    override fun onPurchaseHistoryRestored() {
+        // * 구매 정보가 복원되었을때 호출
+        // bp.loadOwnedPurchasesFromGoogle() 하면 호출 가능
+    }
+
+    override fun onProductPurchased(productId: String, details: TransactionDetails?) {
+        // * 구매 완료시 호출
+        // productId: 구매한 sku (ex) no_ads)
+        // details: 결제 관련 정보
+    }
+
+    override fun onBillingError(errorCode: Int, error: Throwable?) {
+        // * 구매 오류시 호출
+        // errorCode == Constants.BILLING_RESPONSE_RESULT_USER_CANCELED 일때는
+        // 사용자가 단순히 구매 창을 닫은것임으로 이것 제외하고 핸들링하기.
+        Toast.makeText(applicationContext, "결제가 취소되었습니다.", Toast.LENGTH_SHORT).show()
+        Log.e("TAG", "errorCode is $errorCode, error is $error")
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        if(!bp!!.handleActivityResult(requestCode, resultCode, data)) {
+            super.onActivityResult(requestCode, resultCode, data)
+        }
+    }
+
+    override fun onDestroy() {
+        if(bp != null) bp!!.release()
+        super.onDestroy()
+    }
 }

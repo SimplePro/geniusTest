@@ -49,6 +49,8 @@ class TestQuicknessActivity : AppCompatActivity(), TestQuicknessRecyclerViewAdap
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        val storage = AppStorage(this)
+
         mBinding = DataBindingUtil.setContentView(this, R.layout.activity_test_quickness)
         mBinding.viewModel = geniusTestViewModel
         mBinding.lifecycleOwner = this
@@ -88,9 +90,15 @@ class TestQuicknessActivity : AppCompatActivity(), TestQuicknessRecyclerViewAdap
         prog()
 
         mBinding.goToMainactivityFromTestQuicknessActivityImageview.setOnClickListener {
-            if(mInterstitialAd.isLoaded) {
-                mInterstitialAd.show()
-                Log.d("TAG", "mInterstitialAd is Loaded")
+            if(!storage.purchasedNoAds()) {
+                if(mInterstitialAd.isLoaded) {
+                    mInterstitialAd.show()
+                    Log.d("TAG", "mInterstitialAd is Loaded")
+                } else {
+                    Log.d("TAG", "mInterstitialAd is not Loaded")
+                    startActivity(Intent(this, TestActivity::class.java))
+                    finish()
+                }
             } else {
                 Log.d("TAG", "mInterstitialAd is not Loaded")
                 startActivity(Intent(this, TestActivity::class.java))
@@ -99,9 +107,15 @@ class TestQuicknessActivity : AppCompatActivity(), TestQuicknessRecyclerViewAdap
         }
 
         mBinding.testQuicknessResultConfirmButton.setOnClickListener {
-            if(mInterstitialAd.isLoaded) {
-                mInterstitialAd.show()
-                Log.d("TAG", "mInterstitialAd is Loaded")
+            if(!storage.purchasedNoAds()) {
+                if(mInterstitialAd.isLoaded) {
+                    mInterstitialAd.show()
+                    Log.d("TAG", "mInterstitialAd is Loaded")
+                } else {
+                    Log.d("TAG", "mInterstitialAd is not Loaded")
+                    startActivity(Intent(this, TestActivity::class.java))
+                    finish()
+                }
             } else {
                 Log.d("TAG", "mInterstitialAd is not Loaded")
                 startActivity(Intent(this, TestActivity::class.java))

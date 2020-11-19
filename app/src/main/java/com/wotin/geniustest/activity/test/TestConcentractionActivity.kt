@@ -47,6 +47,8 @@ class TestConcentractionActivity : AppCompatActivity(), TestConcentractionRecyce
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        val storage = AppStorage(this)
+
         MobileAds.initialize(this@TestConcentractionActivity)
 
         mInterstitialAd = InterstitialAd(this)
@@ -85,20 +87,30 @@ class TestConcentractionActivity : AppCompatActivity(), TestConcentractionRecyce
 
         prog()
 
-        go_to_mainactivity_from_test_concentraction_activity_imageview.setOnClickListener {
-            if(mInterstitialAd.isLoaded) {
-                mInterstitialAd.show()
-                Log.d("TAG", "mInterstitialAd is Loaded")
+        mBinding.goToMainactivityFromTestConcentractionActivityImageview.setOnClickListener {
+            if(!storage.purchasedNoAds()) {
+                if(mInterstitialAd.isLoaded) {
+                    mInterstitialAd.show()
+                    Log.d("TAG", "mInterstitialAd is Loaded")
+                } else {
+                    startActivity(Intent(this@TestConcentractionActivity, TestActivity::class.java))
+                    finish()
+                }
             } else {
                 startActivity(Intent(this@TestConcentractionActivity, TestActivity::class.java))
                 finish()
             }
         }
 
-        test_concentraction_result_confirm_button.setOnClickListener {
-            if(mInterstitialAd.isLoaded) {
-                mInterstitialAd.show()
-                Log.d("TAG", "mInterstitialAd is Loaded")
+        mBinding.testConcentractionResultConfirmButton.setOnClickListener {
+            if(!storage.purchasedNoAds()) {
+                if(mInterstitialAd.isLoaded) {
+                    mInterstitialAd.show()
+                    Log.d("TAG", "mInterstitialAd is Loaded")
+                } else {
+                    startActivity(Intent(this@TestConcentractionActivity, TestActivity::class.java))
+                    finish()
+                }
             } else {
                 startActivity(Intent(this@TestConcentractionActivity, TestActivity::class.java))
                 finish()

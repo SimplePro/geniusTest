@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
+import com.wotin.geniustest.AppStorage
 import com.wotin.geniustest.activity.test.TestActivity
 import com.wotin.geniustest.activity.test.TestQuicknessActivity
 import com.wotin.geniustest.R
@@ -35,7 +36,8 @@ class TestQuicknessSlidingUpPanelRecyclerViewAdapter(val brainModeList : ArrayLi
                     (parent.context as Activity).finish()
                 }
                 val modeList = GetRoomMethod().getTestModeData(parent.context.applicationContext)
-                modeList[2].start = false
+                val storage = AppStorage(parent.context)
+                if(!storage.purchasedUnlimitedTry()) modeList[2].start = false
                 UpdateRoomMethod().updateTestModeData(parent.context.applicationContext, modeList[2])
                 ContextCompat.startForegroundService(parent.context, Intent(parent.context.applicationContext, QuicknessTestHeartManagementService::class.java))
                 val service = QuicknessTestHeartManagementService()

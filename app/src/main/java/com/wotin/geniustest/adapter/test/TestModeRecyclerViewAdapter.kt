@@ -17,6 +17,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
+import com.wotin.geniustest.AppStorage
 import com.wotin.geniustest.activity.test.TestConcentractionActivity
 import com.wotin.geniustest.activity.test.TestMemoryActivity
 import com.wotin.geniustest.customClass.geniusTest.TestModeCustomClass
@@ -43,6 +44,7 @@ class TestModeRecyclerViewAdapter(val modeList : ArrayList<TestModeCustomClass>,
             view
         ).apply {
             modeLayout.setOnClickListener{
+                val storage = AppStorage(parent.context)
                 val connectivityManager : ConnectivityManager = parent.context.getSystemService(
                     Context.CONNECTIVITY_SERVICE
                 ) as ConnectivityManager
@@ -51,14 +53,14 @@ class TestModeRecyclerViewAdapter(val modeList : ArrayList<TestModeCustomClass>,
                     if(modeList[adapterPosition].start) {
                         when(modeList[adapterPosition].mode) {
                             "기억력 테스트" -> {
-                                modeList[adapterPosition].start = false
+                                if (!storage.purchasedUnlimitedTry()) modeList[adapterPosition].start = false
                                 val intent = Intent(parent.context, TestMemoryActivity::class.java)
                                 parent.context.startActivity(intent)
                                 (parent.context as Activity).finish()
                                 UpdateRoomMethod().updateTestModeData(parent.context.applicationContext, modeList[adapterPosition])
                             }
                             "집중력 테스트" -> {
-                                modeList[adapterPosition].start = false
+                                if (!storage.purchasedUnlimitedTry()) modeList[adapterPosition].start = false
                                 val intent = Intent(parent.context, TestConcentractionActivity::class.java)
                                 parent.context.startActivity(intent)
                                 (parent.context as Activity).finish()
