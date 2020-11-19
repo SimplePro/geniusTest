@@ -19,9 +19,11 @@ class AppStorage(context: Context) {
         GeniusRetrofitBuilder.geniusTestShopApiService.getPayNoAds(uniqueId).enqueue(object : Callback<JsonObject> {
             override fun onFailure(call: Call<JsonObject>, t: Throwable) {
                 result = false
+                Log.d("TAG", "getPayNoAds error is $t")
             }
 
             override fun onResponse(call: Call<JsonObject>, response: Response<JsonObject>) {
+                Log.d("TAG", "getPayNoAds response.body is ${response.body()!!}")
                 result = response.body()!!["payed_no_ads"].asBoolean
             }
 
@@ -34,10 +36,12 @@ class AppStorage(context: Context) {
         GeniusRetrofitBuilder.geniusTestShopApiService.getPayUnlimitedTry(uniqueId).enqueue(object : Callback<JsonObject> {
             override fun onFailure(call: Call<JsonObject>, t: Throwable) {
                 result = false
+                Log.d("TAG", "getPayUnlimitedTry error is $t")
             }
 
             override fun onResponse(call: Call<JsonObject>, response: Response<JsonObject>) {
-                result = response.body()!!["payed_no_ads"].asBoolean
+                Log.d("TAG", "getPayUnlimitedTry response.body is ${response.body()!!}")
+                result = response.body()!!["payed_unlimited_heart"].asBoolean
             }
 
         })
