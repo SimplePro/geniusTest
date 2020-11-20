@@ -58,7 +58,7 @@ class TestMemoryActivity : AppCompatActivity() {
         mInterstitialAd = InterstitialAd(this)
 //        test ads id : ca-app-pub-3940256099942544/1033173712
 //        real ads id : ca-app-pub-4792205746234657/3766923849
-        mInterstitialAd.adUnitId = "ca-app-pub-3940256099942544/1033173712"
+        mInterstitialAd.adUnitId = "ca-app-pub-4792205746234657/3766923849"
         mInterstitialAd.loadAd(AdRequest.Builder().build())
         mInterstitialAd.adListener = object : AdListener() {
             override fun onAdFailedToLoad(p0: LoadAdError?) {

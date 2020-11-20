@@ -22,52 +22,61 @@
             android:name="com.google.android.gms.ads.APPLICATION_ID"
             android:value="ca-app-pub-4792205746234657~4572136415"/>
 
-        <activity android:name=".activity.test.TestMemoryActivity"/>
-        <activity android:name=".activity.practice.PracticeMemoryActivity" />
+        <activity android:name=".activity.test.TestMemoryActivity"
+            android:screenOrientation="portrait"
+            android:launchMode="singleTask"
+            />
+        <activity android:name=".activity.practice.PracticeMemoryActivity"
+            android:screenOrientation="portrait"
+            android:launchMode="singleTask" />
         <activity
             android:name=".activity.test.TestQuicknessActivity"
+            android:screenOrientation="portrait"
             android:launchMode="singleTask" />
         <activity
             android:name=".activity.test.TestConcentractionActivity"
+            android:screenOrientation="portrait"
             android:launchMode="singleTask" />
         <activity
             android:name=".activity.test.TestActivity"
-            android:launchMode="singleTask" />
+            android:screenOrientation="portrait"
+            android:launchMode="singleTask"  />
         <activity
             android:name=".activity.userManagement.UserInformationActivity"
+            android:screenOrientation="portrait"
             android:launchMode="singleTask" />
         <activity
             android:name=".activity.practice.PracticeQuicknessActivity"
-            android:launchMode="singleTask"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:launchMode="singleTask" />
         <activity
             android:name=".activity.practice.PracticeConcentractionActivity"
-            android:launchMode="singleTask"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:launchMode="singleTask" />
         <activity
             android:name=".activity.userManagement.DeleteUserActivity"
-            android:launchMode="singleTask"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:launchMode="singleTask" />
         <activity
             android:name=".activity.loginAndSignUp.SignUpActivity"
-            android:launchMode="singleTask"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:launchMode="singleTask" />
         <activity
             android:name=".activity.loginAndSignUp.LoginActivity"
-            android:launchMode="singleTask"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:launchMode="singleTask" />
         <activity
             android:name=".activity.practice.PracticeActivity"
-            android:launchMode="singleTask"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:launchMode="singleTask" />
         <activity
             android:name=".activity.MainActivity"
-            android:launchMode="singleTask"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:launchMode="singleTask" />
         <activity
             android:name=".activity.IntroActivity"
-            android:launchMode="singleTask"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait"
+            android:launchMode="singleTask" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

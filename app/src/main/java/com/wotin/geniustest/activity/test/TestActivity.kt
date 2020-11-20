@@ -109,29 +109,11 @@ class TestActivity : AppCompatActivity(), TestModeRecyclerViewAdapter.ModeClicke
             }
             unlimitedLayout.setOnClickListener { // 테스트 제한시간 없애기 버튼을 눌렀을 때
                 if(storage.purchasedUnlimitedTry()) Toast.makeText(applicationContext, "이미 구매하셨습니다!", Toast.LENGTH_LONG).show()
-                else {
-                    bp!!.purchase(this, "unlimited_try")
-                    val modeList = GetRoomMethod().getTestModeData(applicationContext)
-                    modeList[0].start = true
-                    modeList[1].start = true
-                    modeList[2].start = true
-                    UpdateRoomMethod().updateTestModeData(applicationContext, modeList[0])
-                    UpdateRoomMethod().updateTestModeData(applicationContext, modeList[1])
-                    UpdateRoomMethod().updateTestModeData(applicationContext, modeList[2])
-                }
+                else bp!!.purchase(this, "unlimited_try")
             }
             noAdsAndUnlimitedLayout.setOnClickListener { // 광고 제거 & 테스트 제한시간 없애기 버튼을 눌렀을 때
                 if(storage.purchasedUnlimitedTry() || storage.purchasedNoAds()) Toast.makeText(applicationContext, "이미 구매하셨습니다!", Toast.LENGTH_LONG).show()
-                else {
-                    bp!!.purchase(this, "no_ads_and_unlimited_try")
-                    val modeList = GetRoomMethod().getTestModeData(applicationContext)
-                    modeList[0].start = true
-                    modeList[1].start = true
-                    modeList[2].start = true
-                    UpdateRoomMethod().updateTestModeData(applicationContext, modeList[0])
-                    UpdateRoomMethod().updateTestModeData(applicationContext, modeList[1])
-                    UpdateRoomMethod().updateTestModeData(applicationContext, modeList[2])
-                }
+                else bp!!.purchase(this, "no_ads_and_unlimited_try")
             }
             builder.setView(MView)
             builder.show()
@@ -295,6 +277,29 @@ class TestActivity : AppCompatActivity(), TestModeRecyclerViewAdapter.ModeClicke
         // * 구매 완료시 호출
         // productId: 구매한 sku (ex) no_ads)
         // details: 결제 관련 정보
+        when (productId) {
+            "no_ads" -> storage.setPurchasedNoAds()
+            "unlimited_try" -> {
+                val modeList = GetRoomMethod().getTestModeData(applicationContext)
+                modeList[0].start = true
+                modeList[1].start = true
+                modeList[2].start = true
+                UpdateRoomMethod().updateTestModeData(applicationContext, modeList[0])
+                UpdateRoomMethod().updateTestModeData(applicationContext, modeList[1])
+                UpdateRoomMethod().updateTestModeData(applicationContext, modeList[2])
+                storage.setPurchasedUnlimitedTry()
+            }
+            "no_ads_and_unlimited_try" -> {
+                val modeList = GetRoomMethod().getTestModeData(applicationContext)
+                modeList[0].start = true
+                modeList[1].start = true
+                modeList[2].start = true
+                UpdateRoomMethod().updateTestModeData(applicationContext, modeList[0])
+                UpdateRoomMethod().updateTestModeData(applicationContext, modeList[1])
+                UpdateRoomMethod().updateTestModeData(applicationContext, modeList[2])
+                storage.setPurchasedNoAdsAndUnlimitedTry()
+            }
+        }
     }
 
     override fun onBillingError(errorCode: Int, error: Throwable?) {
