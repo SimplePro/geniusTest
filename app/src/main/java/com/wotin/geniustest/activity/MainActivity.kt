@@ -65,6 +65,8 @@ class MainActivity : AppCompatActivity(),  NavigationView.OnNavigationItemSelect
         // 3초마다 윈도우 조정해주는 메소드 실행.
         controlWindowOnTimer()
 
+        setNavigationHeaderLayout()
+
         navigation_button.setOnClickListener {
             layout_drawer.openDrawer(GravityCompat.START)
         }
@@ -318,7 +320,6 @@ class MainActivity : AppCompatActivity(),  NavigationView.OnNavigationItemSelect
     override fun onStart() {
         super.onStart()
         setGeniusTestLevelData()
-        setNavigationHeaderLayout()
     }
 
     private fun setGeniusTestLevelData() {
