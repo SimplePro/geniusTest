@@ -18,7 +18,7 @@ import java.util.concurrent.TimeUnit
 
 object GeniusRetrofitBuilder {
 
-    const val BASE_URL = "http://118.32.174.85:8080"
+    const val BASE_URL = "http://172.22.137.99:8080"
 
     val okHttpClient : OkHttpClient.Builder by lazy {
         OkHttpClient.Builder()
