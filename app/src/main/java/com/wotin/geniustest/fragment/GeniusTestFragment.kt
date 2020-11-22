@@ -12,6 +12,7 @@ import com.google.gson.JsonObject
 import com.wotin.geniustest.activity.test.TestActivity
 import com.wotin.geniustest.customClass.geniusTest.GeniusTestDataCustomClass
 import com.wotin.geniustest.R
+import com.wotin.geniustest.retrofitBuilder.GeniusRetrofitBuilder
 import com.wotin.geniustest.retrofitInterface.genius.RetrofitAboutGeniusData
 import com.wotin.geniustest.roomMethod.GetRoomMethod
 import com.wotin.geniustest.roomMethod.UserRoomMethod
@@ -29,31 +30,12 @@ class GeniusTestFragment : Fragment() {
 
     lateinit var geniusTestData : GeniusTestDataCustomClass
 
-    lateinit var retrofit: Retrofit
-    lateinit var geniusDataDifferenceApiService: RetrofitAboutGeniusData
-    lateinit var okHttpClient: OkHttpClient
-    val baseUrl = "http://172.22.137.99:8080"
-
     lateinit var testSumDifference : String
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
-        okHttpClient = OkHttpClient.Builder()
-            .connectTimeout(1, TimeUnit.MINUTES)
-            .readTimeout(30, TimeUnit.SECONDS)
-            .writeTimeout(15, TimeUnit.SECONDS)
-            .build()
-
-        retrofit = Retrofit.Builder()
-            .baseUrl(baseUrl)
-            .addConverterFactory(GsonConverterFactory.create())
-            .client(okHttpClient)
-            .build()
-        geniusDataDifferenceApiService = retrofit.create(RetrofitAboutGeniusData::class.java)
-
         getTestSumDifference()
 
         val rootView = inflater.inflate(R.layout.fragment_genius_test, container, false)
@@ -73,7 +55,7 @@ class GeniusTestFragment : Fragment() {
 
     private fun getTestSumDifference() {
         val userData = UserRoomMethod().getUserData(activity!!.applicationContext)
-        geniusDataDifferenceApiService.getGeniusTestSumDifference(pk = userData.UniqueId).enqueue(object : Callback<JsonObject> {
+        GeniusRetrofitBuilder.geniusDataDifferenceApiService.getGeniusTestSumDifference(pk = userData.UniqueId).enqueue(object : Callback<JsonObject> {
             override fun onFailure(call: Call<JsonObject>, t: Throwable) {
                 Log.d("TAG", "onFailure: getTestSumDifference error is $t")
                 Toast.makeText(activity!!.applicationContext, "에러", Toast.LENGTH_SHORT).show()

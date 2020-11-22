@@ -18,6 +18,7 @@ import com.wotin.geniustest.retrofitInterface.genius.RetrofitAboutGeniusData
 import com.wotin.geniustest.roomMethod.GetRoomMethod
 import com.wotin.geniustest.roomMethod.UpdateRoomMethod
 import com.wotin.geniustest.networkState
+import com.wotin.geniustest.retrofitBuilder.GeniusRetrofitBuilder
 import kotlinx.android.synthetic.main.fragment_practice.view.*
 import okhttp3.OkHttpClient
 import retrofit2.Call
@@ -31,11 +32,6 @@ import java.util.concurrent.TimeUnit
 class PracticeFragment : Fragment() {
 
     lateinit var geniusPracticeData : GeniusPracticeDataCustomClass
-    lateinit var retrofit: Retrofit
-    lateinit var getGeniusDataDifferenceApiService: RetrofitAboutGeniusData
-    lateinit var okHttpClient: OkHttpClient
-    val baseUrl = "http://172.22.137.99:8080"
-
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -43,18 +39,6 @@ class PracticeFragment : Fragment() {
     ): View? {
         val rootView = inflater.inflate(R.layout.fragment_practice, container, false)
 
-        okHttpClient = OkHttpClient.Builder()
-            .connectTimeout(1, TimeUnit.MINUTES)
-            .readTimeout(30, TimeUnit.SECONDS)
-            .writeTimeout(15, TimeUnit.SECONDS)
-            .build()
-
-        retrofit = Retrofit.Builder()
-            .baseUrl(baseUrl)
-            .addConverterFactory(GsonConverterFactory.create())
-            .client(okHttpClient)
-            .build()
-        getGeniusDataDifferenceApiService = retrofit.create(RetrofitAboutGeniusData::class.java)
         try {
             geniusPracticeData = GetRoomMethod().getGeniusPracticeData(activity!!.applicationContext)
         } catch (e: Exception) {
@@ -64,7 +48,7 @@ class PracticeFragment : Fragment() {
         val connectivityManager = activity!!.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         if(networkState(connectivityManager)){
             Log.d("TAG", "onCreateView: geniusPracticeData is $geniusPracticeData")
-            getGeniusDataDifferenceApiService.getGeniusPracticeConcentractionDifference(geniusPracticeData.concentractionScore, geniusPracticeData.UniqueId).enqueue(object :
+            GeniusRetrofitBuilder.geniusDataDifferenceApiService.getGeniusPracticeConcentractionDifference(geniusPracticeData.concentractionScore, geniusPracticeData.UniqueId).enqueue(object :
                 Callback<JsonObject> {
                 override fun onFailure(call: Call<JsonObject>, t: Throwable) {
                     Toast.makeText(activity!!.applicationContext, "에러", Toast.LENGTH_LONG).show()
@@ -85,7 +69,7 @@ class PracticeFragment : Fragment() {
 
             })
 
-            getGeniusDataDifferenceApiService.getGeniusPracticeQuicknessDifference(geniusPracticeData.quicknessScore.toFloat().toInt().toString(), geniusPracticeData.UniqueId).enqueue(object :
+            GeniusRetrofitBuilder.geniusDataDifferenceApiService.getGeniusPracticeQuicknessDifference(geniusPracticeData.quicknessScore.toFloat().toInt().toString(), geniusPracticeData.UniqueId).enqueue(object :
                 Callback<JsonObject> {
                 override fun onFailure(call: Call<JsonObject>, t: Throwable) {
                     Toast.makeText(activity!!.applicationContext, "에러", Toast.LENGTH_LONG).show()
