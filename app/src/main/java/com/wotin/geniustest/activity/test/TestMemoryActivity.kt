@@ -52,13 +52,13 @@ class TestMemoryActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        MobileAds.initialize(this@TestMemoryActivity)
+        MobileAds.initialize(this@TestMemoryActivity) { }
         val storage = AppStorage(this)
 
         mInterstitialAd = InterstitialAd(this)
 //        test ads id : ca-app-pub-3940256099942544/1033173712
-//        real ads id : ca-app-pub-4792205746234657/3766923849
-        mInterstitialAd.adUnitId = "ca-app-pub-4792205746234657/3766923849"
+//        real ads id : ca-app-pub-4792205746234657/7664556815
+        mInterstitialAd.adUnitId = "ca-app-pub-4792205746234657/7664556815"
         mInterstitialAd.loadAd(AdRequest.Builder().build())
         mInterstitialAd.adListener = object : AdListener() {
             override fun onAdFailedToLoad(p0: LoadAdError?) {
