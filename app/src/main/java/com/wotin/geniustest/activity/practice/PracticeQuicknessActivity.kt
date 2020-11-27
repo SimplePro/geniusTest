@@ -93,7 +93,7 @@ class PracticeQuicknessActivity : AppCompatActivity(), PracticeQuicknessRecycler
             override fun run() {
                 counter -= 1
                 mBinding.practiceQuicknessTimerProgressbar.progress = counter
-                if((counter / 100) == 0) {
+                if(counter <= 0) {
                     t.cancel()
                     tt.cancel()
                     runOnUiThread {

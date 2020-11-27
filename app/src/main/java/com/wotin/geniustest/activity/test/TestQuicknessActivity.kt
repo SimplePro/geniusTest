@@ -143,7 +143,7 @@ class TestQuicknessActivity : AppCompatActivity(), TestQuicknessRecyclerViewAdap
             override fun run() {
                 counter -= 1
                 test_quickness_timer_progressbar.progress = counter
-                if((counter / 100) == 0) {
+                if(counter <= 0) {
                     t.cancel()
                     tt.cancel()
                     runOnUiThread {

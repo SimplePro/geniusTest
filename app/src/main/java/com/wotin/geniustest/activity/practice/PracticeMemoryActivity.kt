@@ -225,7 +225,7 @@ class PracticeMemoryActivity : AppCompatActivity() {
             override fun run() {
                 COUNTER -= 1
                 mBinding.practiceMemoryTimerProgressbar.progress = COUNTER
-                if((COUNTER / 100) == 0) {
+                if(COUNTER <= 0) {
                     t.cancel()
                     tt.cancel()
                     runOnUiThread {

@@ -139,7 +139,7 @@ class TestConcentractionActivity : AppCompatActivity(), TestConcentractionRecyce
             override fun run() {
                 counter -= 1
                 mBinding.testConcentractionTimerProgressbar.progress = counter
-                if((counter / 100) == 0) {
+                if(counter <= 0) {
                     t.cancel()
                     tt.cancel()
                     runOnUiThread {
