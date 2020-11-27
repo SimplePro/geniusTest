@@ -81,20 +81,6 @@
                 android:text="1010"
                 android:id="@+id/test_memory_answer_and_problem_textview"/>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="건너뛰기"
-                android:textStyle="italic"
-                android:textColor="@android:color/black"
-                android:fontFamily="@font/nanum"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/test_memory_answer_and_problem_textview"
-                app:layout_constraintBottom_toTopOf="@id/test_num_button_layout"
-                android:textSize="15dp"
-                android:id="@+id/test_memory_skip_button"/>
-
             <LinearLayout
                 android:id="@+id/test_num_button_layout"
                 android:layout_marginBottom="20dp"
@@ -289,13 +275,13 @@
                         app:cornerRadius="10dp"/>
 
                     <info.hoang8f.widget.FButton
-                        android:id="@+id/test_all_delete_button"
+                        android:id="@+id/test_memory_skip_button"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_margin="5dp"
                         android:layout_weight="1"
                         android:fontFamily="@font/nanum"
-                        android:text="X"
+                        android:text="SKIP"
                         android:textColor="@android:color/white"
                         android:textSize="30dp"
                         app:cornerRadius="10dp"

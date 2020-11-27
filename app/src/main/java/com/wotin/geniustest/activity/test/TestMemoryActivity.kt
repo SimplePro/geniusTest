@@ -25,6 +25,7 @@ import com.wotin.geniustest.roomMethod.GetRoomMethod
 import com.wotin.geniustest.roomMethod.UpdateRoomMethod
 import com.wotin.geniustest.networkState
 import com.wotin.geniustest.viewModel.GeniusTestViewModel
+import kotlinx.android.synthetic.main.activity_test.view.*
 import kotlinx.android.synthetic.main.activity_test_memory.*
 import retrofit2.Call
 import retrofit2.Callback
@@ -185,21 +186,30 @@ class TestMemoryActivity : AppCompatActivity() {
             }
         }
 
-        mBinding.testAllDeleteButton.setOnClickListener {
-            answerNum = ""
-            mBinding.testMemoryAnswerAndProblemTextview.text = "???"
-        }
-
         mBinding.testMemorySkipButton.setOnClickListener {
-            handler.removeCallbacks(runnable)
-            setButtonEnabledTrue()
-            prog()
-            answerNum = ""
-            mBinding.testMemorySkipButton.visibility = View.GONE
-            mBinding.testMemoryTimerProgressbar.visibility = View.VISIBLE
-            mBinding.testMemoryAnswerAndProblemTextview.text = "???"
-            mBinding.testMemoryAnswerAndProblemTextview.visibility = View.VISIBLE
-            mBinding.testMemoryAnswerAndProblemTextview.animation = (null)
+            if(mBinding.testMemorySkipButton.text == "기권") {
+                t.cancel()
+                tt.cancel()
+                runOnUiThread {
+                    test_memory_game_layout.visibility = View.GONE
+                    test_memory_result_layout.visibility = View.VISIBLE
+                    val connectivityManager : ConnectivityManager = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+                    if(networkState(connectivityManager)) {
+                        Log.d("TAG  ", "run: score is $geniusTestViewModel.score.value!!")
+                        postDataToServer(geniusTestViewModel.score.value!!)
+                    }
+                }
+            } else {
+                handler.removeCallbacks(runnable)
+                setButtonEnabledTrue()
+                prog()
+                answerNum = ""
+                mBinding.testMemorySkipButton.text = "기권"
+                mBinding.testMemoryTimerProgressbar.visibility = View.VISIBLE
+                mBinding.testMemoryAnswerAndProblemTextview.text = "???"
+                mBinding.testMemoryAnswerAndProblemTextview.visibility = View.VISIBLE
+                mBinding.testMemoryAnswerAndProblemTextview.animation = (null)
+            }
         }
 
 
@@ -221,8 +231,8 @@ class TestMemoryActivity : AppCompatActivity() {
         DURATION = if(DURATION >= 3000) (DURATION * 0.95).toInt() else 3000
         COUNTER = 10000
         setButtonEnabledFalse()
-        mBinding.testMemorySkipButton.visibility = View.VISIBLE
         mBinding.testMemoryTimerProgressbar.visibility = View.GONE
+        mBinding.testMemorySkipButton.text = "SKIP"
         when {
             geniusTestViewModel.score.value!! >= 20 -> {
                 for(i in 0 .. 12) {
@@ -328,7 +338,6 @@ class TestMemoryActivity : AppCompatActivity() {
         mBinding.testNumNineButton.isEnabled = false
         mBinding.testNumZeroButton.isEnabled = false
         mBinding.testBackspaceButton.isEnabled = false
-        mBinding.testAllDeleteButton.isEnabled = false
     }
 
     private fun setButtonEnabledTrue() {
@@ -343,6 +352,5 @@ class TestMemoryActivity : AppCompatActivity() {
         mBinding.testNumNineButton.isEnabled = true
         mBinding.testNumZeroButton.isEnabled = true
         mBinding.testBackspaceButton.isEnabled = true
-        mBinding.testAllDeleteButton.isEnabled = true
     }
 }

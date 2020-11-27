@@ -142,21 +142,30 @@ class PracticeMemoryActivity : AppCompatActivity() {
             }
         }
 
-        mBinding.practiceAllDeleteButton.setOnClickListener {
-            answerNum = ""
-            mBinding.practiceMemoryAnswerAndProblemTextview.text = "???"
-        }
-
         mBinding.practiceMemorySkipButton.setOnClickListener {
-            handler.removeCallbacks(runnable)
-            setButtonEnabledTrue()
-            prog()
-            answerNum = ""
-            mBinding.practiceMemorySkipButton.visibility = View.GONE
-            mBinding.practiceMemoryTimerProgressbar.visibility = View.VISIBLE
-            mBinding.practiceMemoryAnswerAndProblemTextview.text = "???"
-            mBinding.practiceMemoryAnswerAndProblemTextview.visibility = View.VISIBLE
-            mBinding.practiceMemoryAnswerAndProblemTextview.animation = (null)
+            if(mBinding.practiceMemorySkipButton.text == "기권") {
+                t.cancel()
+                tt.cancel()
+                runOnUiThread {
+                    practice_memory_game_layout.visibility = View.GONE
+                    practice_memory_result_layout.visibility = View.VISIBLE
+                    val connectivityManager : ConnectivityManager = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+                    if(networkState(connectivityManager)) {
+                        Log.d("TAG  ", "run: score is $geniusTestViewModel.score.value!!")
+                        postDataToServer(geniusTestViewModel.score.value!!)
+                    }
+                }
+            } else {
+                handler.removeCallbacks(runnable)
+                setButtonEnabledTrue()
+                prog()
+                answerNum = ""
+                mBinding.practiceMemorySkipButton.text = "기권"
+                mBinding.practiceMemoryTimerProgressbar.visibility = View.VISIBLE
+                mBinding.practiceMemoryAnswerAndProblemTextview.text = "???"
+                mBinding.practiceMemoryAnswerAndProblemTextview.visibility = View.VISIBLE
+                mBinding.practiceMemoryAnswerAndProblemTextview.animation = (null)
+            }
         }
 
 
@@ -178,7 +187,7 @@ class PracticeMemoryActivity : AppCompatActivity() {
         DURATION = if(DURATION >= 3000) (DURATION * 0.95).toInt() else 3000
         COUNTER = 10000
         setButtonEnabledFalse()
-        mBinding.practiceMemorySkipButton.visibility = View.VISIBLE
+        mBinding.practiceMemorySkipButton.text = "SKIP"
         mBinding.practiceMemoryTimerProgressbar.visibility = View.GONE
         when {
             geniusTestViewModel.score.value!! >= 20 -> {
@@ -285,7 +294,6 @@ class PracticeMemoryActivity : AppCompatActivity() {
         mBinding.practiceNumNineButton.isEnabled = false
         mBinding.practiceNumZeroButton.isEnabled = false
         mBinding.practiceBackspaceButton.isEnabled = false
-        mBinding.practiceAllDeleteButton.isEnabled = false
     }
 
     private fun setButtonEnabledTrue() {
@@ -300,7 +308,6 @@ class PracticeMemoryActivity : AppCompatActivity() {
         mBinding.practiceNumNineButton.isEnabled = true
         mBinding.practiceNumZeroButton.isEnabled = true
         mBinding.practiceBackspaceButton.isEnabled = true
-        mBinding.practiceAllDeleteButton.isEnabled = true
     }
 
 }
